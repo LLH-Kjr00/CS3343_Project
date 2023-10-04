@@ -17,14 +17,17 @@ Shou Dou Qi is an ancient Chinese board game that was popular among people of al
 2) There is limited time for each player's turn, a player will skip the turn if no move has been committed.
 3) There are two rivers near the middle of the board. Most pawns cannot interact with the rivers.
 4) Only Mouse can submerge in the river by walking into it.
-5) Only Lion and Tiger can jump across a river once if there is no pawn in between the starting point and the landing point (i.e.: a mouse in between)
-6) Lion and Tiger are allowed to kill an opponent's pawn on the landing spot after they jump
-7) Mouse can only kill when it is in the same medium as the opponent's pawn (i.e.: cannot kill a mouse/elephant when it exits a river)
+5) Only Lion and Tiger can jump across a river once if there is no pawn in between the starting point and the landing point
+
+   (i.e.: a mouse in between)
+7) Lion and Tiger are allowed to kill an opponent's pawn on the landing spot after they jump
+8) Mouse can only kill when it is in the same medium as the opponent's pawn (i.e.: cannot kill a mouse/elephant when it exits a river)
 
 # Installation
 
 # Libraries used 
 JRE System Library (for basic Java functionalities)
+
 JUnit (for testing)
 
 # Versions and corresponding Bug Fixes
