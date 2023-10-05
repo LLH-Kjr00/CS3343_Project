@@ -30,7 +30,7 @@ public class ExceptionHandlingController {
 
     @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(EntityNotFoundException.class)
+    @ExceptionHandler(TemporaryPlayerTokenExpiredException.class)
     public ResponseError handlePlayerTokenExpiredException(TemporaryPlayerTokenExpiredException e) {
         playerRepository.delete(e.getPlayer());
         return new ResponseError("invalid player");
