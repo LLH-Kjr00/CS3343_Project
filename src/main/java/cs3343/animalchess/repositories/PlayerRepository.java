@@ -1,0 +1,107 @@
+package cs3343.animalchess.repositories;
+
+import cs3343.animalchess.entities.TemporaryPlayer;
+import cs3343.animalchess.events.TemporaryPlayerTokenExpiredEvent;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.lang.NonNull;
+import org.springframework.scheduling.annotation.Scheduled;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
+public class PlayerRepository implements CrudRepository<TemporaryPlayer, String> {
+
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
+
+    private final HashMap<String, TemporaryPlayer> map = new HashMap<>();
+
+    @Override
+    @NonNull
+    public <S extends TemporaryPlayer> S save(@NonNull S entity) {
+        map.put(entity.getToken(), entity);
+        return entity;
+    }
+
+    @Override
+    @NonNull
+    public <S extends TemporaryPlayer> Iterable<S> saveAll(@NonNull Iterable<S> entities) {
+        return StreamSupport.stream(entities.spliterator(), false)
+                .map(this::save)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @NonNull
+    public Optional<TemporaryPlayer> findById(@NonNull String s) {
+        return Optional.ofNullable(map.get(s));
+    }
+
+    @Override
+    @NonNull
+    public boolean existsById(@NonNull String s) {
+        return map.containsKey(s);
+    }
+
+    @Override
+    @NonNull
+    public Iterable<TemporaryPlayer> findAll() {
+        return map.values();
+    }
+
+    @Override
+    @NonNull
+    public Iterable<TemporaryPlayer> findAllById(@NonNull Iterable<String> strings) {
+        return StreamSupport.stream(strings.spliterator(), false)
+                .filter(this::existsById)
+                .map(map::get)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public long count() {
+        return map.size();
+    }
+
+    @Override
+    public void deleteById(@NonNull String s) {
+        map.remove(s);
+    }
+
+    @Override
+    public void delete(@NonNull TemporaryPlayer entity) {
+        deleteById(entity.getToken());
+    }
+
+    @Override
+    public void deleteAllById(@NonNull Iterable<? extends String> strings) {
+        strings.forEach(this::deleteById);
+    }
+
+    @Override
+    public void deleteAll(@NonNull Iterable<? extends TemporaryPlayer> entities) {
+        entities.forEach(this::delete);
+    }
+
+    @Override
+    public void deleteAll() {
+        map.clear();
+    }
+
+    @Scheduled(cron = "* * * * * *")
+    private void garbagePlayerTokenCollection() {
+        List<TemporaryPlayer> tokenExpired = map.values()
+                .stream()
+                .filter(TemporaryPlayer::isExpired)
+                .toList();
+        tokenExpired.forEach((player) -> {
+            eventPublisher.publishEvent(new TemporaryPlayerTokenExpiredEvent(this, player));
+            deleteById(player.getToken());
+        });
+    }
+}
