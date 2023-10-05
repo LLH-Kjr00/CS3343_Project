@@ -7,6 +7,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.lang.NonNull;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,12 +15,17 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+@Repository
 public class PlayerRepository implements CrudRepository<TemporaryPlayer, String> {
 
-    @Autowired
-    private ApplicationEventPublisher eventPublisher;
+    private final ApplicationEventPublisher eventPublisher;
 
     private final HashMap<String, TemporaryPlayer> map = new HashMap<>();
+
+    @Autowired
+    public PlayerRepository(ApplicationEventPublisher eventPublisher) {
+        this.eventPublisher = eventPublisher;
+    }
 
     @Override
     @NonNull
@@ -94,7 +100,7 @@ public class PlayerRepository implements CrudRepository<TemporaryPlayer, String>
     }
 
     @Scheduled(cron = "* * * * * *")
-    private void garbagePlayerTokenCollection() {
+    protected void garbagePlayerTokenCollection() {
         List<TemporaryPlayer> tokenExpired = map.values()
                 .stream()
                 .filter(TemporaryPlayer::isExpired)
