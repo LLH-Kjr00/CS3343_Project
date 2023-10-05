@@ -19,14 +19,19 @@ configurations {
 
 repositories {
 	mavenCentral()
+	// maven { url = uri("http://repo1.maven.org/maven2") }
 }
 
 dependencies {
 	// implementation("org.springframework.boot:spring-boot-starter-jdbc")
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-data-rest")
+
 	compileOnly("org.projectlombok:lombok")
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("org.awaitility:awaitility:3.1.2")
+
 }
 
 tasks.withType<Test> {
