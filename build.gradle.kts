@@ -19,7 +19,6 @@ configurations {
 
 repositories {
 	mavenCentral()
-	// maven { url = uri("http://repo1.maven.org/maven2") }
 }
 
 dependencies {
@@ -31,7 +30,6 @@ dependencies {
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.awaitility:awaitility:3.1.2")
-
 }
 
 tasks.withType<Test> {
