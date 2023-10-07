@@ -3,12 +3,18 @@
  */
 package animalchess;
 
+import animalchess.utils.EventManager;
+
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+
+    private static EventManager eventManager;
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        eventManager = new EventManager();
     }
+
+    public static EventManager getEventManager() {
+        return eventManager;
+    }
+
 }
