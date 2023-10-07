@@ -17,14 +17,17 @@ repositories {
 }
 
 dependencies {
-    // Use JUnit test framework.
-    testImplementation("junit:junit:4.13.2")
-
-    // This dependency is used by the application.
-    implementation("com.google.guava:guava:31.1-jre")
+    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
+    // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.10.0")
 }
 
 application {
     // Define the main class for the application.
     mainClass.set("animalchess.App")
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
