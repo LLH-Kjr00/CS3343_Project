@@ -47,14 +47,26 @@ public abstract class Animal {
             throw new InvalidMovementException("Cannot move into friendly units");
         }
 
-
     }
     public void Move (int x, int y){
-
+        Animal target = board.getTarget(x, y);
+        if (target != null && target.color != this.color)
+            Eat(Target);
+        MoveTo(x ,y);
     }
 
-    public void Eat(Animal victim){
+    private void MoveTo (int x, int y) {
+        board.removeAnimal(this.x, this.y);
+        board.addAnimal2Board(this, x, y);
+        this.x = x;
+        this.y = y;
+    }
 
+    public void Eat(Animal victim) throws InvalidMovementException{
+        if (victim.weight>this.weight && !victim.trapped)
+            throw new InvalidMovementException("Cannot eat bigger target");
+        else
+            board.removeAnimal(victim.x, victim.y);
     }
 
 

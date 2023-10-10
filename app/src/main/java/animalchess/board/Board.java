@@ -5,14 +5,16 @@ import animalchess.animals.Animal;
 public class Board {
     // The size of the board is 7 (width) * 9 (height)
     // and take the starting number as 0, at lower left corner
+    public Animal[][] animals = new Animal[7][9];
     public final int[] rivers_y_range = {3,6};
     public final int[] left_river_x_range = {1,3};
     public final int[] right_river_x_range = {4,6};
 
+
     public Board(){};
 
     public void addAnimal2Board(Animal piece, int x, int y){
-
+        animals[x][y] = piece;
     }
     public Animal getLocationInfo(int x, int y) {
         Animal obs_any = null;
@@ -36,7 +38,25 @@ public class Board {
         }
         return false;
     }
-    public boolean isOccupiedByFriendly(int x, int y, String col) {
-        return true;
+    public Animal isOccupiedByFriendly(int x, int y, String col) {
+        //check if friendly den
+        if (col == "R")
+            if (x == 3 && y == 0)
+                return true;
+        else
+            if (x == 3 && y == 7)
+                return false;
+
+        //check if friendly animal
+        Animal target = animals[x][y];
+        if (target != null && target.color == col)
+            return true;
+        else
+            return false;
     }
+
+    public void removeAnimal(int x, int y) {
+        animals[x][y] = null;
+    }
+
 }
