@@ -38,7 +38,7 @@ public class Board {
         }
         return false;
     }
-    public Animal isOccupiedByFriendly(int x, int y, String col) {
+    public boolean isOccupiedByFriendly(int x, int y, String col) {
         //check if friendly den
         if (col == "R")
             if (x == 3 && y == 0)
@@ -55,8 +55,28 @@ public class Board {
             return false;
     }
 
+    public Animal getTarget(int x, int y) {
+        return animals[x][y];
+    }
+
     public void removeAnimal(int x, int y) {
         animals[x][y] = null;
     }
 
+    //Utils
+    //generate an array represent of a straight path, [0] is starting point, [size] is destination
+    public static int[] getLineAsArray(int start, int dist) {
+        int size = Math.abs(start-dist) + 1;
+        int result[] = new int[size];
+        if (dist>=start) {
+            for (int i = 0; i < size; i++) {
+                result[i] = start + i;
+            }
+        } else {
+            for (int i = 0; i < size; i++) {
+                result[i] = start - i;
+            }
+        }
+        return result;
+    }
 }

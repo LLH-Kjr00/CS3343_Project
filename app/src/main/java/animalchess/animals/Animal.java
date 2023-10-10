@@ -3,11 +3,11 @@ package animalchess.animals;
 import animalchess.board.Board;
 import animalchess.exceptions.InvalidMovementException;
 
-public abstract class Animal {
+public class Animal {
     // R: red team, G: green team
-    private String color;
+    public String color;
     // coordinate
-    private int x, y;
+    protected int x, y;
     // size of the animal
     protected int weight;
     private boolean trapped = false;
@@ -48,10 +48,10 @@ public abstract class Animal {
         }
 
     }
-    public void Move (int x, int y){
+    public void Move (int x, int y) throws InvalidMovementException{
         Animal target = board.getTarget(x, y);
         if (target != null && target.color != this.color)
-            Eat(Target);
+            Eat(target);
         MoveTo(x ,y);
     }
 
