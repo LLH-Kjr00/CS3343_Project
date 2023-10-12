@@ -55,7 +55,7 @@ public class Animal {
         MoveTo(x ,y);
     }
 
-    private void MoveTo (int x, int y) {
+    protected void MoveTo (int x, int y) {
         board.removeAnimal(this.x, this.y);
         board.addAnimal2Board(this, x, y);
         this.x = x;
