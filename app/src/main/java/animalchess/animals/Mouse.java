@@ -38,4 +38,13 @@ public class Mouse extends Animal {
             }
         super.MoveTo(x ,y);
     }
+
+    //additional rule: Mouse can eat elephant
+    @Override
+    public void Eat(Animal victim) throws InvalidMovementException{
+        if (victim.weight==8)
+            board.removeAnimal(victim.x, victim.y);
+        else
+            super.Eat(victim);
+    }
 }
