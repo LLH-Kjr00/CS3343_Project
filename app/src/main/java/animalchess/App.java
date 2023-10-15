@@ -3,12 +3,15 @@
  */
 package animalchess;
 
+import animalchess.game.GameUI;
+
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+	private GameUI ui;
+	App() {
+		ui = new GameUI();
+	}
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        
     }
 }
