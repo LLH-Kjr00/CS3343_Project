@@ -9,7 +9,7 @@ import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
-interface GameUtil {
+interface TileUtil {
 	public default boolean isRiver(int row, int col) {
 		// check both rivers, col 1 and 2 are the left river
 		// whereas col 4 and 5 are the right river
