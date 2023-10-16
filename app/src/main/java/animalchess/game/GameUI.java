@@ -194,18 +194,27 @@ public class GameUI extends JFrame implements TileUtil {
 		Resume_button.addActionListener(new ActionListener() {
         	@Override 
         	public void actionPerformed(ActionEvent e) {
-        		if (is_P1_Turn == true) {
+        		if (is_P1_Turn == true && P1_Timer.isRunning() == false) {
             		P1_Timer.restart();
+            		P1_Pause = false;
+            		P2_Pause = false;
+            		logArea.append("Game Resumed!\n");
+            	}
+            	else if (is_P1_Turn == false && P2_Timer.isRunning() == false){
+            		P2_Timer.restart();
+            		P1_Pause = false;
+            		P2_Pause = false;
+            		logArea.append("Game Resumed!\n");
             	}
             	else {
-            		P2_Timer.restart();
+            		logArea.append("Invalid action: The game was not paused!\n");
             	}
-        		P1_Pause = false;
-        		P2_Pause = false;
-        		logArea.append("Game Resumed!\n");
+        		
         	}
         });
-        //resumeButtons.setVisible(false);
+		
+		Resume_button.setVisible(false);
+		buttonPanel.setBackground(Color.decode("#F9CB9C"));
         buttonPanel.add(pauseButtons);
         buttonPanel.add(Resume_button);
     	return buttonPanel;
@@ -224,7 +233,7 @@ public class GameUI extends JFrame implements TileUtil {
         	public void actionPerformed(ActionEvent e) {
                 gameStartMsg();
                 gameStart.setVisible(false);
-                
+        		Resume_button.setVisible(true);
                 if (is_P1_Turn) {
                 	P1_Timer.start(); // Start player 1's timer
                 } else {
