@@ -24,7 +24,7 @@ public class BoardUI extends JPanel  {
 			for (int c = 0; c != cols; c++) {
 				g2d.setColor((c+r)%2 == 0? Color.white:Color.black);
 				g2d.fillRect(c*tileSize,r*tileSize,tileSize,tileSize);
-				System.out.print("sdsd");
+				
 			}
 		}
 	}
