@@ -3,15 +3,13 @@
  */
 package animalchess;
 
+import animalchess.board.Board;
 import animalchess.game.GameUI;
 
 public class App {
-	private GameUI ui;
-	App() {
-		ui = new GameUI();
-	}
-
+	private static GameUI ui;
+	private static Board board;
     public static void main(String[] args) {
-        
+    	ui = GameUI.getInstance();
     }
 }

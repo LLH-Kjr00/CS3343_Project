@@ -1,15 +1,21 @@
 package animalchess.board;
 
+import java.util.ArrayList;
+
 import animalchess.animals.Animal;
+import animalchess.command.GameCommand;
 
 public class Board {
     // The size of the board is 7 (width) * 9 (height)
     // and take the starting number as 0, at lower left corner
-    public Animal[][] animals = new Animal[7][9];
+    private Animal[][] animals = new Animal[2][8];
+    private boolean is_P1_Turn = true; // Flag to track player 1's turn
+	private boolean is_P1_Win = false; // Flag to track player 1's win
+	private boolean is_P2_Win = false; // Flag to track player 2's win
     public final int[] rivers_y_range = {3,6};
     public final int[] left_river_x_range = {1,3};
     public final int[] right_river_x_range = {4,6};
-
+    private ArrayList<GameCommand> commands = new ArrayList<GameCommand>();
 
     public Board(){};
 
@@ -49,7 +55,7 @@ public class Board {
 
         //check if friendly animal
         Animal target = animals[x][y];
-        if (target != null && target.color == col)
+        if (target != null && target.owner == col)
             return true;
         else
             return false;
@@ -79,4 +85,9 @@ public class Board {
         }
         return result;
     }
+    
+    public void store_and_execute(GameCommand cmd) {
+		this.commands.add(cmd);
+		cmd.execute();
+	} 
 }

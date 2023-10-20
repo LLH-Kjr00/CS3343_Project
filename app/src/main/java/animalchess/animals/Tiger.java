@@ -24,7 +24,7 @@ public class Tiger extends Animal {
         if (board.isInWater(xdist, ydist)) {
             throw new InvalidMovementException("This animal cannot goes into water");
         }
-        if (board.isOccupiedByFriendly(xdist, ydist, color)) {
+        if (board.isOccupiedByFriendly(xdist, ydist, owner)) {
             throw new InvalidMovementException("Cannot move into friendly units");
         }
 

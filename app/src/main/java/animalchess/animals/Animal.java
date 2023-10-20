@@ -1,11 +1,13 @@
 package animalchess.animals;
 
 import animalchess.board.Board;
+import animalchess.command.Eat_command;
+import animalchess.command.Move_command;
 import animalchess.exceptions.InvalidMovementException;
 
 public class Animal {
     // R: red team, G: green team
-    public String color;
+    public String owner;
     // coordinate
     protected int x, y;
     // size of the animal
@@ -13,8 +15,8 @@ public class Animal {
     private boolean trapped = false;
     protected Board board;
 
-    public Animal (String color, int xCoordinate, int yCoordinate, int weight, Board board){
-        this.color = color;
+    public Animal (String owner, int xCoordinate, int yCoordinate, int weight, Board board){
+        this.owner = owner;
         this.x = xCoordinate;
         this.y = yCoordinate;
         this.weight = weight;
@@ -43,15 +45,16 @@ public class Animal {
         if (board.isInWater(xdist, ydist)) {
             throw new InvalidMovementException("This animal cannot goes into water");
         }
-        if (board.isOccupiedByFriendly(xdist, ydist, color)) {
+        if (board.isOccupiedByFriendly(xdist, ydist, owner)) {
             throw new InvalidMovementException("Cannot move into friendly units");
         }
 
     }
+    //board.store_and_execute(new Move_command(this,x,y));
     public void Move (int x, int y) throws InvalidMovementException{
         Animal target = board.getTarget(x, y);
-        if (target != null && target.color != this.color)
-            Eat(target);
+        if (target != null && target.owner != this.owner)
+        	board.store_and_execute(new Eat_command(this,target));
         MoveTo(x ,y);
     }
 
@@ -60,6 +63,7 @@ public class Animal {
         board.addAnimal2Board(this, x, y);
         this.x = x;
         this.y = y;
+        
     }
 
     public void Eat(Animal victim) throws InvalidMovementException{
@@ -67,6 +71,16 @@ public class Animal {
             throw new InvalidMovementException("Cannot eat bigger target");
         else
             board.removeAnimal(victim.x, victim.y);
+    }
+    
+    public int get_xCoordinate() {
+    	return x;
+    }
+    public int get_yCoordinate() {
+    	return y;
+    }
+    public String get_Owner() {
+    	return owner;
     }
 
 

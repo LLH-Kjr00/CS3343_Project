@@ -21,7 +21,7 @@ public class Mouse extends Animal {
         if (board.isOutBound(xdist, ydist)) {
             throw new InvalidMovementException("Cannot move outside of board");
         }
-        if (board.isOccupiedByFriendly(xdist, ydist, color)) {
+        if (board.isOccupiedByFriendly(xdist, ydist, owner)) {
             throw new InvalidMovementException("Cannot move into friendly units");
         }
     }
@@ -30,7 +30,7 @@ public class Mouse extends Animal {
     @Override
     public void Move (int x, int y) throws InvalidMovementException{
         Animal target = board.getTarget(x, y);
-        if (target != null && target.color != this.color)
+        if (target != null && target.owner != this.owner)
             if (board.isInWater(x, y) != board.isInWater(target.x, target.y)) {
                 Eat(target);
             } else {

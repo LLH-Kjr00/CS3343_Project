@@ -16,6 +16,7 @@ import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 import javax.swing.Box;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -25,10 +26,15 @@ import javax.swing.JTextArea;
 import javax.swing.Timer;
 import javax.swing.WindowConstants;
 
+import animalchess.animals.Animal;
 import animalchess.board.Board;
 
 public class GameUI extends JFrame implements TileUtil {
 
+	private Board board;
+	private Animal[] P1;
+	private Animal[] P2;
+	
 	private final String[] verticalAxis = { "A", "B", "C", "D", "E", "F", "G", "H", "I" };
 	private final String[] horizontalAxis = { "1", "2", "3", "4", "5", "6", "7" };
 	int rows = verticalAxis.length;
@@ -46,7 +52,6 @@ public class GameUI extends JFrame implements TileUtil {
 	private JTextArea logArea;
 
 	// private ArrayList<Animal> animalList = new ArrayList();
-	private Board board;
 
 	private String systemMsg = new String();
 
@@ -56,17 +61,18 @@ public class GameUI extends JFrame implements TileUtil {
 	private Timer P2_Timer;
 	private int P1_Timer_val = 600 * 3; // count down for User 1
 	private int P2_Timer_val = 600 * 3; // count down for User 2
+	
+	
+	
 	private boolean is_P1_Turn = false; // Flag to track player 1's turn
-
+	private boolean is_P1_Win = false; // Flag to track player 1's win
+	private boolean is_P2_Win = false; // Flag to track player 2's win
 	private boolean P1_Pause = false;
 	private boolean P2_Pause = false;
 	private JButton P1_Pause_button;
 	private JButton P2_Pause_button;
 	private JButton Resume_button;
 	private Box pauseButtons;
-
-	private boolean is_P1_Win = false; // Flag to track player 1's win
-	private boolean is_P2_Win = false; // Flag to track player 2's win
 	private JButton P1_Yield_button;
 	private JButton P2_Yield_button;
 	private Box yieldButtons;
@@ -74,8 +80,12 @@ public class GameUI extends JFrame implements TileUtil {
 	private int tileSize = 100;
 	private int borderWidth = 3;
 
+	private static final GameUI instance = new GameUI();
+	public static GameUI getInstance() {
+		return instance;
+	}
 	// Board JungleChessBoard
-	public GameUI() {
+	private GameUI() {
 
 		JFrame frame = new JFrame();
 		frame.setSize(new Dimension(1000, 1000));
@@ -83,6 +93,7 @@ public class GameUI extends JFrame implements TileUtil {
 		frame.setVisible(true);
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		frame.setBackground(Color.decode("#F9CB9C"));
 		setupPanels(frame);
 		frame.setVisible(true);
 	}
@@ -124,7 +135,7 @@ public class GameUI extends JFrame implements TileUtil {
 		containerPanel = new JPanel();
 		containerPanel.setLayout(new GridLayout(1, 2));
 
-		setup_boardPanel_new();
+		setup_boardPanel();
 		containerPanel.add(boardPanel);
 		
 		
@@ -332,10 +343,6 @@ public class GameUI extends JFrame implements TileUtil {
 
 	}
 
-	private void setup_boardPanel_new() {
-		boardPanel = new BoardUI();
-	}
-
 	private void setup_boardPanel() {
 		boardPanel = new JPanel();
 		boardPanel.setPreferredSize(new Dimension(cols * tileSize, rows * tileSize));
@@ -367,10 +374,10 @@ public class GameUI extends JFrame implements TileUtil {
 		} else if (isDen(row, col) == true) {
 			tile.setBackground(Color.green);
 		}
-
+		
 		return tile;
 	}
-
+	
 	private void announce_Win() {
 		if (is_P1_Win == true) {
 			logArea.append("Player 1 wins!\n");
