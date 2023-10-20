@@ -58,6 +58,12 @@ public class Animal {
     protected void MoveTo (int x, int y) {
         board.removeAnimal(this.x, this.y);
         board.addAnimal2Board(this, x, y);
+        //Explain: you cannot move from one trap to another so moving from trap must mean out of trap
+        if (trapped) {
+            trapped = false;
+        } else if(Board.isTrap(x, y, this.color)) {
+            trapped = true;
+        }
         this.x = x;
         this.y = y;
     }

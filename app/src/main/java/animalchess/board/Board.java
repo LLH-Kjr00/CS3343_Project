@@ -21,6 +21,7 @@ public class Board {
 
         return obs_any;
     }
+
     public boolean isOutBound(int x, int y) {
         if (x < 0 || y < 0 || x > 7 || y > 9) {
             return true;
@@ -45,7 +46,7 @@ public class Board {
                 return true;
         else
             if (x == 3 && y == 7)
-                return false;
+                return true;
 
         //check if friendly animal
         Animal target = animals[x][y];
@@ -61,6 +62,36 @@ public class Board {
 
     public void removeAnimal(int x, int y) {
         animals[x][y] = null;
+    }
+
+    public static boolean isTrap(int x, int y, String col) {
+
+        if (col == "R") {
+            if (x == 2 && y == 7)
+                return true;
+            if (x == 4 && y == 7)
+                return true;
+            if (x == 3 && y == 6)
+                return true;
+        }
+        if (col == "B") {
+            if (x == 2 && y == 0)
+                return true;
+            if (x == 4 && y == 0)
+                return true;
+            if (x == 3 && y == 1)
+                return true;
+        }
+        return false;
+    }
+    //check if game has ended, return BW if blue enter red nest, vice versa, Continue if no winners
+    public String checkGameEnd() {
+        if (getTarget(3, 0) != null) {
+            return "BW";
+        } else if (getTarget(3, 7) != null) {
+            return "RW";
+        }
+        return ("Continue");
     }
 
     //Utils
