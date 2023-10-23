@@ -24,7 +24,6 @@ public class Animal {
         else {
         	owner = "Player 2";
         }
-        board.addAnimal2Board(this, x, y);
     }
     // rules for general:
     // 1. Cannot move more than one block
@@ -61,8 +60,7 @@ public class Animal {
     }
 
     protected void MoveTo (int x, int y) {
-        board.removeAnimal(this.x, this.y);
-        board.addAnimal2Board(this, x, y);
+        
         this.x = x;
         this.y = y;
         

@@ -17,6 +17,7 @@ public class Board {
     // The size of the board is 7 (width) * 9 (height)
     // and take the starting number as 0, at lower left corner
     private Animal[][] animals = new Animal[2][8];
+     
     private boolean is_P1_Turn = true; // Flag to track player 1's turn
 	private boolean is_P1_Win = false; // Flag to track player 1's win
 	private boolean is_P2_Win = false; // Flag to track player 2's win
@@ -47,9 +48,7 @@ public class Board {
 		
     };
 
-    public void addAnimal2Board(Animal piece, int x, int y){
-        animals[x][y] = piece;
-    }
+    
     public Animal getLocationInfo(int x, int y) {
         Animal obs_any = null;
 
@@ -125,8 +124,5 @@ public class Board {
 		cmd.execute();
 	}
 
-	public void checkAnimal(int j, int i) {
-		// TODO Auto-generated method stub
-		
-	} 
+	
 }
