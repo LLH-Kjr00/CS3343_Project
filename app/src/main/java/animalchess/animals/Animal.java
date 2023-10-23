@@ -7,19 +7,19 @@ import animalchess.exceptions.InvalidMovementException;
 
 public class Animal {
     // R: red team, G: green team
-    public String owner;
+    protected String owner;
     // coordinate
     protected int x, y;
     // size of the animal
-    protected int weight;
+    protected int strength;
     private boolean trapped = false;
     protected Board board;
 
-    public Animal (String owner, int xCoordinate, int yCoordinate, int weight, Board board){
+    public Animal (String owner, int xCoordinate, int yCoordinate, int strength, Board board){
         this.owner = owner;
         this.x = xCoordinate;
         this.y = yCoordinate;
-        this.weight = weight;
+        this.strength = strength;
         this.board = board;
 
         board.addAnimal2Board(this, x, y);
@@ -32,20 +32,20 @@ public class Animal {
     // 4. Cannot enter river
     // 5. Cannot move into friendly animal or trap or Base
     // 6. Cannot attempt to eat larger animal
-    public void checkIsValidMove(int xdist, int ydist) throws InvalidMovementException{
-        if ((Math.abs(x-xdist) + Math.abs(y-ydist)) > 1) {
+    public void checkIsValidMove(int destX, int destY) throws InvalidMovementException{
+        if (Math.abs(x-destX) > 1 || Math.abs(y-destY) > 1) {
             throw new InvalidMovementException("Cannot move more than one block");
         }
-        if ((Math.abs(x-xdist) + Math.abs(y-ydist)) == 0) {
+        if ((Math.abs(x-destX) + Math.abs(y-destY)) == 0) {
             throw new InvalidMovementException("Invalid movement! Cannot move into origin location!");
         }
-        if (board.isOutBound(xdist, ydist)) {
+        if (board.isOutBound(destX, destY)) {
             throw new InvalidMovementException("Cannot move outside of board");
         }
-        if (board.isInWater(xdist, ydist)) {
+        if (board.isInWater(destX, destY)) {
             throw new InvalidMovementException("This animal cannot goes into water");
         }
-        if (board.isOccupiedByFriendly(xdist, ydist, owner)) {
+        if (board.isOccupiedByFriendly(destX, destY, owner)) {
             throw new InvalidMovementException("Cannot move into friendly units");
         }
 
@@ -67,7 +67,7 @@ public class Animal {
     }
 
     public void Eat(Animal victim) throws InvalidMovementException{
-        if (victim.weight>this.weight && !victim.trapped)
+        if (victim.strength>this.strength && !victim.trapped)
             throw new InvalidMovementException("Cannot eat bigger target");
         else
             board.removeAnimal(victim.x, victim.y);

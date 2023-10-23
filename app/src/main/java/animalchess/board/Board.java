@@ -44,9 +44,9 @@ public class Board {
         }
         return false;
     }
-    public boolean isOccupiedByFriendly(int x, int y, String col) {
+    public boolean isOccupiedByFriendly(int x, int y, String owner) {
         //check if friendly den
-        if (col == "R")
+        if (owner == "R")
             if (x == 3 && y == 0)
                 return true;
         else
@@ -55,7 +55,7 @@ public class Board {
 
         //check if friendly animal
         Animal target = animals[x][y];
-        if (target != null && target.owner == col)
+        if (target != null && target.get_Owner() == owner)
             return true;
         else
             return false;

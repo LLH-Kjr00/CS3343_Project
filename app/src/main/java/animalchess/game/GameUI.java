@@ -12,7 +12,12 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.InputStream;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.Box;
@@ -353,6 +358,23 @@ public class GameUI extends JFrame implements TileUtil {
 			for (int i = 0; i != horizontalAxis.length; i++) {
 				JLabel tile = setup_Tile(j, i);
 				boardPanel.putClientProperty(verticalAxis[j] + horizontalAxis[i], tile);
+				if (i==0 &&j==0) {
+					//BufferedImage img = ImageIO.read(new File("../assets/red_cat.png"));
+					URL imageURL = getClass().getResource("../assets/red_cat.png");
+					//System.out.print(tile.getHeight());
+					ImageIcon pic = new ImageIcon(new ImageIcon(imageURL).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+					//Image dimg= img.getScaledInstance(tile.getWidth(), tile.getHeight(), Image.SCALE_SMOOTH);
+					//ImageIcon pic2 = new ImageIcon(dimg);
+					
+					tile.setIcon(pic);
+					
+				}
+				tile.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						System.out.print("mouse clicked\n");
+					}
+				});
 				boardPanel.add(tile);
 			}
 		}
@@ -436,7 +458,7 @@ public class GameUI extends JFrame implements TileUtil {
 	}
 
 	public static void main(String[] args) {
-		GameUI ui = new GameUI();
+		//GameUI ui = new GameUI();
 
 	}
 }
