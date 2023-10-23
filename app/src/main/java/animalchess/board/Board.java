@@ -3,6 +3,14 @@ package animalchess.board;
 import java.util.ArrayList;
 
 import animalchess.animals.Animal;
+import animalchess.animals.Cat;
+import animalchess.animals.Dog;
+import animalchess.animals.Elephant;
+import animalchess.animals.Leopard;
+import animalchess.animals.Lion;
+import animalchess.animals.Mouse;
+import animalchess.animals.Tiger;
+import animalchess.animals.Wolf;
 import animalchess.command.GameCommand;
 
 public class Board {
@@ -17,7 +25,27 @@ public class Board {
     public final int[] right_river_x_range = {4,6};
     private ArrayList<GameCommand> commands = new ArrayList<GameCommand>();
 
-    public Board(){};
+    public Board(){
+    	
+    	animals[0][0] = new Elephant(true);
+		animals[0][1] = new Lion(true);
+		animals[0][2] = new Tiger(true);
+		animals[0][3] = new Leopard(true);
+		animals[0][4] = new Wolf(true);
+		animals[0][5] = new Dog(true);
+		animals[0][6] = new Cat(true);
+		animals[0][7] = new Mouse(true);
+		animals[1][0] = new Elephant(false);
+		animals[1][1] = new Lion(false);
+		animals[1][2] = new Tiger(false);
+		animals[1][3] = new Leopard(false);
+		animals[1][4] = new Wolf(false);
+		animals[1][5] = new Dog(false);
+		animals[1][6] = new Cat(false);
+		animals[1][7] = new Mouse(false);
+		
+		
+    };
 
     public void addAnimal2Board(Animal piece, int x, int y){
         animals[x][y] = piece;
@@ -44,21 +72,27 @@ public class Board {
         }
         return false;
     }
-    public boolean isOccupiedByFriendly(int x, int y, String owner) {
-        //check if friendly den
-        if (owner == "R")
-            if (x == 3 && y == 0)
-                return true;
-        else
-            if (x == 3 && y == 7)
-                return false;
-
+    public boolean isOccupiedByFriendlyAnimal(int x, int y, boolean isRed) {
+        
         //check if friendly animal
         Animal target = animals[x][y];
-        if (target != null && target.get_Owner() == owner)
+        if (target != null && target.get_isRed() == isRed)
             return true;
         else
             return false;
+    }
+    public boolean isOccupiedByFriendlyDen(int x, int y, boolean isRed) {
+    	//check if friendly den
+        if (isRed == is_P1_Turn && isRed == true) {
+            if ((x == 3 && y == 0))
+                return true;
+        }
+        else if (isRed == is_P1_Turn && isRed == false) {
+            if (x == 3 && y == 7)
+                return true;
+        }
+		return false;
+
     }
 
     public Animal getTarget(int x, int y) {
@@ -89,5 +123,10 @@ public class Board {
     public void store_and_execute(GameCommand cmd) {
 		this.commands.add(cmd);
 		cmd.execute();
+	}
+
+	public void checkAnimal(int j, int i) {
+		// TODO Auto-generated method stub
+		
 	} 
 }

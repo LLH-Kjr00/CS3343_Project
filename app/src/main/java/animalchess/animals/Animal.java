@@ -7,6 +7,7 @@ import animalchess.exceptions.InvalidMovementException;
 
 public class Animal {
     // R: red team, G: green team
+    protected boolean isRed;
     protected String owner;
     // coordinate
     protected int x, y;
@@ -15,13 +16,14 @@ public class Animal {
     private boolean trapped = false;
     protected Board board;
 
-    public Animal (String owner, int xCoordinate, int yCoordinate, int strength, Board board){
-        this.owner = owner;
-        this.x = xCoordinate;
-        this.y = yCoordinate;
-        this.strength = strength;
-        this.board = board;
-
+    public Animal (boolean isRed){
+        this.isRed = isRed;
+        if (isRed == true) {
+        	owner = "Player 1";
+        }
+        else {
+        	owner = "Player 2";
+        }
         board.addAnimal2Board(this, x, y);
     }
     // rules for general:
@@ -45,7 +47,7 @@ public class Animal {
         if (board.isInWater(destX, destY)) {
             throw new InvalidMovementException("This animal cannot goes into water");
         }
-        if (board.isOccupiedByFriendly(destX, destY, owner)) {
+        if (board.isOccupiedByFriendlyAnimal(destX, destY, isRed)) {
             throw new InvalidMovementException("Cannot move into friendly units");
         }
 
@@ -53,7 +55,7 @@ public class Animal {
     //board.store_and_execute(new Move_command(this,x,y));
     public void Move (int x, int y) throws InvalidMovementException{
         Animal target = board.getTarget(x, y);
-        if (target != null && target.owner != this.owner)
+        if (target != null && target.isRed != this.isRed)
         	board.store_and_execute(new Eat_command(this,target));
         MoveTo(x ,y);
     }
@@ -72,7 +74,10 @@ public class Animal {
         else
             board.removeAnimal(victim.x, victim.y);
     }
-    
+    public void setPosition (int y, int x) {
+		this.x = x;
+		this.y = y;
+	}
     public int get_xCoordinate() {
     	return x;
     }
@@ -82,6 +87,10 @@ public class Animal {
     public String get_Owner() {
     	return owner;
     }
+    public boolean get_isRed() {
+    	return isRed;
+    }
+
 
 
 }

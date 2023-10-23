@@ -21,6 +21,7 @@ public class Move_command implements GameCommand {
 			e.printStackTrace();
 		}
 	};
+	
 	public String log() {
 		return(actor.get_Owner()+"'s"+actor.toString() + "has moved from ("+actor.get_xCoordinate()+","+actor.get_yCoordinate()+")"+" to ("+DestPosX+","+DestPosY+")");
 	};

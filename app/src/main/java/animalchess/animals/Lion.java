@@ -5,8 +5,15 @@ import animalchess.exceptions.InvalidMovementException;
 
 public class Lion extends Animal {
 
-    public Lion (String color, int xCoordinate, int yCoordinate, int weight, Board board){
-        super(color, xCoordinate, yCoordinate, weight, board);
+    public Lion (boolean isRed){
+        super(isRed);
+        this.strength = 7;
+        if (isRed == true) {
+        	setPosition(0,6);
+        }
+        else {
+        	setPosition(8,0);
+        }
     }
     //New rule: A Tiger or Lion can jump over water
     @Override
@@ -22,13 +29,13 @@ public class Lion extends Animal {
         if (board.isInWater(destX, destY)) {
             throw new InvalidMovementException("This animal cannot goes into water");
         }
-        if (board.isOccupiedByFriendly(destX, destY, owner)) {
+        if (board.isOccupiedByFriendlyAnimal(destX, destY, isRed)) {
             throw new InvalidMovementException("Cannot move into friendly units");
         }
 
     }
 
-
+	
     private boolean checkIsValidJump (int xdist, int ydist) throws InvalidMovementException {
         //a vertical jump
         int start = y, end = ydist;

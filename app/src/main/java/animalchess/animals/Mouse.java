@@ -5,8 +5,15 @@ import animalchess.exceptions.InvalidMovementException;
 
 public class Mouse extends Animal {
 
-    public Mouse (String color, int xCoordinate, int yCoordinate, int weight, Board board){
-        super(color, xCoordinate, yCoordinate, weight, board);
+    public Mouse (boolean isRed){
+        super(isRed);
+        this.strength = 1;
+        if (isRed == true) {
+        	setPosition(2,6);
+        }
+        else {
+        	setPosition(6,0);
+        }
     }
 
     //new rule: Mouse can go in water
@@ -21,7 +28,7 @@ public class Mouse extends Animal {
         if (board.isOutBound(destX, destY)) {
             throw new InvalidMovementException("Cannot move outside of board");
         }
-        if (board.isOccupiedByFriendly(destX, destY, owner)) {
+        if (board.isOccupiedByFriendlyAnimal(destX, destY, isRed)) {
             throw new InvalidMovementException("Cannot move into friendly units");
         }
     }
@@ -30,7 +37,7 @@ public class Mouse extends Animal {
     @Override
     public void Move (int x, int y) throws InvalidMovementException{
         Animal target = board.getTarget(x, y);
-        if (target != null && target.owner != this.owner)
+        if (target != null && target.isRed != this.isRed)
             if (board.isInWater(x, y) != board.isInWater(target.x, target.y)) {
                 Eat(target);
             } else {

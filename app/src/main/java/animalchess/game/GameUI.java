@@ -1,35 +1,14 @@
 
 package animalchess.game;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GridLayout;
-import java.awt.Image;
+
+import javax.swing.*;
+import java.awt.*;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.InputStream;
-import java.net.URL;
-
-import javax.imageio.ImageIO;
-import javax.swing.Box;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.Timer;
-import javax.swing.WindowConstants;
 
 import animalchess.animals.Animal;
 import animalchess.board.Board;
@@ -111,20 +90,6 @@ public class GameUI extends JFrame implements TileUtil {
 		logArea.append(result);
 		logArea.append("Game Start!\n");
 		logArea.append(result);
-	}
-
-	public void drawAnimal(Graphics g) {
-		String imgSrc = "red_cat.png";
-		InputStream is = this.getClass().getResourceAsStream(imgSrc);
-		int x = 100;
-		int y = 100;
-		try {
-			Image image = ImageIO.read(is);
-			g.drawImage(image, x, y, null);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-
 	}
 
 	public void addAnimals() {
@@ -353,36 +318,31 @@ public class GameUI extends JFrame implements TileUtil {
 		boardPanel.setPreferredSize(new Dimension(cols * tileSize, rows * tileSize));
 		boardPanel.setBackground(Color.black);
 		boardPanel.setLayout(new GridLayout(rows, cols, borderWidth, borderWidth));
-
+		
 		for (int j = verticalAxis.length - 1; j != -1; j--) {
 			for (int i = 0; i != horizontalAxis.length; i++) {
 				JLabel tile = setup_Tile(j, i);
-				boardPanel.putClientProperty(verticalAxis[j] + horizontalAxis[i], tile);
-				if (i==0 &&j==0) {
-					//BufferedImage img = ImageIO.read(new File("../assets/red_cat.png"));
-					URL imageURL = getClass().getResource("../assets/red_cat.png");
-					//System.out.print(tile.getHeight());
-					ImageIcon pic = new ImageIcon(new ImageIcon(imageURL).getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH));
-					//Image dimg= img.getScaledInstance(tile.getWidth(), tile.getHeight(), Image.SCALE_SMOOTH);
-					//ImageIcon pic2 = new ImageIcon(dimg);
-					
-					tile.setIcon(pic);
-					
-				}
+				//boardPanel.putClientProperty(verticalAxis[j] + horizontalAxis[i], tile);
+				tile.setText(verticalAxis[j] + horizontalAxis[i]);
 				tile.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
+						//board.isOccupiedByFriendlyAnimal(i, j, is_P1_Turn);
 						System.out.print("mouse clicked\n");
 					}
 				});
+				initialP1_Animal(j,i,tile);
+				initialP2_Animal(j,i,tile);
 				boardPanel.add(tile);
 			}
 		}
 
 	}
-
+	
 	private JLabel setup_Tile(int row, int col) {
 		JLabel tile = new JLabel();
+		tile.setVerticalTextPosition(JLabel.CENTER);
+
 		tile.setPreferredSize(new Dimension(tileSize, tileSize));
 		tile.setOpaque(true);
 		tile.setBackground(Color.white);
@@ -393,8 +353,13 @@ public class GameUI extends JFrame implements TileUtil {
 			tile.setBackground(Color.cyan);
 		} else if (isTrap(row, col) == true) {
 			tile.setBackground(Color.orange);
-		} else if (isDen(row, col) == true) {
-			tile.setBackground(Color.green);
+		} else if (isP1_Den(row, col) == true) {
+			tile.setBackground(Color.red);
+			tile.setForeground(Color.white);;
+		}
+		else if (isP2_Den(row, col) == true) {
+			tile.setBackground(Color.blue);
+			tile.setForeground(Color.white);
 		}
 		
 		return tile;
