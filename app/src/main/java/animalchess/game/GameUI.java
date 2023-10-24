@@ -51,10 +51,13 @@ public class GameUI extends JFrame implements TileUtil {
 	private boolean is_P1_Turn = false; // Flag to track player 1's turn
 	private boolean is_P1_Win = false; // Flag to track player 1's win
 	private boolean is_P2_Win = false; // Flag to track player 2's win
+	private boolean P1_Draw = false;
+	private boolean P2_Draw = false;
 	private boolean P1_Pause = false;
 	private boolean P2_Pause = false;
 	private JButton P1_Pause_button;
 	private JButton P2_Pause_button;
+	private JButton Draw_button;
 	private JButton Resume_button;
 	private Box pauseButtons;
 	private JButton P1_Yield_button;
@@ -229,6 +232,8 @@ public class GameUI extends JFrame implements TileUtil {
 				}
 				is_P1_Win = false;
 				is_P2_Win = false;
+				P1_Draw = false;
+				P2_Draw = false;
 				P1_Timer_val = 600 * 3;
 				P2_Timer_val = 600 * 3;
 			}
@@ -320,8 +325,34 @@ public class GameUI extends JFrame implements TileUtil {
 			}
 
 		});
+
+		Draw_button = new JButton("Draw");
+		Draw_button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				if (is_P1_Turn && !P1_Draw){
+					P1_Draw = true;
+					logArea.append("Player 2 want to draw!\nNeed Player 1 aggrement!\n");
+				}else if (!is_P1_Turn && !P2_Draw){
+					P2_Draw = true;
+					logArea.append("Player 1 want to draw!\nNeed Player 2 aggrement!\n");
+				}
+				else if ((is_P1_Win == false && is_P1_Win == false) || P1_Draw || P2_Draw) {
+					P1_Timer.stop();
+					P2_Timer.stop();
+					// is_P1_Win = true;
+					// logArea.append("Player 2 surrender...\n");
+					
+					announce_Win();
+				}
+			}
+
+		});
+
 		yieldButtons.add(P1_Yield_button);
 		yieldButtons.add(P2_Yield_button);
+		yieldButtons.add(Draw_button);
 		yieldButtons.setVisible(false);
 
 	}
@@ -368,8 +399,6 @@ public class GameUI extends JFrame implements TileUtil {
 		tile.addMouseListener(new MouseAdapter() {
             @Override
 			public void mouseClicked(MouseEvent e) {
-							//board.isOccupiedByFriendlyAnimal(i, j, is_P1_Turn);
-							// System.out.print("mouse clicked\n");
 							int clickedRow = row;
 							int clickedCol = col;
 							System.out.println("Clicked tile: Row " + clickedRow + ", Column " + clickedCol);
@@ -383,6 +412,9 @@ public class GameUI extends JFrame implements TileUtil {
 			logArea.append("Player 1 wins!\n");
 		} else if (is_P2_Win) {
 			logArea.append("Player 2 wins!\n");
+		}
+		else{
+			logArea.append("No ones wins!\n");
 		}
 
 		yieldButtons.setVisible(false);
