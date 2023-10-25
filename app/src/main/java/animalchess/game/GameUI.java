@@ -1,7 +1,6 @@
 
 package animalchess.game;
 
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -16,9 +15,9 @@ import animalchess.board.Board;
 public class GameUI extends JFrame implements TileUtil {
 
 	private Board board;
-	private Animal[] P1;
-	private Animal[] P2;
-	
+	//private Animal[] P1;
+	//private Animal[] P2;
+
 	private final String[] verticalAxis = { "A", "B", "C", "D", "E", "F", "G", "H", "I" };
 	private final String[] horizontalAxis = { "1", "2", "3", "4", "5", "6", "7" };
 	int rows = verticalAxis.length;
@@ -45,10 +44,9 @@ public class GameUI extends JFrame implements TileUtil {
 	private Timer P2_Timer;
 	private int P1_Timer_val = 600 * 3; // count down for User 1
 	private int P2_Timer_val = 600 * 3; // count down for User 2
-	
-	
-	
+
 	private boolean is_P1_Turn = false; // Flag to track player 1's turn
+	private boolean is_Game_Pause = false; // Flag to track game's state of pausing
 	private boolean is_P1_Win = false; // Flag to track player 1's win
 	private boolean is_P2_Win = false; // Flag to track player 2's win
 	private boolean P1_Pause = false;
@@ -57,17 +55,21 @@ public class GameUI extends JFrame implements TileUtil {
 	private JButton P2_Pause_button;
 	private JButton Resume_button;
 	private Box pauseButtons;
-	private JButton P1_Yield_button;
-	private JButton P2_Yield_button;
+	
+	private JButton P1_Surrender_button;
+	private JButton P2_Surrender_button;
 	private Box yieldButtons;
 
+	
 	private int tileSize = 100;
 	private int borderWidth = 3;
 
 	private static final GameUI instance = new GameUI();
+
 	public static GameUI getInstance() {
 		return instance;
 	}
+
 	// Board JungleChessBoard
 	private GameUI() {
 
@@ -107,8 +109,7 @@ public class GameUI extends JFrame implements TileUtil {
 
 		setup_boardPanel();
 		containerPanel.add(boardPanel);
-		
-		
+
 		setup_consolePanel();
 		containerPanel.add(consolePanel);
 
@@ -135,7 +136,7 @@ public class GameUI extends JFrame implements TileUtil {
 
 		setup_timePanel();
 		setup_buttonPanel();
-		create_Yieldbutton_Box();
+		create_Surrenderbutton_Box();
 		consolePanel.add(yieldButtons);
 		consolePanel.add(timePanel);
 		consolePanel.add(scrollPane);
@@ -176,17 +177,19 @@ public class GameUI extends JFrame implements TileUtil {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (is_P1_Turn == true && P1_Timer.isRunning() == false) {
-					P1_Timer.restart();
+					P1_Timer.restart();					
 					P1_Pause = false;
 					P2_Pause = false;
+					is_Game_Pause = false;
 					logArea.append("Game Resumed!\n");
 				} else if (is_P1_Turn == false && P2_Timer.isRunning() == false) {
 					P2_Timer.restart();
 					P1_Pause = false;
 					P2_Pause = false;
+					is_Game_Pause = false;
 					logArea.append("Game Resumed!\n");
 				} else {
-					logArea.append("Action ignored: The game was not paused!\n");
+					logArea.append("Action ignored: The game has not paused!\n");
 				}
 			}
 		});
@@ -215,6 +218,8 @@ public class GameUI extends JFrame implements TileUtil {
 				buttonPanel.setVisible(true);
 				P1_Pause_button.setVisible(true);
 				P2_Pause_button.setVisible(true);
+				logArea.setText("");
+				setup_boardPanel();
 				if (is_P1_Turn) {
 					P1_Timer.start(); // Start player 1's timer
 				} else {
@@ -238,16 +243,22 @@ public class GameUI extends JFrame implements TileUtil {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				P1_Pause = true;
-
-				if (P2_Pause == false) {
-					logArea.append("Player 1 wants to pause the game!\nNeed Player 2's agreement to pause the game!\n");
-				} else if (P1_Pause == true && P2_Pause == true) {
-					if (is_P1_Turn == true) {
-						P1_Timer.stop();
-					} else {
-						P2_Timer.stop();
+				if (is_Game_Pause == false) {
+					if (P2_Pause == false) {
+						logArea.append("Player 1 wants to pause the game!\n");
+						logArea.append("Need Player 2's agreement to pause the game!\n");
+					} else if (P1_Pause == true && P2_Pause == true) {
+						if (is_P1_Turn == true) {
+							P1_Timer.stop();
+						} else {
+							P2_Timer.stop();
+						}
+						is_Game_Pause = true;
+						logArea.append("Game Paused!\n");
 					}
-					logArea.append("Game Paused!\n");
+				}
+				else {
+					logArea.append("Action ignored: The game has paused already!\n");
 				}
 			}
 		});
@@ -257,16 +268,22 @@ public class GameUI extends JFrame implements TileUtil {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				P2_Pause = true;
-
-				if (P1_Pause == false) {
-					logArea.append("Player 2 wants to pause the game!\nNeed Player 1's agreement to pause the game!\n");
-				} else if (P1_Pause == true && P2_Pause == true) {
-					if (is_P1_Turn == true) {
-						P1_Timer.stop();
-					} else {
-						P2_Timer.stop();
+				if (is_Game_Pause == false) {
+					if (P1_Pause == false) {
+						logArea.append("Player 2 wants to pause the game!\n");
+						logArea.append("Need Player 1's agreement to pause the game!\n");
+					} else if (P1_Pause == true && P2_Pause == true) {
+						if (is_P1_Turn == true) {
+							P1_Timer.stop();
+						} else {
+							P2_Timer.stop();
+						}
+						is_Game_Pause = true;
+						logArea.append("Game Paused!\n");
 					}
-					logArea.append("Game Paused!\n");
+				}
+				else {
+					logArea.append("Action ignored: The game has paused already!\n");
 				}
 			}
 		});
@@ -274,13 +291,12 @@ public class GameUI extends JFrame implements TileUtil {
 		P2_Pause_button.setVisible(false);
 		pauseButtons.add(P1_Pause_button);
 		pauseButtons.add(P2_Pause_button);
-
 	}
 
-	private void create_Yieldbutton_Box() {
+	private void create_Surrenderbutton_Box() {
 		yieldButtons = Box.createHorizontalBox();
-		P1_Yield_button = new JButton("P1 Yield");
-		P1_Yield_button.addActionListener(new ActionListener() {
+		P1_Surrender_button = new JButton("P1 Surrender");
+		P1_Surrender_button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (is_P1_Win == false && is_P1_Win == false) {
@@ -293,8 +309,8 @@ public class GameUI extends JFrame implements TileUtil {
 			}
 
 		});
-		P2_Yield_button = new JButton("P2 Yield");
-		P2_Yield_button.addActionListener(new ActionListener() {
+		P2_Surrender_button = new JButton("P2 Surrender");
+		P2_Surrender_button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (is_P1_Win == false && is_P1_Win == false) {
@@ -307,8 +323,8 @@ public class GameUI extends JFrame implements TileUtil {
 			}
 
 		});
-		yieldButtons.add(P1_Yield_button);
-		yieldButtons.add(P2_Yield_button);
+		yieldButtons.add(P1_Surrender_button);
+		yieldButtons.add(P2_Surrender_button);
 		yieldButtons.setVisible(false);
 
 	}
@@ -318,58 +334,75 @@ public class GameUI extends JFrame implements TileUtil {
 		boardPanel.setPreferredSize(new Dimension(cols * tileSize, rows * tileSize));
 		boardPanel.setBackground(Color.black);
 		boardPanel.setLayout(new GridLayout(rows, cols, borderWidth, borderWidth));
-		
+
 		for (int j = verticalAxis.length - 1; j != -1; j--) {
 			for (int i = 0; i != horizontalAxis.length; i++) {
 				JLabel tile = setup_Tile(j, i);
-				//boardPanel.putClientProperty(verticalAxis[j] + horizontalAxis[i], tile);
-				tile.setText(verticalAxis[j] + horizontalAxis[i]);
-				tile.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						//board.isOccupiedByFriendlyAnimal(i, j, is_P1_Turn);
-						System.out.print("mouse clicked\n");
-					}
-				});
-				initialP1_Animal(j,i,tile);
-				initialP2_Animal(j,i,tile);
+				initialP1_Animal(j, i, tile);
+				initialP2_Animal(j, i, tile);
 				boardPanel.add(tile);
 			}
 		}
 
 	}
-	
+
 	private JLabel setup_Tile(int row, int col) {
 		JLabel tile = new JLabel();
 		tile.setVerticalTextPosition(JLabel.CENTER);
-
 		tile.setPreferredSize(new Dimension(tileSize, tileSize));
 		tile.setOpaque(true);
 		tile.setBackground(Color.white);
 		tile.setText(verticalAxis[row] + horizontalAxis[col]);
 		tile.setVerticalAlignment(JLabel.TOP);
-
-		if (isRiver(row, col) == true) {
-			tile.setBackground(Color.cyan);
-		} else if (isTrap(row, col) == true) {
-			tile.setBackground(Color.orange);
-		} else if (isP1_Den(row, col) == true) {
-			tile.setBackground(Color.red);
-			tile.setForeground(Color.white);;
-		}
-		else if (isP2_Den(row, col) == true) {
-			tile.setBackground(Color.blue);
-			tile.setForeground(Color.white);
-		}
 		
+		check_Tile_SpecialProp(row, col, tile);
+		
+		tile.setText(verticalAxis[row] + horizontalAxis[col]);
+		tile.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("Clicked tile: Row " + verticalAxis[row] + ", Column " + horizontalAxis[col]);			
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				tile.setBackground(Color.yellow);
+				tile.setForeground(Color.magenta);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				check_Tile_SpecialProp(row, col, tile);
+			}
+		});
 		return tile;
 	}
 	
+	private void check_Tile_SpecialProp(int row, int col, JLabel tile) {
+		if (isRiver(row, col) == true) {
+			tile.setBackground(Color.cyan);
+			tile.setForeground(Color.black);			
+		} else if (isTrap(row, col) == true) {
+			tile.setBackground(Color.orange);
+			tile.setForeground(Color.black);
+		} else if (isP1_Den(row, col) == true) {
+			tile.setBackground(Color.red);
+			tile.setForeground(Color.white);
+		} else if (isP2_Den(row, col) == true) {
+			tile.setBackground(Color.blue);
+			tile.setForeground(Color.white);
+		} else {
+			tile.setBackground(Color.white);
+			tile.setForeground(Color.black);
+		}
+	}
+
 	private void announce_Win() {
-		if (is_P1_Win == true) {
+		if (is_P1_Win) {
 			logArea.append("Player 1 wins!\n");
-		} else if (is_P2_Win == true) {
+		} else if (is_P2_Win) {
 			logArea.append("Player 2 wins!\n");
+		}
+		else{
+			logArea.append("No ones wins!\n");
 		}
 
 		yieldButtons.setVisible(false);
@@ -423,7 +456,7 @@ public class GameUI extends JFrame implements TileUtil {
 	}
 
 	public static void main(String[] args) {
-		//GameUI ui = new GameUI();
+		// GameUI ui = new GameUI();
 
 	}
 }
