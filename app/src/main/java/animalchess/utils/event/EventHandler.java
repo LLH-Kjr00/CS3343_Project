@@ -1,7 +1,5 @@
 package animalchess.utils.event;
 
-import animalchess.utils.event.EventPriority;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
