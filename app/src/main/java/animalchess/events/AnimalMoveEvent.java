@@ -1,18 +1,16 @@
 package animalchess.events;
 
-import animalchess.animals.Animal;
-import animalchess.utils.common.Location;
-import animalchess.utils.common.Team;
+import animalchess.utils.common.WrappedAnimal;
+import animalchess.utils.common.WrappedLocation;
 import animalchess.utils.event.Cancellable;
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 public class AnimalMoveEvent implements AnimalEvent, Cancellable {
 
-    private Animal animal;
-    private Location from;
-    private Location to;
-    private Team team;
+    private WrappedAnimal animal;
+    private WrappedLocation from;
+    private WrappedLocation to;
 
     private boolean cancelled = false;
 

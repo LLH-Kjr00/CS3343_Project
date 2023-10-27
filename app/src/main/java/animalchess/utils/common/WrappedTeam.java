@@ -1,5 +1,5 @@
 package animalchess.utils.common;
 
-public enum Team {
+public enum WrappedTeam {
     RED, BLACK
 }
