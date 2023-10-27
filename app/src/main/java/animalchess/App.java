@@ -3,12 +3,13 @@
  */
 package animalchess;
 
-public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+import animalchess.board.Board;
+import animalchess.game.GameUI;
 
+public class App {
+	private static GameUI ui;
+	private static Board board;
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+    	ui = GameUI.getInstance();
     }
 }
