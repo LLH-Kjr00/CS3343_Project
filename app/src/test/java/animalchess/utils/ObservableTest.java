@@ -1,5 +1,6 @@
 package animalchess.utils;
 
+import animalchess.utils.flow.Observable;
 import org.junit.jupiter.api.Test;
 
 import java.util.LinkedList;

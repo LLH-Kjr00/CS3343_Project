@@ -1,7 +1,7 @@
 package animalchess.events;
 
 import animalchess.animals.Animal;
-import animalchess.utils.Event;
+import animalchess.utils.event.Event;
 
 public interface AnimalEvent extends Event {
 
