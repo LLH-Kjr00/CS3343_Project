@@ -5,30 +5,37 @@ import animalchess.exceptions.InvalidMovementException;
 
 public class Tiger extends Animal {
 
-    public Tiger (String color, int xCoordinate, int yCoordinate, int weight, Board board){
-        super(color, xCoordinate, yCoordinate, weight, board);
+    public Tiger (boolean isRed){
+        super(isRed);
+        this.strength = 6;
+        if (isRed == true) {
+        	setPosition(0,0);
+        }
+        else {
+        	setPosition(8,6);
+        }
     }
 
     //New rule: A Tiger or Lion can jump over water
     @Override
-    public void checkIsValidMove(int xdist, int ydist) throws InvalidMovementException {
-        if ((Math.abs(x-xdist) + Math.abs(y-ydist)) > 1) {
-            checkIsValidJump(xdist, ydist);
-        }
-        if ((Math.abs(x-xdist) + Math.abs(y-ydist)) == 0) {
+    public void checkIsValidMove(int destX, int destY) throws InvalidMovementException{
+        if (Math.abs(x-destX) > 1 || Math.abs(y-destY) > 1) {
+            checkIsValidJump(destX, destY);        }
+        if ((Math.abs(x-destX) + Math.abs(y-destY)) == 0) {
             throw new InvalidMovementException("Invalid movement! Cannot move into origin location!");
         }
-        if (board.isOutBound(xdist, ydist)) {
+        if (board.isOutBound(destX, destY)) {
             throw new InvalidMovementException("Cannot move outside of board");
         }
-        if (board.isInWater(xdist, ydist)) {
+        if (board.isInWater(destX, destY)) {
             throw new InvalidMovementException("This animal cannot goes into water");
         }
-        if (board.isOccupiedByFriendly(xdist, ydist, color)) {
+        if (board.isOccupiedByFriendlyAnimal(destX, destY, isRed)) {
             throw new InvalidMovementException("Cannot move into friendly units");
         }
 
     }
+
 
     private boolean checkIsValidJump (int xdist, int ydist) throws InvalidMovementException{
         //a diagonal jump

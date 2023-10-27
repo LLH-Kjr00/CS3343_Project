@@ -3,12 +3,23 @@
  */
 package animalchess;
 
+import animalchess.board.Board;
+import animalchess.game.GameUI;
+import animalchess.utils.EventManager;
+
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+
+    private static EventManager eventManager;
+    private static GameUI ui;
+    private static Board board;
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        eventManager = new EventManager();
+        ui = GameUI.getInstance();
     }
+
+    public static EventManager getEventManager() {
+        return eventManager;
+    }
+
 }
