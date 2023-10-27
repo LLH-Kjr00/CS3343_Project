@@ -1,4 +1,7 @@
-package animalchess.utils;
+package animalchess.utils.event;
+
+import animalchess.utils.flow.Disposable;
+import animalchess.utils.flow.Observable;
 
 import java.util.HashMap;
 import java.util.function.Consumer;
@@ -6,6 +9,7 @@ import java.util.function.Consumer;
 public class EventManager {
 
     private final HashMap<Class<? extends Event>, Observable<? extends Event>> eventObservables = new HashMap<>();
+    private final HashMap<Class<? extends Event>, EventPriority> eventPriorities = new HashMap<>();
 
     public EventManager() {}
 
@@ -24,7 +28,7 @@ public class EventManager {
         observable.update(event);
     }
 
-    public <T extends Event> Disposable listen(Class<T> eventClass, Consumer<T> consumer) {
+    public <T extends Event> Disposable listen(Class<T> eventClass, EventPriority priority, Consumer<T> consumer) {
         return ((Observable<T>) eventObservables.get(eventClass)).subscribe(consumer);
     }
 

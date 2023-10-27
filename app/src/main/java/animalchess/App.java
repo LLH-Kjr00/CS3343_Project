@@ -5,7 +5,7 @@ package animalchess;
 
 import animalchess.board.Board;
 import animalchess.game.GameUI;
-import animalchess.utils.EventManager;
+import animalchess.utils.event.EventManager;
 
 public class App {
 

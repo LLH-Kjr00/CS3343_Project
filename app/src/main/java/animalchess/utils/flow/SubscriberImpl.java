@@ -1,4 +1,4 @@
-package animalchess.utils;
+package animalchess.utils.flow;
 
 import java.util.function.Consumer;
 
