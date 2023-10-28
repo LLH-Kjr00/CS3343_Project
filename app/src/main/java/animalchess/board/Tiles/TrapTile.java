@@ -21,4 +21,9 @@ public class TrapTile extends Tile {
             occupier.setTrapped(false);
         super.removeAnimal();
     }
+    @Override 
+    public String toString() {
+		return "Trap";
+    	
+    }
 }

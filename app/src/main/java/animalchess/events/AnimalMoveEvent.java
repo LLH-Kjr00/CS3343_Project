@@ -1,5 +1,6 @@
 package animalchess.events;
 
+import animalchess.animals.Animal;
 import animalchess.utils.common.WrappedAnimal;
 import animalchess.utils.common.WrappedLocation;
 import animalchess.utils.event.Cancellable;
@@ -25,7 +26,7 @@ public class AnimalMoveEvent implements AnimalEvent, Cancellable {
     }
 
 	@Override
-	public Animal getAnimal() {
+	public WrappedAnimal getAnimal() {
 		// TODO Auto-generated method stub
 		return null;
 	}

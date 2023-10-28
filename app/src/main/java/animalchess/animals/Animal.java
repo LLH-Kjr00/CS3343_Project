@@ -16,8 +16,9 @@ public class Animal {
     private boolean trapped = false;
     protected Board board;
 
-    public Animal (boolean isRed){
+    public Animal (boolean isRed, Board board){
         this.isRed = isRed;
+        this.board= board;
         if (isRed == true) {
         	owner = "Player 1";
         }
@@ -33,7 +34,7 @@ public class Animal {
     // 4. Cannot enter river
     // 5. Cannot move into friendly animal or trap or Base
     // 6. Cannot attempt to eat larger animal
-    public void checkIsValidMove(int destX, int destY) throws InvalidMovementException{
+    public boolean checkIsValidMove(int destX, int destY) throws InvalidMovementException{
         if (Math.abs(x-destX) > 1 || Math.abs(y-destY) > 1) {
             throw new InvalidMovementException("Cannot move more than one block");
         }
@@ -52,6 +53,7 @@ public class Animal {
         if (board.isOccupiedByFriendlyDen(destX, destY, isRed)) {
             throw new InvalidMovementException("Cannot enter friendly den");
         }
+        return true;
 
     }
     //board.store_and_execute(new Move_command(this,x,y));
@@ -65,8 +67,7 @@ public class Animal {
     protected void MoveTo (int x, int y) {
         board.removeAnimal(this.x, this.y);
         board.addAnimal(x, y, this);
-        this.x = x;
-        this.y = y;
+        setPosition(x,y);
 
     }
 
@@ -76,7 +77,7 @@ public class Animal {
         else
             board.removeAnimal(victim.x, victim.y);
     }
-    public void setPosition (int y, int x) {
+    public void setPosition (int x, int y) {
 		this.x = x;
 		this.y = y;
 	}

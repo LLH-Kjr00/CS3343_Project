@@ -5,20 +5,20 @@ import animalchess.exceptions.InvalidMovementException;
 
 public class Mouse extends Animal {
 
-    public Mouse (boolean isRed){
-        super(isRed);
+    public Mouse (boolean isRed, Board board){
+        super(isRed, board);
         this.strength = 1;
         if (isRed == true) {
-        	setPosition(2,6);
+        	setPosition(6,2);
         }
         else {
-        	setPosition(6,0);
+        	setPosition(0,6);
         }
     }
 
     //new rule: Mouse can go in water
     @Override
-    public void checkIsValidMove(int destX, int destY) throws InvalidMovementException {
+    public boolean checkIsValidMove(int destX, int destY) throws InvalidMovementException {
     	if (Math.abs(x-destX) > 1 || Math.abs(y-destY) > 1) {
     		throw new InvalidMovementException("Cannot move more than one block");
         }
@@ -31,6 +31,7 @@ public class Mouse extends Animal {
         if (board.isOccupiedByFriendlyAnimal(destX, destY, isRed)) {
             throw new InvalidMovementException("Cannot move into friendly units");
         }
+        return true;
     }
 
     //additional rule: cannot eat animal from different medium
