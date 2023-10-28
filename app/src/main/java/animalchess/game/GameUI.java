@@ -65,15 +65,15 @@ public class GameUI extends JFrame implements TileUtil {
 	private int tileSize = 100;
 	private int borderWidth = 3;
 
-	private static final GameUI instance = new GameUI();
+	private static final GameUI instance = new GameUI(new Board());
 
 	public static GameUI getInstance() {
 		return instance;
 	}
 
 	// Board JungleChessBoard
-	private GameUI() {
-
+	private GameUI(Board board) {
+		this.board = board;
 		JFrame frame = new JFrame();
 		frame.setSize(new Dimension(1000, 1000));
 		frame.setLocationRelativeTo(null);
@@ -94,15 +94,7 @@ public class GameUI extends JFrame implements TileUtil {
 		logArea.append("Game Start!\n");
 		logArea.append(result);
 	}
-
-	public void addAnimals() {
-		// animalList.add();
-	}
-
-	public int getTileSize() {
-		return tileSize;
-	}
-
+	
 	private void setupPanels(JFrame frame) {
 
 		containerPanel = new JPanel();
@@ -362,7 +354,8 @@ public class GameUI extends JFrame implements TileUtil {
 		tile.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.out.println("Clicked tile: Row " + verticalAxis[row] + ", Column " + horizontalAxis[col]);			
+				System.out.println("Clicked tile: Row " + verticalAxis[row] + ", Column " + horizontalAxis[col]);
+				
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -395,6 +388,8 @@ public class GameUI extends JFrame implements TileUtil {
 			tile.setForeground(Color.black);
 		}
 	}
+	
+	//private void call
 
 	private void announce_Win() {
 		if (is_P1_Win) {
