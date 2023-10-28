@@ -7,12 +7,12 @@ public enum EventPriority {
     HIGH(2),
     HIGHEST(1);
 
-    private final int priority;
-    EventPriority(int priority) {
-        this.priority = priority;
+    private final int priorityValue;
+    EventPriority(int priorityValue) {
+        this.priorityValue = priorityValue;
     }
 
-    public int getPriority() {
-        return priority;
+    public int getPriorityValue() {
+        return priorityValue;
     }
 }
