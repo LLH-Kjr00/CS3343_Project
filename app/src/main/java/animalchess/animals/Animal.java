@@ -49,6 +49,9 @@ public class Animal {
         if (board.isOccupiedByFriendlyAnimal(destX, destY, isRed)) {
             throw new InvalidMovementException("Cannot move into friendly units");
         }
+        if (board.isOccupiedByFriendlyDen(destX, destY, isRed)) {
+            throw new InvalidMovementException("Cannot enter friendly den");
+        }
 
     }
     //board.store_and_execute(new Move_command(this,x,y));
@@ -61,13 +64,7 @@ public class Animal {
 
     protected void MoveTo (int x, int y) {
         board.removeAnimal(this.x, this.y);
-        board.addAnimal2Board(this, x, y);
-        //Explain: you cannot move from one trap to another so moving from trap must mean out of trap
-        if (trapped) {
-            trapped = false;
-        } else if(Board.isTrap(x, y, this.color)) {
-            trapped = true;
-        }
+        board.addAnimal(x, y, this);
         this.x = x;
         this.y = y;
 
@@ -96,6 +93,9 @@ public class Animal {
     	return isRed;
     }
 
+    public void setTrapped(boolean trapped) {
+        this.trapped = trapped;
+    }
 
 
 }
