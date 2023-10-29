@@ -36,15 +36,15 @@ public class Mouse extends Animal {
 
     //additional rule: cannot eat animal from different medium
     @Override
-    public void Move (int x, int y) throws InvalidMovementException{
-        Animal target = board.getTarget(x, y);
+	public void Move (int distX, int distY) throws InvalidMovementException{
+        Animal target = board.getTarget(distX, distY);
         if (target != null && target.isRed != this.isRed)
-            if (board.isInWater(x, y) != board.isInWater(target.x, target.y)) {
-                Eat(target);
+            if (board.isInWater(x, y) == board.isInWater(target.x, target.y)) {
+                this.Eat(target);
             } else {
                 throw new InvalidMovementException("Cannot not eat animal from different terrain");
             }
-        super.MoveTo(x ,y);
+        super.MoveTo(distX ,distY);
     }
 
     //additional rule: Mouse can eat elephant

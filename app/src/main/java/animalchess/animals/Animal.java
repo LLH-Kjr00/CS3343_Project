@@ -60,7 +60,8 @@ public class Animal {
     public void Move (int x, int y) throws InvalidMovementException{
         Animal target = board.getTarget(x, y);
         if (target != null && target.isRed != this.isRed)
-        	board.store_and_execute(new Eat_command(this,target));
+        	//board.store_and_execute(new Eat_command(this,target));
+        	this.Eat(target);
         MoveTo(x ,y);
     }
 

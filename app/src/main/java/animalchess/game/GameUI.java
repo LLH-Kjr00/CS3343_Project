@@ -96,7 +96,7 @@ public class GameUI extends JFrame implements TileUtil {
 		}
 		logArea.append(result);
 		logArea.append(content +" !\n");
-		logArea.append(result);
+		
 	}
 
 	private void setupPanels(JFrame frame) {
@@ -445,7 +445,19 @@ public class GameUI extends JFrame implements TileUtil {
 				//MoveAnimal_onUI(x,y);
 				MoveAnimal_onUI(x,y);
 				gameMajorMsg("Turn Ended");
-			
+				if (is_P1_Turn == true) {
+					logArea.append("Player 2's turn now!\n");
+					is_P1_Turn = false;
+					P1_Timer.stop();
+					P2_Timer.start();
+					P1_Timer_val = 600 * 3;
+				} else {
+					logArea.append("Player 1's turn now!\n");
+					is_P1_Turn = true;
+					P2_Timer.stop();
+					P1_Timer.start();
+					P2_Timer_val = 600 * 3;
+				}
 			}
 		} catch (InvalidMovementException e) {
 			// TODO Auto-generated catch block
@@ -453,19 +465,7 @@ public class GameUI extends JFrame implements TileUtil {
 			System.out.println("Cannot move to that tile");
 		}
 		
-		if (is_P1_Turn == true) {
-			logArea.append("Player 2's turn now!\n");
-			is_P1_Turn = false;
-			P1_Timer.stop();
-			P2_Timer.start();
-			P1_Timer_val = 600 * 3;
-		} else {
-			logArea.append("Player 1's turn now!\n");
-			is_P1_Turn = true;
-			P2_Timer.stop();
-			P1_Timer.start();
-			P2_Timer_val = 600 * 3;
-		}
+		
 		choosenX = -1;
 		choosenY = -1;
 		legit_choice = false;
