@@ -2,15 +2,18 @@ package animalchess.utils.provider;
 
 import animalchess.exceptions.RequiredServiceNotRegisteredException;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.function.Consumer;
 
 public class ProviderModule {
 
     private final HashMap<Class<?>, Object> singletons = new HashMap<>();
     private final HashMap<Class<?>, Class<?>> bindings = new HashMap<>();
+    private final HashMap<Class<? extends Annotation>, Consumer<Object>> annotationProcessors = new HashMap<>();
 
     private ProviderModule() {}
 
@@ -24,6 +27,10 @@ public class ProviderModule {
     }
     public ProviderModule singleton(Object instance) {
         singletons.put(instance.getClass(), instance);
+        return this;
+    }
+    public ProviderModule annotationProcessor(Class<? extends Annotation> annotationClass, Consumer<Object> processor) {
+        annotationProcessors.put(annotationClass, processor);
         return this;
     }
 
@@ -51,6 +58,10 @@ public class ProviderModule {
                         e.printStackTrace();
                     }
                 });
+
+        annotationProcessors.entrySet().stream()
+                .filter(entry -> objectClass.isAnnotationPresent(entry.getKey()))
+                .forEach(entry -> entry.getValue().accept(instance));
     }
 
 }

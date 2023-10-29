@@ -1,6 +1,6 @@
 package animalchess.utils.event;
 
-import animalchess.exceptions.InvalidEventHandlerParameterException;
+import animalchess.exceptions.InvalidEventListenerParameterException;
 import animalchess.utils.common.Pair;
 import animalchess.utils.flow.Disposable;
 
@@ -36,14 +36,14 @@ public class EventManager {
 
     public void registerListeners(Object listenerInstance) {
         Arrays.stream(listenerInstance.getClass().getMethods())
-                .filter(method -> method.isAnnotationPresent(EventHandler.class))
+                .filter(method -> method.isAnnotationPresent(EventListener.class))
                 .forEach((method) -> {
-                    EventHandler eventHandler = method.getAnnotation(EventHandler.class);
+                    EventListener EventListener = method.getAnnotation(EventListener.class);
                     if(method.getParameterCount() != 1 || !method.getParameterTypes()[0].isAssignableFrom(Event.class)) {
-                        throw new InvalidEventHandlerParameterException(listenerInstance.getClass(), method);
+                        throw new InvalidEventListenerParameterException(listenerInstance.getClass(), method);
                     }
                     Class<? extends Event> eventClass = (Class<? extends Event>) method.getParameterTypes()[0];
-                    listen(eventClass, eventHandler.priority(), (eventInstance) -> {
+                    listen(eventClass, EventListener.priority(), (eventInstance) -> {
                         try {
                             method.invoke(listenerInstance, eventInstance);
                         } catch (IllegalAccessException | InvocationTargetException e) {

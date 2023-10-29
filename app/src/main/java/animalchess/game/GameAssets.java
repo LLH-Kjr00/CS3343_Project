@@ -10,7 +10,7 @@ import java.util.Objects;
 
 public class GameAssets {
 
-    private static final String ASSET_PATH_PREFIX = "../assets";
+    private static final String ASSET_PATH_PREFIX = "assets";
     private static final ScaleInstance DEFAULT_ICON_SCALE = new ScaleInstance(68, 68, Image.SCALE_SMOOTH);
 
     public static final AssetIcon ICON_RED_TIGER = new AssetIcon("red_tiger.png", DEFAULT_ICON_SCALE);
