@@ -83,5 +83,10 @@ public class Tiger extends Animal {
             }
             return true;
         }
+        
+    }
+    @Override 
+    public String toString() {
+    	return "Tiger";
     }
 }

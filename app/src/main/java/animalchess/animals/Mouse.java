@@ -55,4 +55,8 @@ public class Mouse extends Animal {
         else
             super.Eat(victim);
     }
+    @Override 
+    public String toString() {
+    	return "Mouse";
+    }
 }

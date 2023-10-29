@@ -74,4 +74,8 @@ public class Lion extends Animal {
         }
         return true;
     }
+    @Override 
+    public String toString() {
+    	return "Lion";
+    }
 }

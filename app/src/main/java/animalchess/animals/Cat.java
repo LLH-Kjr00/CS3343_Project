@@ -14,4 +14,8 @@ public class Cat extends Animal {
         	setPosition(5,7);
         }
     }
+    @Override 
+    public String toString() {
+    	return "Cat";
+    }
 }

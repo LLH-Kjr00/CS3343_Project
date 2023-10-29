@@ -13,4 +13,8 @@ public class Wolf extends Animal {
         	setPosition(4,6);
         }
     }
+	@Override 
+    public String toString() {
+    	return "Wolf";
+    }
 }

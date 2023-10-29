@@ -14,4 +14,8 @@ public class Elephant extends Animal {
         	setPosition(6,6);
         }
     }
+	@Override 
+    public String toString() {
+    	return "Elephant";
+    }
 }

@@ -15,4 +15,8 @@ public class Dog extends Animal {
         	setPosition(1,7);
         }
     }
+    @Override 
+    public String toString() {
+    	return "Dog";
+    }
 }

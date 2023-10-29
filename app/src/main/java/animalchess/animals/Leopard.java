@@ -13,4 +13,8 @@ public class Leopard extends Animal {
         	setPosition(2,6);
         }
     }
+	@Override 
+    public String toString() {
+    	return "Leopard";
+    }
 }
