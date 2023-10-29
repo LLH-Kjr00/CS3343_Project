@@ -18,6 +18,7 @@ public class App {
 
         ProviderModule.builder()
                 .singleton(new EventManager())
+                .singleton(GameUI.getInstance())
                 .resolve();
     }
 
