@@ -38,7 +38,7 @@ public class Mouse extends Animal {
     public void Move (int x, int y) throws InvalidMovementException{
         Animal target = board.getTarget(x, y);
         if (target != null && target.isRed != this.isRed)
-            if (board.isInWater(x, y) != board.isInWater(target.x, target.y)) {
+            if (board.isInWater(x, y) == board.isInWater(target.x, target.y)) {
                 Eat(target);
             } else {
                 throw new InvalidMovementException("Cannot not eat animal from different terrain");
