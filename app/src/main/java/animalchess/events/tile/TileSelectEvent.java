@@ -1,4 +1,4 @@
-package animalchess.events;
+package animalchess.events.tile;
 
 import animalchess.utils.common.WrappedTile;
 import animalchess.utils.event.Cancellable;

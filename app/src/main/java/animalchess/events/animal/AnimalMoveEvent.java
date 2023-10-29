@@ -1,4 +1,4 @@
-package animalchess.events;
+package animalchess.events.animal;
 
 import animalchess.utils.common.WrappedAnimal;
 import animalchess.utils.common.WrappedLocation;
