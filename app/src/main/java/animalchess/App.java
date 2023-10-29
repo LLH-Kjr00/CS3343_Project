@@ -10,14 +10,11 @@ import animalchess.utils.provider.ProviderModule;
 
 public class App {
 
-    private static GameUI ui;
-    private static Board board;
-
     public static void main(String[] args) {
-        ui = GameUI.getInstance();
 
         ProviderModule.builder()
                 .singleton(new EventManager())
+                .singleton(new Board())
                 .singleton(GameUI.getInstance())
                 .resolve();
     }
