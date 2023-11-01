@@ -48,7 +48,9 @@ public class GameAssets {
             Objects.requireNonNull(path, "Asset path cannot be null");
             Objects.requireNonNull(scaleInstance, "Scale instance cannot be null");
 
+
             URL pathURL = App.class.getClassLoader().getResource(path);
+
             if(pathURL == null)
                 throw new RuntimeException("Asset not found: " + path);
             Image scaledImage = new ImageIcon(pathURL)

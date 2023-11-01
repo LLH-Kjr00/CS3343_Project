@@ -5,19 +5,23 @@ package animalchess;
 
 import animalchess.board.Board;
 import animalchess.game.GameUI;
+import animalchess.game.UIListener;
+import animalchess.utils.event.EventListener;
 import animalchess.utils.event.EventManager;
 import animalchess.utils.provider.ProviderModule;
 
 public class App {
 
-    private static GameUI ui;
-    private static Board board;
-
     public static void main(String[] args) {
-        ui = GameUI.getInstance();
+
+        EventManager eventManager = new EventManager();
 
         ProviderModule.builder()
-                .singleton(new EventManager())
+                .singleton(eventManager)
+                .annotationProcessor(EventListener.class, eventManager::registerListeners)
+                .singleton(new Board())
+                .singleton(GameUI.getInstance())
+                .singleton(new UIListener())
                 .resolve();
     }
 
