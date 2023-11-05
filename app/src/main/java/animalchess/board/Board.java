@@ -11,7 +11,6 @@ import animalchess.animals.Lion;
 import animalchess.animals.Mouse;
 import animalchess.animals.Tiger;
 import animalchess.animals.Wolf;
-import animalchess.command.GameCommand;
 import animalchess.board.Tiles.*;
 
 public class Board {
@@ -22,7 +21,6 @@ public class Board {
     private boolean is_P1_Turn = true; // Flag to track player 1's turn
 	private boolean is_P1_Win = false; // Flag to track player 1's win
 	private boolean is_P2_Win = false; // Flag to track player 2's win
-    private ArrayList<GameCommand> commands = new ArrayList<GameCommand>();
 
     public Board(){
         init();
@@ -82,13 +80,9 @@ public class Board {
         }
         return result;
     }
-
-    public void store_and_execute(GameCommand cmd) {
-		this.commands.add(cmd);
-		cmd.execute();
-	}
-
-    private void init() {
+    
+    
+    public void init() {
 
         //map init
         for (int i = 0; i < 7; i++) {

@@ -8,15 +8,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.ImageProducer;
-import java.net.URL;
 
-import animalchess.App;
+
+
 import animalchess.animals.Animal;
 import animalchess.board.Board;
 import animalchess.board.Tiles.Tile;
 import animalchess.exceptions.InvalidMovementException;
-import animalchess.game.GameAssets.AssetIcon;
+
+import animalchess.game.UIListener;
 
 public class GameUI extends JFrame implements TileUtil {
 
@@ -213,7 +213,7 @@ public class GameUI extends JFrame implements TileUtil {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				logArea.setText("");
-
+				is_P1_Turn = true; 
 				is_Game_Start = true;
 				gameStart.setVisible(false);
 				Resume_button.setVisible(true);
@@ -222,7 +222,8 @@ public class GameUI extends JFrame implements TileUtil {
 				P1_Pause_button.setVisible(true);
 				P2_Pause_button.setVisible(true);
 				gameMajorMsg("Game Start");
-				setup_boardPanel();
+				reset_boardPanel();
+				board.init();
 				if (is_P1_Turn) {
 					P1_Timer.start(); // Start player 1's timer
 				} else {
@@ -238,7 +239,16 @@ public class GameUI extends JFrame implements TileUtil {
 		titlePanel.setBackground(Color.decode("#F9CB9C"));
 
 	}
-
+	
+	private void reset_boardPanel() {
+		for (int j = verticalAxis.length - 1; j != -1; j--) {
+			for (int i = 0; i != horizontalAxis.length; i++) {
+				UI_tiles[i][j].setIcon(null);
+				initialP1_Animal(j, i, UI_tiles[i][j]);
+				initialP2_Animal(j, i, UI_tiles[i][j]);
+			}
+		}
+	}
 	private void create_Pausebutton_Box() {
 		pauseButtons = Box.createHorizontalBox();
 		P1_Pause_button = new JButton("P1 Pause");
@@ -542,8 +552,8 @@ public class GameUI extends JFrame implements TileUtil {
 		});
 	}
 
-	public static void main(String[] args) {
+	//public static void main(String[] args) {
 		// GameUI ui = new GameUI();
 
-	}
+	//}
 }

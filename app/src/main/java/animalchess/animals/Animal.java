@@ -1,8 +1,7 @@
 package animalchess.animals;
 
 import animalchess.board.Board;
-import animalchess.command.Eat_command;
-import animalchess.command.Move_command;
+
 import animalchess.exceptions.InvalidMovementException;
 
 public class Animal {
