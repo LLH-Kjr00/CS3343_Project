@@ -34,7 +34,7 @@ public class Animal {
     // 5. Cannot move into friendly animal or trap or Base
     // 6. Cannot attempt to eat larger animal
     public void checkIsValidMove(int destX, int destY) throws InvalidMovementException{
-        if (Math.abs(x-destX) > 1 || Math.abs(y-destY) > 1) {
+        if (Math.abs(x-destX) + Math.abs(y-destY) > 1) {
             throw new InvalidMovementException("Cannot move more than one block");
         }
         if ((Math.abs(x-destX) + Math.abs(y-destY)) == 0) {

@@ -18,7 +18,7 @@ public class Lion extends Animal {
     //New rule: A Tiger or Lion can jump over water
     @Override
     public void checkIsValidMove(int destX, int destY) throws InvalidMovementException{
-        if (Math.abs(x-destX) > 1 || Math.abs(y-destY) > 1) {
+        if (Math.abs(x-destX) + Math.abs(y-destY) > 1) {
             checkIsValidJump(destX, destY);        }
         if ((Math.abs(x-destX) + Math.abs(y-destY)) == 0) {
             throw new InvalidMovementException("Invalid movement! Cannot move into origin location!");
