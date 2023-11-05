@@ -50,7 +50,6 @@ public class GameAssets {
 
 
             URL pathURL = App.class.getClassLoader().getResource(path);
-
             if(pathURL == null)
                 throw new RuntimeException("Asset not found: " + path);
             Image scaledImage = new ImageIcon(pathURL)

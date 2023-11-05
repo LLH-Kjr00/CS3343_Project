@@ -35,23 +35,23 @@ public class Animal {
     // 5. Cannot move into friendly animal or trap or Base
     // 6. Cannot attempt to eat larger animal
     public boolean checkIsValidMove(int destX, int destY) throws InvalidMovementException{
-        if (Math.abs(x-destX) > 1 || Math.abs(y-destY) > 1) {
-            throw new InvalidMovementException("Cannot move more than one block");
+    	if (Math.abs(x-destX) + Math.abs(y-destY) > 1) {
+            throw new InvalidMovementException("you cannot move more than one block.");
         }
         if ((Math.abs(x-destX) + Math.abs(y-destY)) == 0) {
-            throw new InvalidMovementException("Invalid movement! Cannot move into origin location!");
+            throw new InvalidMovementException("you cannot move into origin location.");
         }
         if (board.isOutBound(destX, destY)) {
-            throw new InvalidMovementException("Cannot move outside of board");
+            throw new InvalidMovementException("you cannot move outside of board.");
         }
         if (board.isInWater(destX, destY)) {
-            throw new InvalidMovementException("This animal cannot goes into water");
+            throw new InvalidMovementException("this animal cannot go into water.");
         }
         if (board.isOccupiedByFriendlyAnimal(destX, destY, isRed)) {
-            throw new InvalidMovementException("Cannot move into friendly units");
+            throw new InvalidMovementException("you cannot move into friendly units.");
         }
         if (board.isOccupiedByFriendlyDen(destX, destY, isRed)) {
-            throw new InvalidMovementException("Cannot enter friendly den");
+            throw new InvalidMovementException("you cannot enter friendly den.");
         }
         return true;
 
@@ -74,7 +74,7 @@ public class Animal {
 
     public void Eat(Animal victim) throws InvalidMovementException{
         if (victim.strength>this.strength && !victim.trapped)
-            throw new InvalidMovementException("Cannot eat bigger target");
+            throw new InvalidMovementException("you cannot eat animal with more strength than yours.");
         else
             board.removeAnimal(victim.x, victim.y);
     }

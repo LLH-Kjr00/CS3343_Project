@@ -18,19 +18,22 @@ public class Lion extends Animal {
     //New rule: A Tiger or Lion can jump over water
     @Override
     public boolean checkIsValidMove(int destX, int destY) throws InvalidMovementException{
-        if (Math.abs(x-destX) > 1 || Math.abs(y-destY) > 1) {
+    	if (Math.abs(x-destX) + Math.abs(y-destY) > 1) {
             checkIsValidJump(destX, destY);        }
         if ((Math.abs(x-destX) + Math.abs(y-destY)) == 0) {
-            throw new InvalidMovementException("Invalid movement! Cannot move into origin location!");
+            throw new InvalidMovementException("you cannot move into origin location.");
         }
         if (board.isOutBound(destX, destY)) {
-            throw new InvalidMovementException("Cannot move outside of board");
+            throw new InvalidMovementException("you cannot move outside of board.");
         }
         if (board.isInWater(destX, destY)) {
-            throw new InvalidMovementException("This animal cannot goes into water");
+            throw new InvalidMovementException("this animal cannot goes into water.");
         }
         if (board.isOccupiedByFriendlyAnimal(destX, destY, isRed)) {
-            throw new InvalidMovementException("Cannot move into friendly units");
+            throw new InvalidMovementException("you cannot move into friendly units.");
+        }
+        if (board.isOccupiedByFriendlyDen(destX, destY, isRed)) {
+            throw new InvalidMovementException("you cannot enter friendly den.");
         }
         return true;
     }
@@ -68,9 +71,9 @@ public class Lion extends Animal {
                 }
             }
             if (isLandJump)
-                throw new InvalidMovementException("Cannot jump non river blocks");
+                throw new InvalidMovementException("you cannot jump over normal tiles.");
             if (isBlocked)
-                throw new InvalidMovementException("Cannot jump when there is animal in between");
+                throw new InvalidMovementException("you cannot jump when there is animal in between.");
         }
         return true;
     }
