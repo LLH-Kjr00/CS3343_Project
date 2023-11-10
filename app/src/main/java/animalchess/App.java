@@ -13,14 +13,13 @@ import animalchess.utils.provider.ProviderModule;
 public class App {
 
     public static void main(String[] args) {
-
         EventManager eventManager = new EventManager();
 
         ProviderModule.builder()
                 .singleton(eventManager)
                 .annotationProcessor(EventListener.class, eventManager::registerListeners)
                 .singleton(new Board())
-                .singleton(GameUI.getInstance())
+                .singleton(new GameUI())
                 .singleton(new UIListener())
                 .resolve();
     }
