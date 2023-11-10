@@ -5,6 +5,7 @@ import lombok.Getter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.net.URL;
 import java.util.Objects;
 
@@ -40,7 +41,7 @@ public class GameAssets {
         private final ScaleInstance scaleInstance;
 
         public AssetIcon(String path, ScaleInstance scaleInstance) {
-            this.path = path;
+            this.path = ASSET_PATH_PREFIX + File.separator + path;
             this.scaleInstance = scaleInstance;
         }
 
