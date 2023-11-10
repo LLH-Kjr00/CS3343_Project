@@ -43,7 +43,7 @@ public class GameUI extends JFrame implements TileUtil {
 
 
 	static boolean is_P1_Turn = true; // Flag to track player 1's turn
-	private boolean is_Game_Pause = false; // Flag to track game's state of pausing
+	static boolean is_Game_Pause = false; // Flag to track game's state of pausing
 	static boolean is_Game_Start = false; // Flag to track game's state of pausing
 	private boolean is_P1_Win = false; // Flag to track player 1's win
 	private boolean is_P2_Win = false; // Flag to track player 2's win
