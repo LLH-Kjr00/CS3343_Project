@@ -12,6 +12,7 @@ import animalchess.animals.Mouse;
 import animalchess.animals.Tiger;
 import animalchess.animals.Wolf;
 import animalchess.board.Tiles.*;
+import animalchess.utils.common.WrappedLocation;
 
 public class Board {
     // The size of the board is 7 (width) * 9 (height)
@@ -51,7 +52,11 @@ public class Board {
     public Animal getTarget(int x, int y) {
         return tiles[x][y].getAnimal();
     }
-    
+
+    public Tile getTile(WrappedLocation loc) {
+        return getTile(loc.x(), loc.y());
+    }
+
     public Tile getTile(int x, int y) {
     	return tiles[x][y];
     }
