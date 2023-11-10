@@ -104,115 +104,47 @@ interface TileUtil {
 	}
 	
 	public default void initialP1_Animal(int row, int col, JLabel tile) {
-		URL imageURL = null;
-		ImageIcon pic = null;
 		if (row == 0) {
-			switch(col) {
-			case 0:
-				imageURL = getClass().getResource("../assets/red_tiger.png");
-				pic = new ImageIcon(new ImageIcon(imageURL).getImage().getScaledInstance(68, 68, Image.SCALE_SMOOTH));
-				tile.setIcon(pic);
-				break;
-			case 6:
-				imageURL = getClass().getResource("../assets/red_lion.png");
-				pic = new ImageIcon(new ImageIcon(imageURL).getImage().getScaledInstance(68, 68, Image.SCALE_SMOOTH));
-				tile.setIcon(pic);
-				break;
+			switch (col) {
+				case 0 -> tile.setIcon(GameAssets.ICON_RED_TIGER.getImageIcon());
+				case 6 -> tile.setIcon(GameAssets.ICON_RED_LION.getImageIcon());
 			}
 		}
 		else if (row == 1) {
-			switch(col) {
-			case 1:
-				imageURL = getClass().getResource("../assets/red_cat.png");
-				pic = new ImageIcon(new ImageIcon(imageURL).getImage().getScaledInstance(68, 68, Image.SCALE_SMOOTH));
-				tile.setIcon(pic);
-				break;
-			case 5:
-				imageURL = getClass().getResource("../assets/red_dog.png");
-				pic = new ImageIcon(new ImageIcon(imageURL).getImage().getScaledInstance(68, 68, Image.SCALE_SMOOTH));
-				tile.setIcon(pic);
-				break;
+			switch (col) {
+				case 1 -> tile.setIcon(GameAssets.ICON_RED_CAT.getImageIcon());
+				case 5 -> tile.setIcon(GameAssets.ICON_RED_DOG.getImageIcon());
 			}
 		}
 		else if (row == 2) {
-			switch(col) {
-			case 0:
-				imageURL = getClass().getResource("../assets/red_elephant.png");
-				pic = new ImageIcon(new ImageIcon(imageURL).getImage().getScaledInstance(68, 68, Image.SCALE_SMOOTH));
-				tile.setIcon(pic);
-				break;
-			case 6:
-				imageURL = getClass().getResource("../assets/red_mouse.png");
-				pic = new ImageIcon(new ImageIcon(imageURL).getImage().getScaledInstance(68, 68, Image.SCALE_SMOOTH));
-				tile.setIcon(pic);
-				break;
-			case 2:
-				imageURL = getClass().getResource("../assets/red_wolf.png");
-				pic = new ImageIcon(new ImageIcon(imageURL).getImage().getScaledInstance(68, 68, Image.SCALE_SMOOTH));
-				tile.setIcon(pic);
-				break;
-			case 4:
-				imageURL = getClass().getResource("../assets/red_leopard.png");
-				pic = new ImageIcon(new ImageIcon(imageURL).getImage().getScaledInstance(68, 68, Image.SCALE_SMOOTH));
-				tile.setIcon(pic);
-				break;
+			switch (col) {
+				case 0 -> tile.setIcon(GameAssets.ICON_RED_ELEPHANT.getImageIcon());
+				case 6 -> tile.setIcon(GameAssets.ICON_RED_MOUSE.getImageIcon());
+				case 2 -> tile.setIcon(GameAssets.ICON_RED_WOLF.getImageIcon());
+				case 4 -> tile.setIcon(GameAssets.ICON_RED_LEOPARD.getImageIcon());
 			}
 		}
 	}
 	
 	public default void initialP2_Animal(int row, int col, JLabel tile) {
-		URL imageURL = null;
-		ImageIcon pic = null;
 		if (row == 8) {
-			switch(col) {
-			case 6:
-				imageURL = getClass().getResource("../assets/blue_tiger.png");
-				pic = new ImageIcon(new ImageIcon(imageURL).getImage().getScaledInstance(68, 68, Image.SCALE_SMOOTH));
-				tile.setIcon(pic);
-				break;
-			case 0:
-				imageURL = getClass().getResource("../assets/blue_lion.png");
-				pic = new ImageIcon(new ImageIcon(imageURL).getImage().getScaledInstance(68, 68, Image.SCALE_SMOOTH));
-				tile.setIcon(pic);
-				break;
+			switch (col) {
+				case 6 -> tile.setIcon(GameAssets.ICON_BLUE_TIGER.getImageIcon());
+				case 0 -> tile.setIcon(GameAssets.ICON_BLUE_LION.getImageIcon());
 			}
 		}
 		else if (row == 7) {
-			switch(col) {
-			case 5:
-				imageURL = getClass().getResource("../assets/blue_cat.png");
-				pic = new ImageIcon(new ImageIcon(imageURL).getImage().getScaledInstance(68, 68, Image.SCALE_SMOOTH));
-				tile.setIcon(pic);
-				break;
-			case 1:
-				imageURL = getClass().getResource("../assets/blue_dog.png");
-				pic = new ImageIcon(new ImageIcon(imageURL).getImage().getScaledInstance(68, 68, Image.SCALE_SMOOTH));
-				tile.setIcon(pic);
-				break;
+			switch (col) {
+				case 5 -> tile.setIcon(GameAssets.ICON_BLUE_CAT.getImageIcon());
+				case 1 -> tile.setIcon(GameAssets.ICON_BLUE_DOG.getImageIcon());
 			}
 		}
 		else if (row == 6) {
-			switch(col) {
-			case 6:
-				imageURL = getClass().getResource("../assets/blue_elephant.png");
-				pic = new ImageIcon(new ImageIcon(imageURL).getImage().getScaledInstance(68, 68, Image.SCALE_SMOOTH));
-				tile.setIcon(pic);
-				break;
-			case 0:
-				imageURL = getClass().getResource("../assets/blue_mouse.png");
-				pic = new ImageIcon(new ImageIcon(imageURL).getImage().getScaledInstance(68, 68, Image.SCALE_SMOOTH));
-				tile.setIcon(pic);
-				break;
-			case 4:
-				imageURL = getClass().getResource("../assets/blue_wolf.png");
-				pic = new ImageIcon(new ImageIcon(imageURL).getImage().getScaledInstance(68, 68, Image.SCALE_SMOOTH));
-				tile.setIcon(pic);
-				break;
-			case 2:
-				imageURL = getClass().getResource("../assets/blue_leopard.png");
-				pic = new ImageIcon(new ImageIcon(imageURL).getImage().getScaledInstance(68, 68, Image.SCALE_SMOOTH));
-				tile.setIcon(pic);
-				break;
+			switch (col) {
+				case 6 -> tile.setIcon(GameAssets.ICON_BLUE_ELEPHANT.getImageIcon());
+				case 0 -> tile.setIcon(GameAssets.ICON_BLUE_MOUSE.getImageIcon());
+				case 4 -> tile.setIcon(GameAssets.ICON_BLUE_WOLF.getImageIcon());
+				case 2 -> tile.setIcon(GameAssets.ICON_BLUE_LEOPARD.getImageIcon());
 			}
 		}
 	}

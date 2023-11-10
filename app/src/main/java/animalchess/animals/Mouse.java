@@ -5,32 +5,36 @@ import animalchess.exceptions.InvalidMovementException;
 
 public class Mouse extends Animal {
 
-    public Mouse (boolean isRed){
-        super(isRed);
+    public Mouse (boolean isRed, Board board){
+        super(isRed, board);
         this.strength = 1;
         if (isRed == true) {
-        	setPosition(2,6);
+        	setPosition(6,2);
         }
         else {
-        	setPosition(6,0);
+        	setPosition(0,6);
         }
     }
 
     //new rule: Mouse can go in water
     @Override
-    public void checkIsValidMove(int destX, int destY) throws InvalidMovementException {
-    	if (Math.abs(x-destX) > 1 || Math.abs(y-destY) > 1) {
-    		throw new InvalidMovementException("Cannot move more than one block");
+    public boolean checkIsValidMove(int destX, int destY) throws InvalidMovementException {
+    	if (Math.abs(x-destX) + Math.abs(y-destY) > 1) {
+    		throw new InvalidMovementException("you cannot move more than one block.");
         }
         if ((Math.abs(x-destX) + Math.abs(y-destY)) == 0) {
-            throw new InvalidMovementException("Invalid movement! Cannot move into origin location!");
+            throw new InvalidMovementException("you cannot move into origin location.");
         }
         if (board.isOutBound(destX, destY)) {
-            throw new InvalidMovementException("Cannot move outside of board");
+            throw new InvalidMovementException("you cannot move outside of board.");
         }
         if (board.isOccupiedByFriendlyAnimal(destX, destY, isRed)) {
-            throw new InvalidMovementException("Cannot move into friendly units");
+            throw new InvalidMovementException("you cannot move into friendly units.");
         }
+        if (board.isOccupiedByFriendlyDen(destX, destY, isRed)) {
+            throw new InvalidMovementException("you cannot enter friendly den.");
+        }
+        return true;
     }
 
     //additional rule: cannot eat animal from different medium
@@ -39,9 +43,9 @@ public class Mouse extends Animal {
         Animal target = board.getTarget(distX, distY);
         if (target != null && target.isRed != this.isRed)
             if (board.isInWater(x, y) == board.isInWater(target.x, target.y)) {
-                Eat(target);
+                this.Eat(target);
             } else {
-                throw new InvalidMovementException("Cannot not eat animal from different terrain");
+                throw new InvalidMovementException("you cannot not kill animal from different terrain.");
             }
         super.MoveTo(distX ,distY);
     }
@@ -53,5 +57,9 @@ public class Mouse extends Animal {
             board.removeAnimal(victim.x, victim.y);
         else
             super.Eat(victim);
+    }
+    @Override
+    public String toString() {
+    	return "Mouse";
     }
 }

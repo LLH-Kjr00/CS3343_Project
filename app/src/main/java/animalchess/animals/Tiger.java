@@ -5,20 +5,22 @@ import animalchess.exceptions.InvalidMovementException;
 
 public class Tiger extends Animal {
 
-    public Tiger (boolean isRed){
-        super(isRed);
+    public Tiger (boolean isRed, Board board){
+        super(isRed,board);
         this.strength = 6;
         if (isRed == true) {
         	setPosition(0,0);
         }
         else {
-        	setPosition(8,6);
+        	setPosition(6,8);
         }
     }
 
-    //New rule: A Tiger or Lion can jump over water
+
+
+	//New rule: A Tiger or Lion can jump over water
     @Override
-    public void checkIsValidMove(int destX, int destY) throws InvalidMovementException{
+    public boolean checkIsValidMove(int destX, int destY) throws InvalidMovementException{
         if (Math.abs(x-destX) + Math.abs(y-destY) > 1) {
             checkIsValidJump(destX, destY);        }
         if ((Math.abs(x-destX) + Math.abs(y-destY)) == 0) {
@@ -33,6 +35,7 @@ public class Tiger extends Animal {
         if (board.isOccupiedByFriendlyAnimal(destX, destY, isRed)) {
             throw new InvalidMovementException("Cannot move into friendly units");
         }
+		return true;
 
     }
 
@@ -80,5 +83,10 @@ public class Tiger extends Animal {
             }
             return true;
         }
+
+    }
+    @Override
+    public String toString() {
+    	return "Tiger";
     }
 }
