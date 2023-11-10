@@ -12,4 +12,9 @@ public class WaterTile extends Tile{
     public boolean isWater() {
         return true;
     }
+    @Override 
+    public String toString() {
+		return "Water Tile";
+    	
+    }
 }

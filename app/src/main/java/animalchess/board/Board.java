@@ -11,7 +11,6 @@ import animalchess.animals.Lion;
 import animalchess.animals.Mouse;
 import animalchess.animals.Tiger;
 import animalchess.animals.Wolf;
-import animalchess.command.GameCommand;
 import animalchess.board.Tiles.*;
 
 public class Board {
@@ -22,7 +21,6 @@ public class Board {
     private boolean is_P1_Turn = true; // Flag to track player 1's turn
 	private boolean is_P1_Win = false; // Flag to track player 1's win
 	private boolean is_P2_Win = false; // Flag to track player 2's win
-    private ArrayList<GameCommand> commands = new ArrayList<GameCommand>();
 
     public Board(){
         init();
@@ -53,6 +51,10 @@ public class Board {
     public Animal getTarget(int x, int y) {
         return tiles[x][y].getAnimal();
     }
+    
+    public Tile getTile(int x, int y) {
+    	return tiles[x][y];
+    }
 
     public void removeAnimal(int x, int y) {
         tiles[x][y].removeAnimal();
@@ -78,13 +80,9 @@ public class Board {
         }
         return result;
     }
-
-    public void store_and_execute(GameCommand cmd) {
-		this.commands.add(cmd);
-		cmd.execute();
-	}
-
-    private void init() {
+    
+    
+    public void init() {
 
         //map init
         for (int i = 0; i < 7; i++) {
@@ -114,24 +112,24 @@ public class Board {
         tiles[3][8] = new Den(false);
 
         //red animal
-        tiles[0][0].setAnimal(new Tiger(true));
-        tiles[6][0].setAnimal(new Lion(true));
-        tiles[1][1].setAnimal(new Cat(true));
-        tiles[5][1].setAnimal(new Dog(true));
-        tiles[0][2].setAnimal(new Elephant(true));
-        tiles[2][2].setAnimal(new Wolf(true));
-        tiles[4][2].setAnimal(new Leopard(true));
-        tiles[6][2].setAnimal(new Mouse(true));
+        tiles[0][0].setAnimal(new Tiger(true,this));
+        tiles[6][0].setAnimal(new Lion(true,this));
+        tiles[1][1].setAnimal(new Cat(true,this));
+        tiles[5][1].setAnimal(new Dog(true,this));
+        tiles[0][2].setAnimal(new Elephant(true,this));
+        tiles[2][2].setAnimal(new Wolf(true,this));
+        tiles[4][2].setAnimal(new Leopard(true,this));
+        tiles[6][2].setAnimal(new Mouse(true,this));
 
         //blue animal
-        tiles[0][6].setAnimal(new Mouse(false));
-        tiles[2][6].setAnimal(new Leopard(false));
-        tiles[4][6].setAnimal(new Wolf(false));
-        tiles[6][6].setAnimal(new Elephant(false));
-        tiles[1][7].setAnimal(new Dog(false));
-        tiles[5][7].setAnimal(new Cat(false));
-        tiles[0][8].setAnimal(new Lion(false));
-        tiles[6][8].setAnimal(new Tiger(false));
+        tiles[0][6].setAnimal(new Mouse(false,this));
+        tiles[2][6].setAnimal(new Leopard(false,this));
+        tiles[4][6].setAnimal(new Wolf(false,this));
+        tiles[6][6].setAnimal(new Elephant(false,this));
+        tiles[1][7].setAnimal(new Dog(false,this));
+        tiles[5][7].setAnimal(new Cat(false,this));
+        tiles[0][8].setAnimal(new Lion(false,this));
+        tiles[6][8].setAnimal(new Tiger(false,this));
 
     }
 

@@ -19,4 +19,9 @@ public class Den extends Tile{
     public void setAnimal(Animal occupier) {
         //Event.declareWinner(!getIsRed());
     }
+    @Override 
+    public String toString() {
+		return "Den";
+    	
+    }
 }

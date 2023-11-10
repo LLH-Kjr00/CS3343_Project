@@ -9,19 +9,26 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+
+
 import animalchess.animals.Animal;
 import animalchess.board.Board;
+import animalchess.board.Tiles.Tile;
+import animalchess.exceptions.InvalidMovementException;
+
+import animalchess.game.UIListener;
 
 public class GameUI extends JFrame implements TileUtil {
 
 	private Board board;
-	//private Animal[] P1;
-	//private Animal[] P2;
+	// private Animal[] P1;
+	// private Animal[] P2;
 
 	private final String[] verticalAxis = { "A", "B", "C", "D", "E", "F", "G", "H", "I" };
 	private final String[] horizontalAxis = { "1", "2", "3", "4", "5", "6", "7" };
-	int rows = verticalAxis.length;
-	int cols = horizontalAxis.length;
+	private JLabel[][] UI_tiles = new JLabel[7][9];
+	private int rows = verticalAxis.length;
+	private int cols = horizontalAxis.length;
 
 	private JPanel containerPanel;
 	private JPanel boardPanel;
@@ -34,10 +41,6 @@ public class GameUI extends JFrame implements TileUtil {
 	private JButton gameStart;
 	private JTextArea logArea;
 
-	// private ArrayList<Animal> animalList = new ArrayList();
-
-	private String systemMsg = new String();
-
 	private JLabel P1_Timer_label;
 	private JLabel P2_Timer_label;
 	private Timer P1_Timer;
@@ -46,8 +49,13 @@ public class GameUI extends JFrame implements TileUtil {
 	private int P2_Timer_val = 600 * 3; // count down for User 2
 
 	private boolean legit_choice = false;
-	private boolean is_P1_Turn = false; // Flag to track player 1's turn
+	private JLabel StartTile_onUI = null;
+	private int choosenX = -1;
+	private int choosenY = -1;
+
+	private boolean is_P1_Turn = true; // Flag to track player 1's turn
 	private boolean is_Game_Pause = false; // Flag to track game's state of pausing
+	private boolean is_Game_Start = false; // Flag to track game's state of pausing
 	private boolean is_P1_Win = false; // Flag to track player 1's win
 	private boolean is_P2_Win = false; // Flag to track player 2's win
 	private boolean P1_Pause = false;
@@ -56,24 +64,23 @@ public class GameUI extends JFrame implements TileUtil {
 	private JButton P2_Pause_button;
 	private JButton Resume_button;
 	private Box pauseButtons;
-	
+
 	private JButton P1_Surrender_button;
 	private JButton P2_Surrender_button;
 	private Box yieldButtons;
 
-	
 	private int tileSize = 100;
 	private int borderWidth = 3;
 
-	private static final GameUI instance = new GameUI();
+	private static final GameUI instance = new GameUI(new Board());
 
 	public static GameUI getInstance() {
 		return instance;
 	}
 
 	// Board JungleChessBoard
-	private GameUI() {
-
+	private GameUI(Board board) {
+		this.board = board;
 		JFrame frame = new JFrame();
 		frame.setSize(new Dimension(1000, 1000));
 		frame.setLocationRelativeTo(null);
@@ -85,22 +92,15 @@ public class GameUI extends JFrame implements TileUtil {
 		frame.setVisible(true);
 	}
 
-	private void gameStartMsg() {
+	private void gameMajorMsg(String content) {
 		String result = new String();
 		for (int i = 0; i < 62; i++) {
 			result += "=";
 		}
 		logArea.append(result);
-		logArea.append("Game Start!\n");
-		logArea.append(result);
-	}
+		logArea.append(content + " !\n");
+		logArea.append("\n");
 
-	public void addAnimals() {
-		// animalList.add();
-	}
-
-	public int getTileSize() {
-		return tileSize;
 	}
 
 	private void setupPanels(JFrame frame) {
@@ -130,7 +130,7 @@ public class GameUI extends JFrame implements TileUtil {
 		setup_titlePanel();
 		consolePanel.add(titlePanel);
 
-		logArea = new JTextArea(systemMsg, 25, 40);
+		logArea = new JTextArea(25, 40);
 		logArea.setLineWrap(true);
 		logArea.setEditable(false);
 		JScrollPane scrollPane = new JScrollPane(logArea);
@@ -178,7 +178,7 @@ public class GameUI extends JFrame implements TileUtil {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (is_P1_Turn == true && P1_Timer.isRunning() == false) {
-					P1_Timer.restart();					
+					P1_Timer.restart();
 					P1_Pause = false;
 					P2_Pause = false;
 					is_Game_Pause = false;
@@ -212,15 +212,18 @@ public class GameUI extends JFrame implements TileUtil {
 		gameStart.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				gameStartMsg();
+				logArea.setText("");
+				is_P1_Turn = true; 
+				is_Game_Start = true;
 				gameStart.setVisible(false);
 				Resume_button.setVisible(true);
 				yieldButtons.setVisible(true);
 				buttonPanel.setVisible(true);
 				P1_Pause_button.setVisible(true);
 				P2_Pause_button.setVisible(true);
-				logArea.setText("");
-				setup_boardPanel();
+				gameMajorMsg("Game Start");
+				reset_boardPanel();
+				board.init();
 				if (is_P1_Turn) {
 					P1_Timer.start(); // Start player 1's timer
 				} else {
@@ -236,7 +239,16 @@ public class GameUI extends JFrame implements TileUtil {
 		titlePanel.setBackground(Color.decode("#F9CB9C"));
 
 	}
-
+	
+	private void reset_boardPanel() {
+		for (int j = verticalAxis.length - 1; j != -1; j--) {
+			for (int i = 0; i != horizontalAxis.length; i++) {
+				UI_tiles[i][j].setIcon(null);
+				initialP1_Animal(j, i, UI_tiles[i][j]);
+				initialP2_Animal(j, i, UI_tiles[i][j]);
+			}
+		}
+	}
 	private void create_Pausebutton_Box() {
 		pauseButtons = Box.createHorizontalBox();
 		P1_Pause_button = new JButton("P1 Pause");
@@ -257,8 +269,7 @@ public class GameUI extends JFrame implements TileUtil {
 						is_Game_Pause = true;
 						logArea.append("Game Paused!\n");
 					}
-				}
-				else {
+				} else {
 					logArea.append("Action ignored: The game has paused already!\n");
 				}
 			}
@@ -282,8 +293,7 @@ public class GameUI extends JFrame implements TileUtil {
 						is_Game_Pause = true;
 						logArea.append("Game Paused!\n");
 					}
-				}
-				else {
+				} else {
 					logArea.append("Action ignored: The game has paused already!\n");
 				}
 			}
@@ -341,6 +351,7 @@ public class GameUI extends JFrame implements TileUtil {
 				JLabel tile = setup_Tile(j, i);
 				initialP1_Animal(j, i, tile);
 				initialP2_Animal(j, i, tile);
+				UI_tiles[i][j] = tile;
 				boardPanel.add(tile);
 			}
 		}
@@ -355,20 +366,30 @@ public class GameUI extends JFrame implements TileUtil {
 		tile.setBackground(Color.white);
 		tile.setText(verticalAxis[row] + horizontalAxis[col]);
 		tile.setVerticalAlignment(JLabel.TOP);
-		
+
 		check_Tile_SpecialProp(row, col, tile);
-		
+
 		tile.setText(verticalAxis[row] + horizontalAxis[col]);
 		tile.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.out.println("Clicked tile: Row " + verticalAxis[row] + ", Column " + horizontalAxis[col]);			
+				// System.out.println("Clicked tile: Row " + verticalAxis[row] + ", Column " +
+				// horizontalAxis[col]);
+				if (is_Game_Start == true) {
+					if (legit_choice == false) {
+						call_TileSelect(col, row, tile);
+					} else {
+						call_AnimalMove(col, row, tile);
+					}
+				}
 			}
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				tile.setBackground(Color.yellow);
 				tile.setForeground(Color.magenta);
 			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				check_Tile_SpecialProp(row, col, tile);
@@ -376,11 +397,11 @@ public class GameUI extends JFrame implements TileUtil {
 		});
 		return tile;
 	}
-	
+
 	private void check_Tile_SpecialProp(int row, int col, JLabel tile) {
 		if (isRiver(row, col) == true) {
 			tile.setBackground(Color.cyan);
-			tile.setForeground(Color.black);			
+			tile.setForeground(Color.black);
 		} else if (isTrap(row, col) == true) {
 			tile.setBackground(Color.orange);
 			tile.setForeground(Color.black);
@@ -396,13 +417,88 @@ public class GameUI extends JFrame implements TileUtil {
 		}
 	}
 
+	private void call_TileSelect(int x, int y, JLabel choosenTileUI) {
+		/*
+		 * WrappedLocation W_location = new WrappedLocation(y,x);
+		 * WrappedAnimal W_animal = new WrappedAnimal();
+		 * WrappedTile W_tile = new WrappedTile(W_location, null);
+		 */
+		// Animal target = board.getTarget(x, y);
+		Tile choosenTile = board.getTile(x, y);
+
+		Animal target = choosenTile.getAnimal();
+		logArea.append("Clicking the tile at (" + verticalAxis[y] + "," + horizontalAxis[x] + ")\n");
+		if (target == null) {
+			logArea.append("It is a " + choosenTile.toString() + " with no animal.\n");
+		} else {
+			logArea.append("It is a " + choosenTile.toString() + " with a/an " + target.toString() + " that "
+					+ target.get_Owner() + " can choose.\n");
+		}
+		logArea.append("\n");
+		if (target.get_isRed() == is_P1_Turn) {
+			logArea.append("You can choose the animal in this tile to move.\n");
+			StartTile_onUI = choosenTileUI;
+			choosenX = x;
+			choosenY = y;
+			legit_choice = true;
+		} else {
+			logArea.append("You cannot choose the animal in this tile to move.\n");
+		}
+		logArea.append("\n");
+	}
+
+	private void call_AnimalMove(int x, int y, JLabel DestTile_onUI) {
+		Tile DestTile = board.getTile(x, y);
+		Tile StartTile = board.getTile(choosenX, choosenY);
+		Animal choosenAnimal = StartTile.getAnimal();
+		JLabel StartTile_onUI = UI_tiles[choosenX][choosenY];
+		try {
+			if (choosenAnimal.checkIsValidMove(x, y) == true) {
+				logArea.append("Moving to the tile at (" + verticalAxis[y] + "," + horizontalAxis[x] + ")\n");
+				;
+				choosenAnimal.Move(x, y);
+				// MoveAnimal_onUI(x,y);
+				MoveAnimal_onUI(x, y, DestTile_onUI);
+				gameMajorMsg("Turn Ended");
+				if (is_P1_Turn == true) {
+					logArea.append("Player 2's turn now!\n");
+					is_P1_Turn = false;
+					P1_Timer.stop();
+					P2_Timer.start();
+					P1_Timer_val = 600 * 3;
+				} else {
+					logArea.append("Player 1's turn now!\n");
+					is_P1_Turn = true;
+					P2_Timer.stop();
+					P1_Timer.start();
+					P2_Timer_val = 600 * 3;
+				}
+			}
+		} catch (InvalidMovementException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			logArea.append("You cannot move to that tile because " + e.getLocalizedMessage() + "\n");
+			
+		}
+		logArea.append("\n");
+		choosenX = -1;
+		choosenY = -1;
+		legit_choice = false;
+	}
+
+	private void MoveAnimal_onUI(int x, int y, JLabel DestTile_onUI) {
+
+		DestTile_onUI.setIcon(StartTile_onUI.getIcon());
+		StartTile_onUI.setIcon(null);
+		StartTile_onUI = null;
+	}
+
 	private void announce_Win() {
 		if (is_P1_Win) {
 			logArea.append("Player 1 wins!\n");
 		} else if (is_P2_Win) {
 			logArea.append("Player 2 wins!\n");
-		}
-		else{
+		} else {
 			logArea.append("No ones wins!\n");
 		}
 
@@ -456,8 +552,8 @@ public class GameUI extends JFrame implements TileUtil {
 		});
 	}
 
-	public static void main(String[] args) {
+	//public static void main(String[] args) {
 		// GameUI ui = new GameUI();
 
-	}
+	//}
 }

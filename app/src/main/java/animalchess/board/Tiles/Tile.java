@@ -35,5 +35,10 @@ public class Tile {
     public boolean getIsRed() {
         return isRed;
     }
+    @Override 
+    public String toString() {
+		return "Normal Tile";
+    	
+    }
 
 }

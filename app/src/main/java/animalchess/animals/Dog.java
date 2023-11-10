@@ -1,17 +1,22 @@
 package animalchess.animals;
 
+import animalchess.board.Board;
 
 public class Dog extends Animal {
 
-    public Dog (boolean isRed){
-        super(isRed);
+    public Dog (boolean isRed,Board board){
+        super(isRed, board);
         this.strength = 3;
-        this.board = board;
+        
         if (isRed == true) {
-        	setPosition(1,5);
+        	setPosition(5,1);
         }
         else {
-        	setPosition(7,1);
+        	setPosition(1,7);
         }
+    }
+    @Override 
+    public String toString() {
+    	return "Dog";
     }
 }
