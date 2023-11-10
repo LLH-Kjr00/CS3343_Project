@@ -3,6 +3,7 @@ package animalchess.game;
 
 import animalchess.board.Board;
 import animalchess.events.game.TeamSurrenderEvent;
+import animalchess.utils.common.WrappedGameResult;
 import animalchess.utils.common.WrappedTeam;
 import animalchess.utils.event.EventManager;
 import animalchess.utils.provider.Inject;
@@ -89,7 +90,7 @@ public class GameUI extends JFrame implements TileUtil {
 		containerPanel.setLayout(new GridLayout(1, 2));
 
 		//setup_boardPanel();
-		boardPanel = new BoardPanel(board,this);
+		boardPanel = new BoardPanel(board,this, eventManager);
 		containerPanel.add(boardPanel);
 
 		setup_consolePanel();
@@ -315,7 +316,21 @@ public class GameUI extends JFrame implements TileUtil {
 
 	}
 
-	private void announce_Win() {
+	private void setWinValueByTeam(WrappedTeam team, boolean value) {
+		if(team == WrappedTeam.RED) {
+			is_P1_Win = value;
+		} else {
+			is_P2_Win = value;
+		}
+	}
+
+	public void determineWinner(WrappedGameResult result) {
+		result.getResults().forEach(teamResult -> {
+			setWinValueByTeam(teamResult.getTeam(), teamResult.getResultType() == WrappedGameResult.WrappedGameResultType.WIN);
+		});
+	}
+
+	public void announce_Win() {
 		if (is_P1_Win) {
 			logArea.append("Player 1 wins!\n");
 		} else if (is_P2_Win) {
@@ -374,7 +389,7 @@ public class GameUI extends JFrame implements TileUtil {
 		});
 	}
 	public void change_turn () {
-		if (is_P1_Turn == true) {
+		if (is_P1_Turn) {
 			logArea.append("Player 2's turn now!\n");
 			is_P1_Turn = false;
 			P1_Timer.stop();

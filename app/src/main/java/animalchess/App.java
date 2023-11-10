@@ -4,6 +4,7 @@
 package animalchess;
 
 import animalchess.board.Board;
+import animalchess.game.BoardPanel;
 import animalchess.game.GameUI;
 import animalchess.game.UIListener;
 import animalchess.utils.event.EventListener;

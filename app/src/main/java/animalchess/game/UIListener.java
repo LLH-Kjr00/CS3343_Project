@@ -6,9 +6,13 @@ import animalchess.events.tile.*;
 import animalchess.utils.event.EventHandler;
 import animalchess.utils.event.EventListener;
 import animalchess.utils.event.EventPriority;
+import animalchess.utils.provider.Inject;
 
 @EventHandler
 public class UIListener {
+
+	@Inject
+	private GameUI gameUI;
 
 	@EventListener(priority = EventPriority.HIGH)
 	public void onAnimalDeath(AnimalDeathEvent event) {
@@ -32,13 +36,11 @@ public class UIListener {
 		System.out.println("Tile at " + event.getTile().location() + " was selected");
 	}
 	
-	@EventListener(priority = EventPriority.NORMAL)
-	public void onGameEnd_P1(GameEndEvent event) {
-		System.out.println("Game ended where Player 1 (" + event.getResult().getResults().get(0).getTeam() + ") " + event.getResult().getResults().get(0).getResultType().WIN);
-	}
-	
-	@EventListener(priority = EventPriority.NORMAL)
-	public void onGameEnd_P2(GameEndEvent event) {
-		System.out.println("Game ended where Player 2 (" + event.getResult().getResults().get(1).getTeam() + ") " + event.getResult().getResults().get(0).getResultType().WIN);
+	@EventListener
+	public void onGameEnd(GameEndEvent event) {
+		System.out.println("Game ended where Player 1 (" + event.getResult().getResults().get(0).getTeam() + ") " + event.getResult().getResults().get(0).getResultType());
+		System.out.println("Game ended where Player 2 (" + event.getResult().getResults().get(1).getTeam() + ") " + event.getResult().getResults().get(0).getResultType());
+		gameUI.determineWinner(event.getResult());
+		gameUI.announce_Win();
 	}
 }

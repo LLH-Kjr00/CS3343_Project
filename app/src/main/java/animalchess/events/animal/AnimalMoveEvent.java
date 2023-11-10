@@ -3,9 +3,11 @@ package animalchess.events.animal;
 import animalchess.utils.common.WrappedAnimal;
 import animalchess.utils.common.WrappedLocation;
 import animalchess.utils.event.Cancellable;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
+@Builder
 public class AnimalMoveEvent implements AnimalEvent, Cancellable {
 
     private WrappedAnimal animal;

@@ -12,13 +12,17 @@ import javax.swing.JPanel;
 import animalchess.animals.Animal;
 import animalchess.board.Board;
 import animalchess.board.Tiles.Tile;
+import animalchess.events.LocationSelectEvent;
+import animalchess.events.animal.AnimalMoveEvent;
 import animalchess.exceptions.InvalidMovementException;
- 
+import animalchess.utils.common.WrappedLocation;
+import animalchess.utils.event.EventManager;
+
 
 public class BoardPanel extends JPanel implements TileUtil {
 	private JLabel[][] UI_tiles =  new JLabel[7][9];
-	private final String[] verticalAxis = { "A", "B", "C", "D", "E", "F", "G", "H", "I" };
-	private final String[] horizontalAxis = { "1", "2", "3", "4", "5", "6", "7" };
+	public static final String[] verticalAxis = { "A", "B", "C", "D", "E", "F", "G", "H", "I" };
+	public static final String[] horizontalAxis = { "1", "2", "3", "4", "5", "6", "7" };
 	
 	private int rows = verticalAxis.length;
 	private int cols = horizontalAxis.length;
@@ -34,8 +38,9 @@ public class BoardPanel extends JPanel implements TileUtil {
 	
 	private Board board;
 	private GameUI gameUI;
+	private EventManager eventManager;
 	
-	BoardPanel(Board board, GameUI gameUI) {
+	BoardPanel(Board board, GameUI gameUI, EventManager eventManager) {
 		
 		this.setPreferredSize(new Dimension(cols * tileSize, rows * tileSize));
 		this.setBackground(Color.black);
@@ -53,6 +58,7 @@ public class BoardPanel extends JPanel implements TileUtil {
 		
 		this.board = board;
 		this.gameUI = gameUI;
+		this.eventManager = eventManager;
 	}
 	
 	private JLabel setup_Tile(int row, int col) {
@@ -72,11 +78,14 @@ public class BoardPanel extends JPanel implements TileUtil {
 			public void mouseClicked(MouseEvent e) {
 				// System.out.println("Clicked tile: Row " + verticalAxis[row] + ", Column " +
 				// horizontalAxis[col]);
-				if (GameUI.is_Game_Start == true) {
-					if (legit_choice == false) {
-						call_TileSelect(col, row, tile);
+				if (GameUI.is_Game_Start) {
+					if (!legit_choice) {
+						// call_TileSelect(col, row, tile);
 					} else {
-						call_AnimalMove(col, row, tile);
+						// call_AnimalMove(col, row, tile);
+						eventManager.push(AnimalMoveEvent.builder()
+										.to(new WrappedLocation(col, row))
+								.build());
 					}
 				}
 			}
@@ -121,27 +130,15 @@ public class BoardPanel extends JPanel implements TileUtil {
 		 * WrappedTile W_tile = new WrappedTile(W_location, null);
 		 */
 		// Animal target = board.getTarget(x, y);
-		Tile choosenTile = board.getTile(x, y);
 
-		Animal target = choosenTile.getAnimal();
-		GameUI.logArea.append("Clicking the tile at (" + verticalAxis[y] + "," + horizontalAxis[x] + ")\n");
-		if (target == null) {
-			GameUI.logArea.append("It is a " + choosenTile.toString() + " with no animal.\n");
-		} else {
-			GameUI.logArea.append("It is a " + choosenTile.toString() + " with a/an " + target.toString() + " that "
-					+ target.get_Owner() + " can choose.\n");
-		}
-		GameUI.logArea.append("\n");
-		if (target.get_isRed() == GameUI.is_P1_Turn) {
-			GameUI.logArea.append("You can choose the animal in this tile to move.\n");
+		LocationSelectEvent event = new LocationSelectEvent(new WrappedLocation(x, y));
+		eventManager.push(event);
+		if(!event.isCancelled()) {
 			StartTile_onUI = choosenTileUI;
 			choosenX = x;
 			choosenY = y;
 			legit_choice = true;
-		} else {
-			GameUI.logArea.append("You cannot choose the animal in this tile to move.\n");
 		}
-		GameUI.logArea.append("\n");
 	}
 
 	private void call_AnimalMove(int x, int y, JLabel DestTile_onUI) {
@@ -160,7 +157,6 @@ public class BoardPanel extends JPanel implements TileUtil {
 		} catch (InvalidMovementException e) {
 			e.printStackTrace();
 			GameUI.logArea.append("You cannot move to that tile because " + e.getLocalizedMessage() + "\n");
-			
 		}
 		GameUI.logArea.append("\n");
 		choosenX = -1;
@@ -169,7 +165,6 @@ public class BoardPanel extends JPanel implements TileUtil {
 	}
 
 	private void MoveAnimal_onUI(int x, int y, JLabel DestTile_onUI) {
-
 		DestTile_onUI.setIcon(StartTile_onUI.getIcon());
 		StartTile_onUI.setIcon(null);
 		StartTile_onUI = null;
