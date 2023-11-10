@@ -1,26 +1,23 @@
 
 package animalchess.game;
 
+import animalchess.board.Board;
+import animalchess.events.game.TeamSurrenderEvent;
+import animalchess.utils.common.WrappedTeam;
+import animalchess.utils.event.EventManager;
+import animalchess.utils.provider.Inject;
+
 import javax.swing.*;
 import java.awt.*;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-
-
-import animalchess.animals.Animal;
-import animalchess.board.Board;
-import animalchess.board.Tiles.Tile;
-import animalchess.exceptions.InvalidMovementException;
-
-import animalchess.game.UIListener;
 
 public class GameUI extends JFrame implements TileUtil {
 
+	@Inject
 	private Board board;
+	@Inject
+	private EventManager eventManager;
 	
 
 	private JPanel containerPanel;
@@ -58,15 +55,12 @@ public class GameUI extends JFrame implements TileUtil {
 	private JButton P2_Surrender_button;
 	private Box yieldButtons;
 
-	private static final GameUI instance = new GameUI(new Board());
-
-	public static GameUI getInstance() {
-		return instance;
+	// Board JungleChessBoard
+	public GameUI() {
+		createAndShow();
 	}
 
-	// Board JungleChessBoard
-	private GameUI(Board board) {
-		this.board = board;
+	public void createAndShow() {
 		JFrame frame = new JFrame();
 		frame.setSize(new Dimension(1000, 1000));
 		frame.setLocationRelativeTo(null);
@@ -293,7 +287,9 @@ public class GameUI extends JFrame implements TileUtil {
 					P2_Timer.stop();
 					is_P2_Win = true;
 					logArea.append("Player 1 yields...\n");
-					announce_Win();
+					// announce_Win();
+
+					eventManager.push(TeamSurrenderEvent.builder().team(WrappedTeam.RED).build());
 				}
 			}
 
@@ -307,7 +303,8 @@ public class GameUI extends JFrame implements TileUtil {
 					P2_Timer.stop();
 					is_P1_Win = true;
 					logArea.append("Player 2 yields...\n");
-					announce_Win();
+					// announce_Win();
+					eventManager.push(TeamSurrenderEvent.builder().team(WrappedTeam.BLACK).build());
 				}
 			}
 
