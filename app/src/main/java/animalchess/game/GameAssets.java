@@ -41,7 +41,8 @@ public class GameAssets {
         private final ScaleInstance scaleInstance;
 
         public AssetIcon(String path, ScaleInstance scaleInstance) {
-            this.path = ASSET_PATH_PREFIX + File.separator + path;
+            //this.path = ASSET_PATH_PREFIX + File.separator + path;
+            this.path = path;
             this.scaleInstance = scaleInstance;
         }
 
