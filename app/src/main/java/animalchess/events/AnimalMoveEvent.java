@@ -26,4 +26,10 @@ public class AnimalMoveEvent implements AnimalEvent, Cancellable {
         return cancelled;
     }
 
+	@Override
+	public Animal getAnimal() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

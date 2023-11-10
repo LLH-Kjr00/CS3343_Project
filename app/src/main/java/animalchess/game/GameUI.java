@@ -45,6 +45,7 @@ public class GameUI extends JFrame implements TileUtil {
 	private int P1_Timer_val = 600 * 3; // count down for User 1
 	private int P2_Timer_val = 600 * 3; // count down for User 2
 
+	private boolean legit_choice = false;
 	private boolean is_P1_Turn = false; // Flag to track player 1's turn
 	private boolean is_Game_Pause = false; // Flag to track game's state of pausing
 	private boolean is_P1_Win = false; // Flag to track player 1's win
