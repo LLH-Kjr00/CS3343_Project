@@ -7,32 +7,54 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 public class ConsolePanel extends JPanel {
-    private GameUI gameUI;
+    
     private TimePanel timePanel;
     private ButtonPanel buttonPanel;
     private TitlePanel titlePanel;
-    private SurrenderButtonBox yieldButtons;
+    private SurrenderButtonBox surrenderButtons;
+    
+    private GameUI gameUI;
 
-    ConsolePanel() {
+    ConsolePanel(GameUI gameUI) {
+    	
+    	this.gameUI = gameUI;
         this.setBackground(Color.decode("#F9CB9C"));
         this.setLayout(new FlowLayout());
 
-        timePanel = new TimePanel();
-        buttonPanel = new ButtonPanel();
-        titlePanel = new TitlePanel();
-        yieldButtons = new SurrenderButtonBox(1);
+        timePanel = new TimePanel(this);
+        buttonPanel = new ButtonPanel(timePanel);
+        titlePanel = new TitlePanel(this, timePanel);
+        surrenderButtons = new SurrenderButtonBox(2, timePanel, this);
 
+
+        GameUI.logArea = new JTextArea(25, 40);
+        GameUI.logArea.setLineWrap(true);
+        GameUI.logArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(GameUI.logArea);
+        
         this.add(titlePanel);
-
-        gameUI.logArea = new JTextArea(25, 40);
-        gameUI.logArea.setLineWrap(true);
-        gameUI.logArea.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(gameUI.logArea);
-
-        this.add(yieldButtons);
+        this.add(surrenderButtons);
         this.add(timePanel);
         this.add(scrollPane);
         this.add(buttonPanel);
 
+    }
+    public void End_game () {
+    	surrenderButtons.setVisible(false);
+    	buttonPanel.setVisible(false);
+    	titlePanel.enable_Gamestart();
+    	gameUI.announce_Win();
+    }
+    public void Start_game () {
+    	surrenderButtons.setVisible(true);
+    	buttonPanel.setVisible(true);
+    	titlePanel.disable_Gamestart();
+    	gameUI.gameMajorMsg("Game Start");
+    	gameUI.restart_game();
+    }
+    public void Change_turn () {
+    	timePanel.change_Countdown_timer();
+    	gameUI.gameMajorMsg("Turn Ended");
+		
     }
 }

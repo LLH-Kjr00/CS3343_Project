@@ -34,8 +34,9 @@ public class BoardPanel extends JPanel implements TileUtil {
 	
 	private Board board;
 	private GameUI gameUI;
+	private ConsolePanel consolePanel;
 	
-	BoardPanel(Board board, GameUI gameUI) {
+	BoardPanel(ConsolePanel consolePanel, Board board) {
 		
 		this.setPreferredSize(new Dimension(cols * tileSize, rows * tileSize));
 		this.setBackground(Color.black);
@@ -52,7 +53,7 @@ public class BoardPanel extends JPanel implements TileUtil {
 		}
 		
 		this.board = board;
-		this.gameUI = gameUI;
+		this.consolePanel = consolePanel;
 	}
 	
 	private JLabel setup_Tile(int row, int col) {
@@ -154,8 +155,7 @@ public class BoardPanel extends JPanel implements TileUtil {
 				choosenAnimal.Move(x, y);
 				// MoveAnimal_onUI(x,y);
 				MoveAnimal_onUI(x, y, DestTile_onUI);
-				gameUI.gameMajorMsg("Turn Ended");
-				gameUI.change_turn();
+				consolePanel.Change_turn();
 			}
 		} catch (InvalidMovementException e) {
 			e.printStackTrace();
