@@ -62,12 +62,19 @@ public class Animal {
         	//board.store_and_execute(new Eat_command(this,target));
         	this.Eat(target);
         MoveTo(x ,y);
+        
     }
 
     protected void MoveTo (int x, int y) {
         board.removeAnimal(this.x, this.y);
         board.addAnimal(x, y, this);
         setPosition(x,y);
+        if (isRed == true) {
+        	board.check_atDen_P1Win();
+        }
+        else {
+        	board.check_atDen_P2Win();
+        }
 
     }
 

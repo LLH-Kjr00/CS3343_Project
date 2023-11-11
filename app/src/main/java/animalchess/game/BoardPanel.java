@@ -33,7 +33,6 @@ public class BoardPanel extends JPanel implements TileUtil {
 	
 	
 	private Board board;
-	private GameUI gameUI;
 	private ConsolePanel consolePanel;
 	
 	BoardPanel(ConsolePanel consolePanel, Board board) {
@@ -133,7 +132,7 @@ public class BoardPanel extends JPanel implements TileUtil {
 					+ target.get_Owner() + " can choose.\n");
 		}
 		GameUI.logArea.append("\n");
-		if (target.get_isRed() == GameUI.is_P1_Turn) {
+		if (target.get_isRed() == Board.is_P1_Turn) {
 			GameUI.logArea.append("You can choose the animal in this tile to move.\n");
 			StartTile_onUI = choosenTileUI;
 			choosenX = x;

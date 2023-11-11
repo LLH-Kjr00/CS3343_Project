@@ -19,7 +19,7 @@ public class Tile {
     public boolean isWater() {
         return false;
     }
-
+    
     public boolean isFriendlyDen(boolean isRed) {
         return false;
     }

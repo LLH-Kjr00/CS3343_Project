@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.JButton;
 
+import animalchess.board.Board;
+
 public class PauseButtonBox extends Box {
 	private JButton P1_Pause_button;
 	private JButton P2_Pause_button;
@@ -34,7 +36,7 @@ public class PauseButtonBox extends Box {
 						GameUI.logArea.append("Player 1 wants to pause the game!\n");
 						GameUI.logArea.append("Need Player 2's agreement to pause the game!\n");
 					} else if (P1_Pause == true && P2_Pause == true) {
-						if (GameUI.is_P1_Turn == true) {
+						if (Board.is_P1_Turn == true) {
 							timePanel.stop_P1_timer();
 						} else {
 							timePanel.stop_P2_timer();
@@ -61,7 +63,7 @@ public class PauseButtonBox extends Box {
 						GameUI.logArea.append("Player 2 wants to pause the game!\n");
 						GameUI.logArea.append("Need Player 1's agreement to pause the game!\n");
 					} else if (P1_Pause == true && P2_Pause == true) {
-						if (GameUI.is_P1_Turn == true) {
+						if (Board.is_P1_Turn == true) {
 							timePanel.stop_P1_timer();
 						} else {
 							timePanel.stop_P2_timer();

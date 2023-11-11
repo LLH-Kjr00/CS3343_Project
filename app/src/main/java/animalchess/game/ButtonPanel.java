@@ -8,6 +8,8 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import animalchess.board.Board;
+
 public class ButtonPanel extends JPanel {
 	
 	
@@ -22,11 +24,11 @@ public class ButtonPanel extends JPanel {
 		Resume_button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (GameUI.is_P1_Turn == true && timePanel.is_P1_timer_Running() == false) {
+				if (Board.is_P1_Turn == true && timePanel.is_P1_timer_Running() == false) {
 					timePanel.restart_P1_timer();
 					GameUI.logArea.append("Game Resumed!\n");
 					
-				} else if (GameUI.is_P1_Turn == false && timePanel.is_P2_timer_Running() == false) {
+				} else if (Board.is_P1_Turn == false && timePanel.is_P2_timer_Running() == false) {
 					timePanel.restart_P2_timer();
 					GameUI.logArea.append("Game Resumed!\n");
 					

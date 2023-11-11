@@ -10,6 +10,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import animalchess.board.Board;
+
 public class TitlePanel extends JPanel {
 	
 	private JButton gameStart;
@@ -31,17 +33,17 @@ public class TitlePanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				GameUI.logArea.setText("");
-				GameUI.is_P1_Turn = true; 
+				Board.is_P1_Turn = true; 
 				GameUI.is_Game_Start = true;
 				gameStart.setVisible(false);
 				//buttonPanel.setVisible(true);
-				if (GameUI.is_P1_Turn) {
+				if (Board.is_P1_Turn) {
 					timePanel.start_P1_timer(); // Start player 1's timer
 				} else {
 					timePanel.start_P2_timer(); // Start player 2's timer
 				}
-				GameUI.is_P1_Win = false;
-				GameUI.is_P2_Win = false;
+				Board.is_P1_Win = false;
+				Board.is_P2_Win = false;
 				consolePanel.Start_game();
 				timePanel.reset_timer_value();
 			}

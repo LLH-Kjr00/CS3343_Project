@@ -29,12 +29,10 @@ public class GameUI extends JFrame implements TileUtil {
 	
 	static JTextArea logArea;
 
-
-	static boolean is_P1_Turn = true; // Flag to track player 1's turn
 	static boolean is_Game_Pause = false; // Flag to track game's state of pausing
 	static boolean is_Game_Start = false; // Flag to track game's state of pausing
-	static boolean is_P1_Win = false; // Flag to track player 1's win
-	static boolean is_P2_Win = false; // Flag to track player 2's win
+	
+	
 	
 
 	private static final GameUI instance = new GameUI(new Board());
@@ -79,11 +77,6 @@ public class GameUI extends JFrame implements TileUtil {
 		containerPanel.add(boardPanel);
 		containerPanel.add(consolePanel);
 		
-		
-		
-		
-		
-
 		//rulesPanel = new JPanel();
 		//rulesPanel.setVisible(false);
 		//frame.add(rulesPanel);
@@ -93,9 +86,9 @@ public class GameUI extends JFrame implements TileUtil {
 
 	
 	public void announce_Win() {
-		if (is_P1_Win) {
+		if (Board.is_P1_Win) {
 			logArea.append("Player 1 wins!\n");
-		} else if (is_P2_Win) {
+		} else if (Board.is_P2_Win) {
 			logArea.append("Player 2 wins!\n");
 		} else {
 			logArea.append("No ones wins!\n");

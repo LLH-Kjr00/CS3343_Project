@@ -8,6 +8,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import animalchess.board.Board;
+
 public class TimePanel extends JPanel {
 	private Timer P1_Timer;
 	private Timer P2_Timer;
@@ -54,7 +56,7 @@ public class TimePanel extends JPanel {
 
 				if (P1_Timer_val <= 0) {
 					P1_Timer.stop();
-					GameUI.is_P2_Win = true;
+					Board.is_P2_Win = true;
 					GameUI.logArea.append("Player 1's time is up...\n");
 					consolePanel.End_game();
 
@@ -77,7 +79,7 @@ public class TimePanel extends JPanel {
 
 				if (P2_Timer_val <= 0) {
 					P2_Timer.stop();
-					GameUI.is_P1_Win = true;
+					Board.is_P1_Win = true;
 					GameUI.logArea.append("Player 2's time is up...\n");
 					consolePanel.End_game();
 				}
@@ -115,15 +117,15 @@ public class TimePanel extends JPanel {
 		P2_Timer_val = 600 * 3;
 	}
 	public void change_Countdown_timer() {
-		if (GameUI.is_P1_Turn == true) {
+		if (Board.is_P1_Turn == true) {
 			GameUI.logArea.append("Player 2's turn now!\n");
-			GameUI.is_P1_Turn = false;
+			Board.is_P1_Turn = false;
 			P1_Timer.stop();
 			P2_Timer.start();
 			P1_Timer_val = 600 * 3;
 		} else {
 			GameUI.logArea.append("Player 1's turn now!\n");
-			GameUI.is_P1_Turn = true;
+			Board.is_P1_Turn = true;
 			P2_Timer.stop();
 			P1_Timer.start();
 			P2_Timer_val = 600 * 3;

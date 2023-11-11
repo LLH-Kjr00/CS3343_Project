@@ -1,6 +1,7 @@
 package animalchess.animals;
 
 import animalchess.board.Board;
+import animalchess.exceptions.InvalidMovementException;
 
 public class Elephant extends Animal {
 	public Elephant (boolean isRed, Board board){
@@ -13,6 +14,13 @@ public class Elephant extends Animal {
         else {
         	setPosition(6,6);
         }
+    }
+	@Override
+    public void Eat(Animal victim) throws InvalidMovementException{
+        if (victim.strength == 1)
+        	throw new InvalidMovementException("you cannot eat mouse as an Elephant.");
+        else
+            super.Eat(victim);
     }
 	@Override 
     public String toString() {
