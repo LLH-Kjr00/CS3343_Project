@@ -13,11 +13,11 @@ public class ConsolePanel extends JPanel {
     private TitlePanel titlePanel;
     private SurrenderButtonBox surrenderButtons;
     
-    private GameUI gameUI;
+  
 
-    ConsolePanel(GameUI gameUI) {
+    ConsolePanel() {
     	
-    	this.gameUI = gameUI;
+    	
         this.setBackground(Color.decode("#F9CB9C"));
         this.setLayout(new FlowLayout());
 
@@ -43,18 +43,15 @@ public class ConsolePanel extends JPanel {
     	surrenderButtons.setVisible(false);
     	buttonPanel.setVisible(false);
     	titlePanel.enable_Gamestart();
-    	gameUI.announce_Win();
     }
     public void Start_game () {
     	surrenderButtons.setVisible(true);
     	buttonPanel.setVisible(true);
     	titlePanel.disable_Gamestart();
-    	gameUI.gameMajorMsg("Game Start");
-    	gameUI.restart_game();
     }
     public void Change_turn () {
     	timePanel.change_Countdown_timer();
-    	gameUI.gameMajorMsg("Turn Ended");
+    	GameUI.gameMajorMsg("Turn Ended");
 		
     }
 }

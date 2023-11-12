@@ -55,7 +55,7 @@ public class GameUI extends JFrame implements TileUtil {
 		frame.setVisible(true);
 	}
 
-	public void gameMajorMsg(String content) {
+	public static void gameMajorMsg(String content) {
 		String result = new String();
 		for (int i = 0; i < 62; i++) {
 			result += "=";
@@ -72,7 +72,7 @@ public class GameUI extends JFrame implements TileUtil {
 		containerPanel.setLayout(new GridLayout(1, 2));
 
 		
-		consolePanel = new ConsolePanel(this);
+		consolePanel = new ConsolePanel();
 		boardPanel = new BoardPanel (consolePanel, board);
 		containerPanel.add(boardPanel);
 		containerPanel.add(consolePanel);
@@ -86,6 +86,7 @@ public class GameUI extends JFrame implements TileUtil {
 
 	
 	public void announce_Win() {
+		consolePanel.End_game();
 		if (Board.is_P1_Win) {
 			logArea.append("Player 1 wins!\n");
 		} else if (Board.is_P2_Win) {
@@ -93,13 +94,17 @@ public class GameUI extends JFrame implements TileUtil {
 		} else {
 			logArea.append("No ones wins!\n");
 		}
+		
 	}
 
 	
 	
 	public void restart_game () {
+		gameMajorMsg("Game Start");
+    	restart_game();
 		boardPanel.reset_boardPanel();
 		board.init();
+		consolePanel.Start_game();
 	}
 
 }

@@ -82,7 +82,13 @@ public class Animal {
         if (victim.strength>this.strength && !victim.trapped)
             throw new InvalidMovementException("you cannot eat animal with more strength than yours.");
         else
+        	if (victim.get_isRed() == true) {
+                board.lower_redCount();
+            } else {
+                board.lower_blackCount();
+            }
             board.removeAnimal(victim.x, victim.y);
+            board.check_killAll_Win();
     }
     public void setPosition (int x, int y) {
 		this.x = x;

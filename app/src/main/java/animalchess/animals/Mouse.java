@@ -53,10 +53,18 @@ public class Mouse extends Animal {
     //additional rule: Mouse can eat elephant
     @Override
     public void Eat(Animal victim) throws InvalidMovementException{
-        if (victim.strength==8)
+        if (victim.strength==8) {
             board.removeAnimal(victim.x, victim.y);
-        else
+            if (victim.get_isRed() == true) {
+                board.lower_redCount();
+            } else {
+                board.lower_blackCount();
+            }
+        }
+        else {
             super.Eat(victim);
+        }
+        board.check_killAll_Win();
     }
     @Override 
     public String toString() {

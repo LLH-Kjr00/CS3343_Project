@@ -12,6 +12,7 @@ import animalchess.animals.Mouse;
 import animalchess.animals.Tiger;
 import animalchess.animals.Wolf;
 import animalchess.board.Tiles.*;
+import animalchess.game.GameUI;
 
 public class Board {
     // The size of the board is 7 (width) * 9 (height)
@@ -25,10 +26,20 @@ public class Board {
     private int redAnimal_count = 0;
     private int blackAnimal_count = 0;
 
+    
     public Board() {
         init();
-        redAnimal_count = 8;
-        blackAnimal_count = 8;
+        for (int j =0;j!=9;j++) {
+        	for (int i = 0 ;i!= 7;i++) {
+        		if (tiles[i][j].getAnimal() != null && tiles[i][j].getAnimal().get_isRed() == true) {
+        			redAnimal_count++;
+        		}
+        		else if (tiles[i][j].getAnimal() != null && tiles[i][j].getAnimal().get_isRed() == false) {
+        			blackAnimal_count++;
+        		}
+        	}
+        }
+        
     }
 
     public boolean isOutBound(int x, int y) {
@@ -65,14 +76,7 @@ public class Board {
     }
 
     public void removeAnimal(int x, int y) {
-        if (getTarget(x, y).get_isRed() == true) {
-            redAnimal_count--;
-        } else {
-            blackAnimal_count--;
-        }
         tiles[x][y].removeAnimal();
-        check_killAll_Win();
-        
     }
 
     public void addAnimal(int x, int y, Animal animal) {
@@ -149,25 +153,34 @@ public class Board {
     }
 
     public void check_killAll_Win() {
+    	System.out.println("red count: "+redAnimal_count);
+    	System.out.println("black count: "+blackAnimal_count);
         if (redAnimal_count == 0) {
             is_P2_Win = true;
         } else if (blackAnimal_count == 0) {
             is_P1_Win = true;
         }
+        //gameUI.announce_Win();
     }
 
     public void check_atDen_P1Win() {
         Animal animal_atDen = getTarget(3, 8);
-        if (tiles[3][8].isFriendlyDen(animal_atDen.get_isRed()) == false) {
+        if (animal_atDen != null && tiles[3][8].isFriendlyDen(animal_atDen.get_isRed()) == false) {
             is_P1_Win = true;
         }
     }
 
     public void check_atDen_P2Win() {
         Animal animal_atDen = getTarget(3, 0);
-        if (tiles[3][0].isFriendlyDen(animal_atDen.get_isRed()) == false) {
+        if (animal_atDen != null && tiles[3][0].isFriendlyDen(animal_atDen.get_isRed()) == false) {
             is_P2_Win = true;
         }
-
+    }
+    
+    public void lower_redCount() {
+    	redAnimal_count--;
+    }
+    public void lower_blackCount() {
+    	blackAnimal_count--;
     }
 }
