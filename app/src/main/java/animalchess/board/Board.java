@@ -25,9 +25,14 @@ public class Board {
 
     private int redAnimal_count = 0;
     private int blackAnimal_count = 0;
-
     
-    public Board() {
+    private static final Board instance = new Board();
+
+	public static Board getInstance() {
+		return instance;
+	}
+    
+    private Board() {
         init_board();
         init_animalsCount();
         

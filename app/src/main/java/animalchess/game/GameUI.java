@@ -33,7 +33,7 @@ public class GameUI extends JFrame implements TileUtil {
 	
 	
 
-	private static final GameUI instance = new GameUI(new Board());
+	private static final GameUI instance = new GameUI(Board.getInstance());
 
 	public static GameUI getInstance() {
 		return instance;

@@ -53,6 +53,7 @@ public class ConsolePanel extends JPanel {
     	surrenderButtons.setVisible(true);
     	buttonPanel.setVisible(true);
     	titlePanel.disable_Gamestart();
+    	timePanel.reset_timer_value();
     	gameUI.restart_game();
     }
     public void Change_turn () {
