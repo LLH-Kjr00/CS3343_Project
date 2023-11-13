@@ -3,11 +3,20 @@ package animalchess.board.Tiles;
 import animalchess.animals.Animal;
 
 public class Den extends Tile{
-    public Den (boolean isRed) {
-        super(isRed);
-    }
+    private boolean isRed;
 
+    public Den (boolean isRed) {
+        super();
+        this.isRed = isRed;
+    }
+    public boolean getIsRed() {
+        return isRed;
+    }
     @Override
+    public boolean isDen() {
+    	return true;
+    }
+    
     public boolean isFriendlyDen(boolean isRed) {
         if (isRed == this.getIsRed())
             return true;

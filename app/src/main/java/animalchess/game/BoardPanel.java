@@ -33,6 +33,7 @@ public class BoardPanel extends JPanel implements TileUtil {
 	
 	
 	private Board board;
+
 	private ConsolePanel consolePanel;
 	
 	BoardPanel(ConsolePanel consolePanel, Board board) {
@@ -154,7 +155,15 @@ public class BoardPanel extends JPanel implements TileUtil {
 				choosenAnimal.Move(x, y);
 				// MoveAnimal_onUI(x,y);
 				MoveAnimal_onUI(x, y, DestTile_onUI);
-				consolePanel.Change_turn();
+				if (board.getWin() == true) {
+					consolePanel.End_game();
+				}
+				
+				else {
+					consolePanel.Change_turn();
+				}
+				
+				
 			}
 		} catch (InvalidMovementException e) {
 			e.printStackTrace();
@@ -183,5 +192,6 @@ public class BoardPanel extends JPanel implements TileUtil {
 			}
 		}
 	}
+	
 	
 }

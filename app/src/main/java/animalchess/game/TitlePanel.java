@@ -34,7 +34,6 @@ public class TitlePanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				GameUI.logArea.setText("");
 				Board.is_P1_Turn = true; 
-				GameUI.is_Game_Start = true;
 				gameStart.setVisible(false);
 				//buttonPanel.setVisible(true);
 				if (Board.is_P1_Turn) {

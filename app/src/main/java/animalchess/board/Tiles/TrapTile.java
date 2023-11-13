@@ -3,11 +3,16 @@ package animalchess.board.Tiles;
 import animalchess.animals.Animal;
 
 public class TrapTile extends Tile {
+    private boolean isRed;
 
     public TrapTile (boolean isRed) {
-        super(isRed);
+    	super();
+        this.isRed = isRed;
     }
-
+    
+    public boolean getIsRed() {
+        return isRed;
+    }
     @Override
     public void setAnimal(Animal occupier) {
         if (occupier.get_isRed() != this.getIsRed())

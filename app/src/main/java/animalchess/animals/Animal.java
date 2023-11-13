@@ -69,13 +69,7 @@ public class Animal {
         board.removeAnimal(this.x, this.y);
         board.addAnimal(x, y, this);
         setPosition(x,y);
-        if (isRed == true) {
-        	board.check_atDen_P1Win();
-        }
-        else {
-        	board.check_atDen_P2Win();
-        }
-
+        board.check_atDen(this,x,y);
     }
 
     public void Eat(Animal victim) throws InvalidMovementException{
@@ -88,7 +82,7 @@ public class Animal {
                 board.lower_blackCount();
             }
             board.removeAnimal(victim.x, victim.y);
-            board.check_killAll_Win();
+            
     }
     public void setPosition (int x, int y) {
 		this.x = x;

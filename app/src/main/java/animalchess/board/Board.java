@@ -28,8 +28,13 @@ public class Board {
 
     
     public Board() {
-        init();
-        for (int j =0;j!=9;j++) {
+        init_board();
+        init_animalsCount();
+        
+    }
+
+	public void init_animalsCount() {
+		for (int j =0;j!=9;j++) {
         	for (int i = 0 ;i!= 7;i++) {
         		if (tiles[i][j].getAnimal() != null && tiles[i][j].getAnimal().get_isRed() == true) {
         			redAnimal_count++;
@@ -39,8 +44,7 @@ public class Board {
         		}
         	}
         }
-        
-    }
+	}
 
     public boolean isOutBound(int x, int y) {
         if (x < 0 || y < 0 || x > 7 || y > 9) {
@@ -64,7 +68,12 @@ public class Board {
     }
 
     public boolean isOccupiedByFriendlyDen(int x, int y, boolean isRed) {
-        return tiles[x][y].isFriendlyDen(isRed);
+    	if (tiles[x][y].isDen() == true) {
+    		return ((Den) tiles[x][y]).isFriendlyDen(isRed);
+    	}
+    	else {
+    		return false;
+    	}
     }
 
     public Animal getTarget(int x, int y) {
@@ -101,21 +110,35 @@ public class Board {
         return result;
     }
 
-    public void init() {
-
+    public void init_board() {
+    	//empty animals
+    	redAnimal_count = 0;
+    	blackAnimal_count = 0;
+    	
+    	
+    	for (int i = 0; i < 7; i++) {
+            for (int j = 0; j < 9; j++) {
+            	if (tiles[i][j] != null) {
+                    tiles[i][j] = null;
+            	}
+                tiles[i][j] = new Tile();
+                tiles[i][j].setAnimal(null);
+            }
+        }
+    	
         // map init
         for (int i = 0; i < 7; i++) {
             for (int j = 0; j < 9; j++) {
-                tiles[i][j] = new Tile(false);
+                tiles[i][j] = new Tile();
             }
         }
 
         // river
         for (int j = 3; j < 6; j++) {
-            tiles[1][j] = new WaterTile(false);
-            tiles[2][j] = new WaterTile(false);
-            tiles[4][j] = new WaterTile(false);
-            tiles[5][j] = new WaterTile(false);
+            tiles[1][j] = new WaterTile();
+            tiles[2][j] = new WaterTile();
+            tiles[4][j] = new WaterTile();
+            tiles[5][j] = new WaterTile();
         }
 
         // red base
@@ -142,6 +165,7 @@ public class Board {
 
         // blue animal
         tiles[0][6].setAnimal(new Mouse(false, this));
+       
         tiles[2][6].setAnimal(new Leopard(false, this));
         tiles[4][6].setAnimal(new Wolf(false, this));
         tiles[6][6].setAnimal(new Elephant(false, this));
@@ -149,33 +173,33 @@ public class Board {
         tiles[5][7].setAnimal(new Cat(false, this));
         tiles[0][8].setAnimal(new Lion(false, this));
         tiles[6][8].setAnimal(new Tiger(false, this));
+        
 
     }
 
     public void check_killAll_Win() {
-    	System.out.println("red count: "+redAnimal_count);
-    	System.out.println("black count: "+blackAnimal_count);
+   
         if (redAnimal_count == 0) {
             is_P2_Win = true;
         } else if (blackAnimal_count == 0) {
             is_P1_Win = true;
         }
-        //gameUI.announce_Win();
     }
 
-    public void check_atDen_P1Win() {
-        Animal animal_atDen = getTarget(3, 8);
-        if (animal_atDen != null && tiles[3][8].isFriendlyDen(animal_atDen.get_isRed()) == false) {
-            is_P1_Win = true;
-        }
+    public void check_atDen(Animal animal, int x, int y) {
+    	if ((x == 3 && y == 8) && animal.get_isRed() == true) {
+    		is_P1_Win = true;
+    	}
+    	else if ((x == 3 && y == 0) && animal.get_isRed() == false) {
+    		is_P2_Win = true;
+    	}
+    	
+
+    }
+    public boolean getWin() {
+    	return is_P1_Win || is_P2_Win;
     }
 
-    public void check_atDen_P2Win() {
-        Animal animal_atDen = getTarget(3, 0);
-        if (animal_atDen != null && tiles[3][0].isFriendlyDen(animal_atDen.get_isRed()) == false) {
-            is_P2_Win = true;
-        }
-    }
     
     public void lower_redCount() {
     	redAnimal_count--;
@@ -183,4 +207,16 @@ public class Board {
     public void lower_blackCount() {
     	blackAnimal_count--;
     }
+    
+    public void change_turn() {
+		if (is_P1_Turn == true) {
+			GameUI.logArea.append("Player 2's turn now!\n");
+			is_P1_Turn = false;
+			
+		} else {
+			GameUI.logArea.append("Player 1's turn now!\n");
+			is_P1_Turn = true;
+			
+		}
+	}
 }

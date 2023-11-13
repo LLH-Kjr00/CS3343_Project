@@ -118,14 +118,10 @@ public class TimePanel extends JPanel {
 	}
 	public void change_Countdown_timer() {
 		if (Board.is_P1_Turn == true) {
-			GameUI.logArea.append("Player 2's turn now!\n");
-			Board.is_P1_Turn = false;
 			P1_Timer.stop();
 			P2_Timer.start();
 			P1_Timer_val = 600 * 3;
 		} else {
-			GameUI.logArea.append("Player 1's turn now!\n");
-			Board.is_P1_Turn = true;
 			P2_Timer.stop();
 			P1_Timer.start();
 			P2_Timer_val = 600 * 3;

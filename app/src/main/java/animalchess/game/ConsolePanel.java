@@ -6,18 +6,19 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import animalchess.board.Board;
+
 public class ConsolePanel extends JPanel {
     
     private TimePanel timePanel;
     private ButtonPanel buttonPanel;
     private TitlePanel titlePanel;
     private SurrenderButtonBox surrenderButtons;
-    
-  
 
-    ConsolePanel() {
-    	
-    	
+    private GameUI gameUI;
+    
+    public ConsolePanel(GameUI gameUI) {
+    	this.gameUI = gameUI;
         this.setBackground(Color.decode("#F9CB9C"));
         this.setLayout(new FlowLayout());
 
@@ -39,19 +40,21 @@ public class ConsolePanel extends JPanel {
         this.add(buttonPanel);
 
     }
-    public void End_game () {
+   
+	public void End_game () {
     	surrenderButtons.setVisible(false);
     	buttonPanel.setVisible(false);
     	titlePanel.enable_Gamestart();
+    	gameUI.announce_Win();
     }
     public void Start_game () {
     	surrenderButtons.setVisible(true);
     	buttonPanel.setVisible(true);
     	titlePanel.disable_Gamestart();
+    	gameUI.restart_game();
     }
     public void Change_turn () {
     	timePanel.change_Countdown_timer();
-    	GameUI.gameMajorMsg("Turn Ended");
-		
+    	gameUI.shift_turn();
     }
 }

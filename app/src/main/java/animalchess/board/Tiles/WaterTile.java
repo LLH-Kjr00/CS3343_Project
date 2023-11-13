@@ -4,8 +4,8 @@ import animalchess.animals.Animal;
 
 public class WaterTile extends Tile{
 
-    public WaterTile (boolean isRed) {
-        super(isRed);
+    public WaterTile () {
+        super();
     }
 
     @Override

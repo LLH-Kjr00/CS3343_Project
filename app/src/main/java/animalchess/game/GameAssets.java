@@ -5,6 +5,7 @@ import lombok.Getter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.net.URL;
 import java.util.Objects;
 
@@ -36,7 +37,7 @@ public class GameAssets {
         @Getter(lazy = true)
         private final ImageIcon imageIcon = getAssetIcon();
 
-        private final String path;
+        private String path;
         private final ScaleInstance scaleInstance;
 
         public AssetIcon(String path, ScaleInstance scaleInstance) {
@@ -51,7 +52,12 @@ public class GameAssets {
 
             URL pathURL = App.class.getClassLoader().getResource(path);
             if(pathURL == null)
-                throw new RuntimeException("Asset not found: " + path);
+            	
+                path = ASSET_PATH_PREFIX + File.separator + path;
+            	pathURL = App.class.getClassLoader().getResource(path);
+            	if (pathURL == null) {
+            		throw new RuntimeException("Asset not found: " + path);
+            	}
             Image scaledImage = new ImageIcon(pathURL)
                     .getImage()
                     .getScaledInstance(scaleInstance.width(), scaleInstance.height(), scaleInstance.scaleAlgorithmType());
