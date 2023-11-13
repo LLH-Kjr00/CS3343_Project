@@ -45,6 +45,8 @@ public class ConsolePanel extends JPanel {
     	surrenderButtons.setVisible(false);
     	buttonPanel.setVisible(false);
     	titlePanel.enable_Gamestart();
+    	timePanel.stop_P1_timer();
+    	timePanel.stop_P2_timer();
     	gameUI.announce_Win();
     }
     public void Start_game () {
