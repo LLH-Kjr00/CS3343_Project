@@ -170,7 +170,7 @@ public class Board {
 
         // blue animal
         tiles[0][6].setAnimal(new Mouse(false, this));
-       
+        
         tiles[2][6].setAnimal(new Leopard(false, this));
         tiles[4][6].setAnimal(new Wolf(false, this));
         tiles[6][6].setAnimal(new Elephant(false, this));

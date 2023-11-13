@@ -82,7 +82,7 @@ public class Animal {
                 board.lower_blackCount();
             }
             board.removeAnimal(victim.x, victim.y);
-            
+            board.check_killAll_Win();
     }
     public void setPosition (int x, int y) {
 		this.x = x;
