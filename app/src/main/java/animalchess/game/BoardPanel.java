@@ -96,24 +96,6 @@ public class BoardPanel extends JPanel implements TileUtil {
 		return tile;
 	}
 
-	private void check_Tile_SpecialProp(int row, int col, JLabel tile) {
-		if (isRiver(row, col) == true) {
-			tile.setBackground(Color.cyan);
-			tile.setForeground(Color.black);
-		} else if (isTrap(row, col) == true) {
-			tile.setBackground(Color.orange);
-			tile.setForeground(Color.black);
-		} else if (isP1_Den(row, col) == true) {
-			tile.setBackground(Color.red);
-			tile.setForeground(Color.white);
-		} else if (isP2_Den(row, col) == true) {
-			tile.setBackground(Color.blue);
-			tile.setForeground(Color.white);
-		} else {
-			tile.setBackground(Color.white);
-			tile.setForeground(Color.black);
-		}
-	}
 
 	private void call_TileSelect(int x, int y, JLabel choosenTileUI) {
 		/*
