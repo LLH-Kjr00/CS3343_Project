@@ -45,6 +45,7 @@ public class Mouse extends Animal implements SubmergingAnimal_Actions{
 			checkIsDifferentTerrain(target);
         super.MoveTo(distX ,distY);
     }
+    
     @Override
     public void checkIsDifferentTerrain(Animal target) throws InvalidMovementException {
 		if (board.isInWater(x, y) == board.isInWater(target.x, target.y)) {
