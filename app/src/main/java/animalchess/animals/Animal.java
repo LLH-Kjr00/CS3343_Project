@@ -4,10 +4,10 @@ import animalchess.board.Board;
 
 import animalchess.exceptions.InvalidMovementException;
 
-public class Animal {
+public abstract class Animal {
     // R: red team, G: green team
     protected boolean isRed;
-    protected String owner;
+    private String owner;
     // coordinate
     protected int x, y;
     // size of the animal
