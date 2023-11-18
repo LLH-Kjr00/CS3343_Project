@@ -42,12 +42,12 @@ public class Mouse extends Animal implements SubmergingAnimal_Actions{
 	public void Move (int distX, int distY) throws InvalidMovementException{
         Animal target = board.getTarget(distX, distY);
         if (target != null && target.isRed != this.isRed)
-			checkIsDifferentTerrain(target);
+        	checkIsEating_inDifferentTerrain(target);
         super.MoveTo(distX ,distY);
     }
     
     @Override
-    public void checkIsDifferentTerrain(Animal target) throws InvalidMovementException {
+    public void checkIsEating_inDifferentTerrain(Animal target) throws InvalidMovementException {
 		if (board.isInWater(x, y) == board.isInWater(target.x, target.y)) {
 		    this.Eat(target);
 		} else {
