@@ -15,6 +15,7 @@ public class SurrenderButtonBox extends Box {
 	private TimePanel timePanel;
 	private ConsolePanel consolePanel;
 	
+	// Constructor
 	public SurrenderButtonBox(int axis, TimePanel timePanel, ConsolePanel consolePanel) {
 		super(axis);
 		this.timePanel = timePanel;
@@ -28,6 +29,11 @@ public class SurrenderButtonBox extends Box {
 		this.add(P2_Surrender_button);
 
 	}
+	
+	// Constructing the surrender button for Player 2
+	// This function includes setting the actions to be done after pressing the button 
+	// Will change Board's boolean to show Player 2 wins 
+	// And notify consolePanel to end the game 
 	private JButton make_P1_Surrender () {
 		JButton P1_Surrender = new JButton("P1 Surrender");
 		P1_Surrender.addActionListener(new ActionListener() {
@@ -45,6 +51,11 @@ public class SurrenderButtonBox extends Box {
 		});
 		return P1_Surrender;
 	}
+	
+	// Constructing the surrender button for Player 1
+	// This function includes setting the actions to be done after pressing the button 
+	// Will change Board's boolean to show Player 2 wins 
+	// And notify consolePanel to end the game 
 	private JButton make_P2_Surrender () {
 		JButton P2_Surrender = new JButton("P2 Surrender");
 		P2_Surrender.addActionListener(new ActionListener() {

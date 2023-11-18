@@ -32,14 +32,14 @@ public class GameUI extends JFrame implements TileUtil {
 	
 	
 	
-
+	// Singleton pattern for GameUI
 	private static final GameUI instance = new GameUI(Board.getInstance());
 
 	public static GameUI getInstance() {
 		return instance;
 	}
-
-	// Board JungleChessBoard
+	
+	// Constructor for GameUI
 	private GameUI(Board board) {
 		this.board = board;
 		JFrame frame = new JFrame();
@@ -53,6 +53,7 @@ public class GameUI extends JFrame implements TileUtil {
 		frame.setVisible(true);
 	}
 
+	// Sending important messages to logArea
 	public void gameMajorMsg(String content) {
 		String result = new String();
 		for (int i = 0; i < 62; i++) {
@@ -63,13 +64,16 @@ public class GameUI extends JFrame implements TileUtil {
 		logArea.append("\n");
 
 	}
-
+	
+	// Building the UI
+	// The UI consists of 2 parts: consolePanel for UI's functions 
+	// and boardPanel for user's interaction with the game logic
+	// containerPanel is just a container for storing consolePanel and boardPanel
+	
 	private void setupPanels(JFrame frame) {
 
 		containerPanel = new JPanel();
 		containerPanel.setLayout(new GridLayout(1, 2));
-
-		
 		
 		consolePanel = new ConsolePanel(this);
 		boardPanel = new BoardPanel (consolePanel, board);
@@ -83,7 +87,7 @@ public class GameUI extends JFrame implements TileUtil {
 		frame.add(containerPanel);
 	}
 
-	
+	// Announcing who wins the game in logArea and set the game to be ended 
 	public void announce_Win() {
 		if (Board.is_P1_Win) {
 			logArea.append("Player 1 wins!\n");
@@ -94,7 +98,8 @@ public class GameUI extends JFrame implements TileUtil {
 		}
 		is_Game_Start = false;
 	}
-
+	
+	// Refreshing UI when the game has started/ restarted
 	public void restart_game () {
 		boardPanel.reset_boardPanel();
 		board.init_board();
@@ -103,7 +108,8 @@ public class GameUI extends JFrame implements TileUtil {
 		is_Game_Start = true;
 
 	}
-
+	
+	// Announcing whose turn is it now in logArea and notify Board to shift turn
 	public void shift_turn() {
 		logArea.append("Turn Ended!\n");
 		if (Board.is_P1_Turn == true) {
