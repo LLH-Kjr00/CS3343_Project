@@ -3,7 +3,7 @@ package animalchess.animals;
 import animalchess.board.Board;
 import animalchess.exceptions.InvalidMovementException;
 
-public class Mouse extends Animal {
+public class Mouse extends Animal implements SubmergingAnimal_Actions{
 
     public Mouse (boolean isRed, Board board){
         super(isRed, board);
@@ -42,13 +42,17 @@ public class Mouse extends Animal {
 	public void Move (int distX, int distY) throws InvalidMovementException{
         Animal target = board.getTarget(distX, distY);
         if (target != null && target.isRed != this.isRed)
-            if (board.isInWater(x, y) == board.isInWater(target.x, target.y)) {
-                this.Eat(target);
-            } else {
-                throw new InvalidMovementException("you cannot not kill animal from different terrain.");
-            }
+			checkIsDifferentTerrain(target);
         super.MoveTo(distX ,distY);
     }
+    @Override
+    public void checkIsDifferentTerrain(Animal target) throws InvalidMovementException {
+		if (board.isInWater(x, y) == board.isInWater(target.x, target.y)) {
+		    this.Eat(target);
+		} else {
+		    throw new InvalidMovementException("you cannot not kill animal from different terrain.");
+		}
+	}
 
     //additional rule: Mouse can eat elephant
     @Override

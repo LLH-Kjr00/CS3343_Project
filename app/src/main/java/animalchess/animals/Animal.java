@@ -4,7 +4,7 @@ import animalchess.board.Board;
 
 import animalchess.exceptions.InvalidMovementException;
 
-public abstract class Animal {
+public abstract class Animal implements GeneralAnimal_Actions{
     // R: red team, G: green team
     protected boolean isRed;
     private String owner;
@@ -33,6 +33,7 @@ public abstract class Animal {
     // 4. Cannot enter river
     // 5. Cannot move into friendly animal or trap or Base
     // 6. Cannot attempt to eat larger animal
+    @Override
     public boolean checkIsValidMove(int destX, int destY) throws InvalidMovementException{
     	if (Math.abs(x-destX) + Math.abs(y-destY) > 1) {
             throw new InvalidMovementException("you cannot move more than one block.");
@@ -56,6 +57,7 @@ public abstract class Animal {
 
     }
     //board.store_and_execute(new Move_command(this,x,y));
+    @Override
     public void Move (int x, int y) throws InvalidMovementException{
         Animal target = board.getTarget(x, y);
         if (target != null && target.isRed != this.isRed)
@@ -64,14 +66,14 @@ public abstract class Animal {
         MoveTo(x ,y);
         
     }
-
-    protected void MoveTo (int x, int y) {
+    @Override
+    public void MoveTo (int x, int y) {
         board.removeAnimal(this.x, this.y);
         board.addAnimal(x, y, this);
         setPosition(x,y);
         board.check_atDen(this,x,y);
     }
-
+    @Override
     public void Eat(Animal victim) throws InvalidMovementException{
         if (victim.strength>this.strength && !victim.trapped)
             throw new InvalidMovementException("you cannot eat animal with more strength than yours.");
@@ -84,6 +86,7 @@ public abstract class Animal {
             board.removeAnimal(victim.x, victim.y);
             board.check_killAll_Win();
     }
+    
     public void setPosition (int x, int y) {
 		this.x = x;
 		this.y = y;

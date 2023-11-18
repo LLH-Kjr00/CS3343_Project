@@ -3,7 +3,7 @@ package animalchess.animals;
 import animalchess.board.Board;
 import animalchess.exceptions.InvalidMovementException;
 
-public class Tiger extends Animal {
+public class Tiger extends Animal implements JumpingAnimal_Actions {
 
     public Tiger (boolean isRed, Board board){
         super(isRed,board);
@@ -39,8 +39,8 @@ public class Tiger extends Animal {
 
     }
 
-
-    private boolean checkIsValidJump (int xdist, int ydist) throws InvalidMovementException{
+    @Override
+    public boolean checkIsValidJump (int xdist, int ydist) throws InvalidMovementException{
         //a diagonal jump
         if (Math.abs(x-xdist) != 0 && Math.abs(y-ydist) != 0) {
             throw new InvalidMovementException("Cannot jump diagonally");

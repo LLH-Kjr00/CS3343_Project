@@ -3,7 +3,7 @@ package animalchess.animals;
 import animalchess.board.Board;
 import animalchess.exceptions.InvalidMovementException;
 
-public class Lion extends Animal {
+public class Lion extends Animal implements JumpingAnimal_Actions {
 
     public Lion (boolean isRed,Board board){
         super(isRed, board);
@@ -38,8 +38,8 @@ public class Lion extends Animal {
         return true;
     }
 
-	
-    private boolean checkIsValidJump (int xdist, int ydist) throws InvalidMovementException {
+	@Override
+	public boolean checkIsValidJump (int xdist, int ydist) throws InvalidMovementException {
         //a vertical jump
         int start = y, end = ydist;
         //a horizontal jump
