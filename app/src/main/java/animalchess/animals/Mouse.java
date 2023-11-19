@@ -4,7 +4,7 @@ import animalchess.board.Board;
 import animalchess.exceptions.InvalidMovementException;
 
 public class Mouse extends Animal implements SubmergingAnimal_Actions{
-
+	// Constructor 
     public Mouse (boolean isRed, Board board){
         super(isRed, board);
         this.strength = 1;
@@ -16,7 +16,8 @@ public class Mouse extends Animal implements SubmergingAnimal_Actions{
         }
     }
 
-    //new rule: Mouse can go in water
+    // New rule: Mouse can go in water
+    // ignore isInWater() exception
     @Override
     public boolean checkIsValidMove(int destX, int destY) throws InvalidMovementException {
     	if (Math.abs(x-destX) + Math.abs(y-destY) > 1) {
@@ -25,8 +26,8 @@ public class Mouse extends Animal implements SubmergingAnimal_Actions{
         if ((Math.abs(x-destX) + Math.abs(y-destY)) == 0) {
             throw new InvalidMovementException("you cannot move into origin location.");
         }
-        if (board.isOutBound(destX, destY)) {
-            throw new InvalidMovementException("you cannot move outside of board.");
+        if (destX < 0 || destY < 0 || destX > 7 || destY > 9) {
+        	throw new InvalidMovementException("you cannot move outside of board.");
         }
         if (board.isOccupiedByFriendlyAnimal(destX, destY, isRed)) {
             throw new InvalidMovementException("you cannot move into friendly units.");

@@ -4,6 +4,8 @@ import animalchess.board.Board;
 import animalchess.exceptions.InvalidMovementException;
 
 public class Elephant extends Animal {
+	
+	// Constructor 
 	public Elephant (boolean isRed, Board board){
         super(isRed, board);
         this.strength = 8;

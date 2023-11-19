@@ -5,6 +5,7 @@ import animalchess.exceptions.InvalidMovementException;
 
 public class Lion extends Animal implements JumpingAnimal_Actions {
 
+	// Constructor 
     public Lion (boolean isRed,Board board){
         super(isRed, board);
         this.strength = 7;
@@ -15,7 +16,7 @@ public class Lion extends Animal implements JumpingAnimal_Actions {
         	setPosition(0,8);
         }
     }
-    //New rule: A Tiger or Lion can jump over water
+    // New rule: A Tiger or Lion can jump over water
     @Override
     public boolean checkIsValidMove(int destX, int destY) throws InvalidMovementException{
     	if (Math.abs(x-destX) + Math.abs(y-destY) > 1) {
@@ -23,8 +24,8 @@ public class Lion extends Animal implements JumpingAnimal_Actions {
         if ((Math.abs(x-destX) + Math.abs(y-destY)) == 0) {
             throw new InvalidMovementException("you cannot move into origin location.");
         }
-        if (board.isOutBound(destX, destY)) {
-            throw new InvalidMovementException("you cannot move outside of board.");
+        if (destX < 0 || destY < 0 || destX > 7 || destY > 9) {
+        	throw new InvalidMovementException("you cannot move outside of board.");
         }
         if (board.isInWater(destX, destY)) {
             throw new InvalidMovementException("this animal cannot goes into water.");
@@ -38,6 +39,11 @@ public class Lion extends Animal implements JumpingAnimal_Actions {
         return true;
     }
 
+    // Check if the jump over the river is valid based on Board.getLineAsArray()
+    // If there is an animal in between the starting point and ending point 
+    // Change isBlocked to be true and return exception
+    // If there is no river tile in between the starting point and ending point 
+    // Change isLandJump to be true and return exception
 	@Override
 	public boolean checkIsValidJump (int xdist, int ydist) throws InvalidMovementException {
         //a vertical jump

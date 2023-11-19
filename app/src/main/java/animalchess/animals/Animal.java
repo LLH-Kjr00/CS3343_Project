@@ -10,11 +10,13 @@ public abstract class Animal implements GeneralAnimal_Actions{
     private String owner;
     // coordinate
     protected int x, y;
-    // size of the animal
+    // strength of the animal
+    // Deciding whether it is strong enough to eat enemy
     protected int strength;
     private boolean trapped = false;
     protected Board board;
 
+    //Constructor
     public Animal (boolean isRed, Board board){
         this.isRed = isRed;
         this.board= board;
@@ -25,14 +27,19 @@ public abstract class Animal implements GeneralAnimal_Actions{
         	owner = "Player 2";
         }
     }
-    // rules for general:
+    // Checking is the current move a valid move
+    // Throw exceptions and show in logArea if the move is invalid
+    
+    // rules for moving:
+    // Animal itself:
     // 1. Cannot move more than one block
     // 2. Cannot move on the spot
-    // (a.k.a choose to pick up the pawn and put it back to original posision)
+    // (a.k.a choose to pick up the pawn and put it back to original position)
     // 3. Cannot move outside of chess board
-    // 4. Cannot enter river
-    // 5. Cannot move into friendly animal or trap or Base
-    // 6. Cannot attempt to eat larger animal
+    // Board-related:
+    // 1. Cannot enter river
+    // 2. Cannot move into a friendly animal
+    // 3. Cannot move into friendly Den
     @Override
     public boolean checkIsValidMove(int destX, int destY) throws InvalidMovementException{
     	if (Math.abs(x-destX) + Math.abs(y-destY) > 1) {
@@ -41,8 +48,8 @@ public abstract class Animal implements GeneralAnimal_Actions{
         if ((Math.abs(x-destX) + Math.abs(y-destY)) == 0) {
             throw new InvalidMovementException("you cannot move into origin location.");
         }
-        if (board.isOutBound(destX, destY)) {
-            throw new InvalidMovementException("you cannot move outside of board.");
+        if (destX < 0 || destY < 0 || destX > 7 || destY > 9) {
+        	throw new InvalidMovementException("you cannot move outside of board.");
         }
         if (board.isInWater(destX, destY)) {
             throw new InvalidMovementException("this animal cannot go into water.");
@@ -56,16 +63,32 @@ public abstract class Animal implements GeneralAnimal_Actions{
         return true;
 
     }
-    //board.store_and_execute(new Move_command(this,x,y));
+    
+    // Check if the destination has a enemy pawn
+    // Execute Eat() if there is an enemy pawn
+    // Otherwise, execute MoveTo()
     @Override
     public void Move (int x, int y) throws InvalidMovementException{
-        Animal target = board.getTarget(x, y);
-        if (target != null && target.isRed != this.isRed)
-        	//board.store_and_execute(new Eat_command(this,target));
-        	this.Eat(target);
-        MoveTo(x ,y);
+        Animal target = null;
+        	if (checkIsValidMove(x, y) == true) {
+        		target = board.getTarget(x, y);
+        		if (target != null && target.isRed != this.isRed)
+                	//board.store_and_execute(new Eat_command(this,target));
+                	this.Eat(target);
+                MoveTo(x ,y);
+        	}
+        	
+        	
+        
+        //if (target != null && target.isRed != this.isRed)
+        //	//board.store_and_execute(new Eat_command(this,target));
+        //	this.Eat(target);
+        //MoveTo(x ,y);
         
     }
+    // Moving the animal on the board by removing and adding it back to the board
+    // Update the animal's position
+    // See if the target location is a Den
     @Override
     public void MoveTo (int x, int y) {
         board.removeAnimal(this.x, this.y);
@@ -73,6 +96,11 @@ public abstract class Animal implements GeneralAnimal_Actions{
         setPosition(x,y);
         board.check_atDen(this,x,y);
     }
+    
+    // Decide whether to eat enemy's pawn
+    // Rules for eating in general
+    // 1. Cannot attempt to eat enemy's pawn with greater strength
+    // (Except when the animal to be eaten is trapped)
     @Override
     public void Eat(Animal victim) throws InvalidMovementException{
         if (victim.strength>this.strength && !victim.trapped)
@@ -87,10 +115,16 @@ public abstract class Animal implements GeneralAnimal_Actions{
             board.check_killAll_Win();
     }
     
+    // Setter function for updating coordinate on the board 
     public void setPosition (int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
+    public void setTrapped(boolean trapped) {
+        this.trapped = trapped;
+    }
+    
+    // Getter functions 
     public int get_xCoordinate() {
     	return x;
     }
@@ -104,9 +138,7 @@ public abstract class Animal implements GeneralAnimal_Actions{
     	return isRed;
     }
 
-    public void setTrapped(boolean trapped) {
-        this.trapped = trapped;
-    }
+    
 
 
 }

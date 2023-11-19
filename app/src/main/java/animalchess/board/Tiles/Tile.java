@@ -4,13 +4,15 @@ import animalchess.animals.Animal;
 
 public class Tile {
 
+	// Animal that is in the tile
     protected Animal occupier;
     
 
-
+	// Constructor
     public Tile() {
     }
 
+    // Setter function for animal
     public void setAnimal(Animal occupier) {
         this.occupier = occupier;
     }

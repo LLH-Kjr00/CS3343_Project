@@ -4,6 +4,7 @@ import animalchess.board.Board;
 
 public class Cat extends Animal {
 
+	// Constructor 
     public Cat (boolean isRed, Board board){
         super(isRed, board);
         this.strength = 2;

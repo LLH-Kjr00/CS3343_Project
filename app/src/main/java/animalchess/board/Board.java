@@ -51,13 +51,7 @@ public class Board {
         }
 	}
 
-    public boolean isOutBound(int x, int y) {
-        if (x < 0 || y < 0 || x > 7 || y > 9) {
-            return true;
-        }
-        return false;
-    }
-
+   
     public boolean isInWater(int x, int y) {
         return tiles[x][y].isWater();
     }

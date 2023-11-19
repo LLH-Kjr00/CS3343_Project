@@ -131,10 +131,9 @@ public class BoardPanel extends JPanel implements TileUtil {
 		Tile StartTile = board.getTile(choosenX, choosenY);
 		Animal choosenAnimal = StartTile.getAnimal();
 		try {
-			if (choosenAnimal.checkIsValidMove(x, y) == true) {
-				GameUI.logArea.append("Moving to the tile at (" + verticalAxis[y] + "," + horizontalAxis[x] + ")\n");
-				;
+		
 				choosenAnimal.Move(x, y);
+				GameUI.logArea.append("Moving to the tile at (" + verticalAxis[y] + "," + horizontalAxis[x] + ")\n");
 				// MoveAnimal_onUI(x,y);
 				MoveAnimal_onUI(x, y, DestTile_onUI);
 				if (board.getWin() == true) {
@@ -144,9 +143,6 @@ public class BoardPanel extends JPanel implements TileUtil {
 				else {
 					consolePanel.Change_turn();
 				}
-				
-				
-			}
 		} catch (InvalidMovementException e) {
 			e.printStackTrace();
 			GameUI.logArea.append("You cannot move to that tile because " + e.getLocalizedMessage() + "\n");
