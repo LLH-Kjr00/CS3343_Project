@@ -27,7 +27,7 @@ public class Tiger extends Animal implements JumpingAnimal_Actions {
         if ((Math.abs(x-destX) + Math.abs(y-destY)) == 0) {
             throw new InvalidMovementException("Invalid movement! Cannot move into origin location!");
         }
-        if (destX < 0 || destY < 0 || destX > 7 || destY > 9) {
+        if (destX < 0 || destY < 0 || destX > 6 || destY > 8) {
         	throw new InvalidMovementException("you cannot move outside of board.");
         }
         if (board.isInWater(destX, destY)) {

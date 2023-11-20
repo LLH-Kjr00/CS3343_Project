@@ -14,60 +14,121 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class AnimalTest {
 
     @Test
-    public void test_ValidMove1() throws InvalidMovementException {
+    public void test_ValidMove1() {
 
         Board board = Board.getInstance();
+        board.init_board();
         Animal dog = board.getTarget(5,1);
-//        Exception exception = assertThrows(Exception.class,()->dog.checkIsValidMove(7,1),"you cannot move more than one block.");
-        Exception exception = assertThrows(Exception.class,()->dog.checkIsValidMove(7,1));
-        assertEquals("you cannot move more than one block.",exception.getMessage());
-    }
-
-//    @Test
-//    public void test_ValidMove1() throws InvalidMovementException {
-//
-//        Board board = Board.getInstance();
-//        Animal Lion = board.getTarget(0,8);
-//        Exception exception = assertThrows(Exception.class,()->Lion.checkIsValidMove(0,5),"you cannot move more than one block.");
-//        assertEquals("you cannot move more than one block.",exception.getMessage());
-//    }
-
-    @Test
-    public void test_ValidMove2() throws InvalidMovementException {
-
-        Board board = Board.getInstance();
-        Animal dog = board.getTarget(5,1);
-        Exception exception = assertThrows(Exception.class,()->dog.checkIsValidMove(5,5),"you cannot move more than one block.");
+        Exception exception = assertThrows(Exception.class,()->dog.Move(7,1));
         assertEquals("you cannot move more than one block.",exception.getMessage());
     }
 
     @Test
-    public void test_ValidMove3() throws InvalidMovementException {
+    public void test_ValidMove2() {
 
         Board board = Board.getInstance();
+        board.init_board();
         Animal dog = board.getTarget(5,1);
-        Exception exception = assertThrows(Exception.class,()->dog.checkIsValidMove(5,1),"you cannot move into origin location.");
+        Exception exception = assertThrows(Exception.class,()->dog.Move(5,5),"you cannot move more than one block.");
+        assertEquals("you cannot move more than one block.",exception.getMessage());
+    }
+    @Test
+    public void test_ValidMove3() {
+
+        Board board = Board.getInstance();
+        board.init_board();
+        Animal dog = board.getTarget(5,1);
+        Exception exception = assertThrows(Exception.class,()->dog.Move(6,2),"you cannot move more than one block.");
+        assertEquals("you cannot move more than one block.",exception.getMessage());
+    }
+
+    @Test
+    public void test_ValidMove4() {
+
+        Board board = Board.getInstance();
+        board.init_board();
+        Animal dog = board.getTarget(5,1);
+        Exception exception = assertThrows(Exception.class,()->dog.Move(5,1),"you cannot move into origin location.");
         assertEquals("you cannot move into origin location.",exception.getMessage());
     }
+    @Test
+    public void test_ValidMove5() {
+
+        Board board = Board.getInstance();
+        board.init_board();
+        Animal dog = board.getTarget(5,1);
+        dog.setPosition(0,1);
+        Exception exception = assertThrows(Exception.class,()->dog.Move(-1,1),"you cannot move outside of board.");
+        assertEquals("you cannot move outside of board.",exception.getMessage());
+    }
 
     @Test
-    public void test_ValidMove4() throws InvalidMovementException {
+    public void test_ValidMove6() {
+
         Board board = Board.getInstance();
+        board.init_board();
+        Animal dog = board.getTarget(5,1);
+        dog.setPosition(5,0);
+        Exception exception = assertThrows(Exception.class,()->dog.Move(5,-1),"you cannot move outside of board.");
+        assertEquals("you cannot move outside of board.",exception.getMessage());
+    }
+    @Test
+    public void test_ValidMove7() {
+
+        Board board = Board.getInstance();
+        board.init_board();
+        Animal dog = board.getTarget(5,1);
+        dog.setPosition(6,1);
+        Exception exception = assertThrows(Exception.class,()->dog.Move(7,1),"you cannot move outside of board.");
+        assertEquals("you cannot move outside of board.",exception.getMessage());
+    }
+
+    @Test
+    public void test_ValidMove8() {
+
+        Board board = Board.getInstance();
+        board.init_board();
+        Animal dog = board.getTarget(5,1);
+        dog.setPosition(5,8);
+        Exception exception = assertThrows(Exception.class,()->dog.Move(5,9),"you cannot move outside of board.");
+        assertEquals("you cannot move outside of board.",exception.getMessage());
+    }
+    @Test
+    public void test_ValidMove9() {
+        Board board = Board.getInstance();
+        board.init_board();
         Animal leopard = board.getTarget(4,2);
-        Exception exception = assertThrows(Exception.class,()->leopard.checkIsValidMove(4,3),"this animal cannot go into water.");
+        System.out.println(leopard.toString());
+        Exception exception = assertThrows(Exception.class,()->leopard.Move(4,3),"this animal cannot go into water.");
         assertEquals("this animal cannot go into water.",exception.getMessage());
     }
 
     @Test
-    public void test_ValidMove5() throws InvalidMovementException {
+    public void test_ValidMove10() throws InvalidMovementException {
         Board board = Board.getInstance();
+        board.init_board();
         Animal leopard = board.getTarget(4,2);
         Animal wolf = board.getTarget(2,2);
         wolf.Move(3,2);
-        Exception exception = assertThrows(Exception.class,()->leopard.checkIsValidMove(3,2),"you cannot move into friendly units.");
+        Exception exception = assertThrows(Exception.class,()->leopard.Move(3,2),"you cannot move into friendly units.");
         assertEquals("you cannot move into friendly units.",exception.getMessage());
     }
 
-//    @Test
+    @Test
+    public void test_ValidMove11(){
+        Board board = Board.getInstance();
+        board.init_board();
+        Animal leopard = board.getTarget(4,2);
+        leopard.setPosition(4,0);
+        Exception exception = assertThrows(Exception.class,()->leopard.Move(3,0),"you cannot enter friendly den.");
+        assertEquals("you cannot enter friendly den.",exception.getMessage());
+    }
 
+//    @Test
+//    public void test_MouseValidMove1() {
+//        Board board = Board.getInstance();
+//        Animal mouse = board.getTarget(0,6);
+//        Exception exception = assertThrows(Exception.class,()->mouse.Move(0,5),"you cannot move more than one block.");
+//        assertEquals("you cannot move more than one block.",exception.getMessage());
+//    }
 }
