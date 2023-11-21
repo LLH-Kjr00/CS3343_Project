@@ -23,10 +23,10 @@ public class Mouse extends Animal implements SubmergingAnimal_Actions{
     	if (Math.abs(x-destX) + Math.abs(y-destY) > 1) {
     		throw new InvalidMovementException("you cannot move more than one block.");
         }
-    	 if ((Math.abs(x-destX) + Math.abs(y-destY)) == 0) {
-             throw new InvalidMovementException("you cannot move into origin location.");
-         }
-         if (destX < 0 || destY < 0 || destX > 6 || destY > 8) {
+        if ((Math.abs(x-destX) + Math.abs(y-destY)) == 0) {
+            throw new InvalidMovementException("you cannot move into origin location.");
+        }
+        if (destX < 0 || destY < 0 || destX > 6 || destY > 8) {
         	throw new InvalidMovementException("you cannot move outside of board.");
         }
         if (board.isOccupiedByFriendlyAnimal(destX, destY, isRed)) {
