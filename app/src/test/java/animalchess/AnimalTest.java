@@ -251,7 +251,7 @@ public class AnimalTest {
         Animal tiger = board.getTarget(0,0);
         tiger.setPosition(1,2);
         Exception exception = assertThrows(Exception.class,()->tiger.Move(2,6));
-        assertEquals("Cannot jump diagonally",exception.getMessage());
+        assertEquals("you cannot jump diagonally",exception.getMessage());
     }
     @Test
     public void test_TigerValidMove2() {
@@ -261,7 +261,7 @@ public class AnimalTest {
         Animal tiger = board.getTarget(0,0);
         tiger.setPosition(3,2);
         Exception exception = assertThrows(Exception.class,()->tiger.Move(3,6));
-        assertEquals("Cannot jump non river blocks",exception.getMessage());
+        assertEquals("you cannot jump over normal tiles.",exception.getMessage());
     }
     @Test
     public void test_TigerValidMove3() {
@@ -346,6 +346,8 @@ public class AnimalTest {
         board.init_board();
         Animal tiger = board.getTarget(0,0);
         tiger.setPosition(1,2);
+//        Animal check = board.getTarget(1,3);
+//        System.out.println(check.toString());
         Exception exception = assertThrows(Exception.class,()->tiger.Move(1,3),"this animal cannot go into water.");
         assertEquals("this animal cannot go into water.",exception.getMessage());
     }
@@ -388,7 +390,7 @@ public class AnimalTest {
         Animal Lion = board.getTarget(6,0);
         Lion.setPosition(1,2);
         Exception exception = assertThrows(Exception.class,()->Lion.Move(2,6));
-        assertEquals("Cannot jump diagonally",exception.getMessage());
+        assertEquals("you cannot jump diagonally",exception.getMessage());
     }
     @Test
     public void test_LionValidMove2() {
@@ -398,7 +400,7 @@ public class AnimalTest {
         Animal Lion = board.getTarget(6,0);
         Lion.setPosition(3,2);
         Exception exception = assertThrows(Exception.class,()->Lion.Move(3,6));
-        assertEquals("Cannot jump non river blocks",exception.getMessage());
+        assertEquals("you cannot jump over normal tiles.",exception.getMessage());
     }
     @Test
     public void test_LionValidMove3() {
@@ -451,7 +453,7 @@ public class AnimalTest {
         Board board = Board.getInstance();
         board.init_board();
         Animal Lion = board.getTarget(6,0);
-        Exception exception = assertThrows(Exception.class,()->Lion.Move(0,-1),"you cannot move outside of board.");
+        Exception exception = assertThrows(Exception.class,()->Lion.Move(6,-1),"you cannot move outside of board.");
         assertEquals("you cannot move outside of board.",exception.getMessage());
     }
     @Test
