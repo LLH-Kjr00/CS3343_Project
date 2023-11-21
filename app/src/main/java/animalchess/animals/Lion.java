@@ -46,12 +46,17 @@ public class Lion extends Animal implements JumpingAnimal_Actions {
     // Change isLandJump to be true and return exception
 	@Override
 	public boolean checkIsValidJump (int xdist, int ydist) throws InvalidMovementException {
+        //a diagonal jump
+		if (Math.abs(x-xdist) != 0 && Math.abs(y-ydist) != 0) {
+            throw new InvalidMovementException("you cannot jump diagonally");
+        }
         //a vertical jump
-        int start = y, end = ydist;
-        //a horizontal jump
-        if (start == end) {
-            start = x;
-            end = xdist;
+		else {
+	        int start = y, end = ydist;
+	        //a horizontal jump
+	        if (start == end) {
+	            start = x;
+	            end = xdist;
         }
         int[] Path = Board.getLineAsArray(start, end);
         //check if it is water in between start and end
@@ -81,6 +86,7 @@ public class Lion extends Animal implements JumpingAnimal_Actions {
             if (isBlocked)
                 throw new InvalidMovementException("you cannot jump when there is animal in between.");
         }
+		}
         return true;
     }
     @Override 

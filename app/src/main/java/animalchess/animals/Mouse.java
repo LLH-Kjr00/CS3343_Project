@@ -23,9 +23,9 @@ public class Mouse extends Animal implements SubmergingAnimal_Actions{
     	if (Math.abs(x-destX) + Math.abs(y-destY) > 1) {
     		throw new InvalidMovementException("you cannot move more than one block.");
         }
-        if ((Math.abs(x-destX) + Math.abs(y-destY)) == 0) {
-            throw new InvalidMovementException("you cannot move into origin location.");
-        }
+    	 if ((Math.abs(x-destX) + Math.abs(y-destY)) == 0) {
+             throw new InvalidMovementException("you cannot move into origin location.");
+         }
         if (destX < 0 || destY < 0 || destX > 7 || destY > 9) {
         	throw new InvalidMovementException("you cannot move outside of board.");
         }
@@ -40,11 +40,15 @@ public class Mouse extends Animal implements SubmergingAnimal_Actions{
 
     //additional rule: cannot eat animal from different medium
     @Override
-	public void Move (int distX, int distY) throws InvalidMovementException{
-        Animal target = board.getTarget(distX, distY);
-        if (target != null && target.isRed != this.isRed)
-        	checkIsEating_inDifferentTerrain(target);
-        super.MoveTo(distX ,distY);
+	public void Move (int destX, int destY) throws InvalidMovementException{
+    	Animal target = null;
+        if (checkIsValidMove(destX, destY) == true) {
+        	target = board.getTarget(destX, destY);
+        	if (target != null && target.isRed != this.isRed) {
+        		checkIsEating_inDifferentTerrain(target);
+        	}
+        }
+        super.MoveTo(destX ,destY);
     }
     
     @Override
