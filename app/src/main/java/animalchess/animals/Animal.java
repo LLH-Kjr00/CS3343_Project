@@ -68,14 +68,14 @@ public abstract class Animal implements GeneralAnimal_Actions{
     // Execute Eat() if there is an enemy pawn
     // Otherwise, execute MoveTo()
     @Override
-    public void Move (int x, int y) throws InvalidMovementException{
+    public void Move (int destX, int destY) throws InvalidMovementException{
         Animal target = null;
-        	if (checkIsValidMove(x, y) == true) {
-        		target = board.getTarget(x, y);
+        	if (checkIsValidMove(destX, destY) == true) {
+        		target = board.getTarget(destX, destY);
         		if (target != null && target.isRed != this.isRed)
                 	//board.store_and_execute(new Eat_command(this,target));
                 	this.Eat(target);
-                MoveTo(x ,y);
+                MoveTo(destX ,destY);
         	}
         	
         	
