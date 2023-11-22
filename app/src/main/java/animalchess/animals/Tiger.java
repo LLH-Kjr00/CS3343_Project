@@ -39,8 +39,7 @@ public class Tiger extends Animal implements JumpingAnimal_Actions {
         if (board.isOccupiedByFriendlyDen(destX, destY, isRed)) {
             throw new InvalidMovementException("you cannot enter friendly den.");
         }
-		return true;
-
+        return true;
     }
     
     // Check if the jump over the river is valid based on Board.getLineAsArray()
