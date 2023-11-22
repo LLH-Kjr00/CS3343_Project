@@ -130,6 +130,41 @@ public class AnimalTest {
         assertDoesNotThrow(()->leopard.Move(4,1));
     }
 
+    @Test
+    public void test_Eat1() throws InvalidMovementException {
+        Board board = Board.getInstance();
+        board.init_board();
+        Animal red_leopard = board.getTarget(4,2);
+        Animal blue_Elephant = board.getTarget(6,6);
+
+        red_leopard.setPosition(6,7);
+        Exception exception =assertThrows(Exception.class,()->red_leopard.Move(6,6),"you cannot eat animal with more strength than yours.");
+        assertEquals("you cannot eat animal with more strength than yours.",exception.getMessage());
+    }
+
+    @Test
+    public void test_Eat2() throws InvalidMovementException {
+        Board board = Board.getInstance();
+        board.init_board();
+        Animal red_leopard = board.getTarget(4,2);
+//        Animal blue_Cat = board.getTarget(5,7);
+
+        red_leopard.setPosition(5,6);
+        assertDoesNotThrow(()->red_leopard.Move(5,7));
+    }
+
+    @Test
+    public void test_Eat3() throws InvalidMovementException {
+        Board board = Board.getInstance();
+        board.init_board();
+        Animal red_leopard = board.getTarget(4,2);
+        Animal blue_leopard = board.getTarget(2,6);
+
+        red_leopard.setPosition(3,5); //the red animal must move first
+        red_leopard.Move(3,6);
+        assertDoesNotThrow(()->blue_leopard.Move(3,6));
+    }
+
     //Mouse
     @Test
     public void test_MouseValidMove1() {
@@ -242,6 +277,54 @@ public class AnimalTest {
         assertDoesNotThrow(()->mouse.Move(6,1));
     }
 
+    @Test
+    public void test_MouseEat1() throws InvalidMovementException {
+        Board board = Board.getInstance();
+        board.init_board();
+        Animal red_mouse = board.getTarget(6,2);
+        Animal blue_Elephant = board.getTarget(6,6);
+        red_mouse.setPosition(6,5);
+        assertDoesNotThrow(()->red_mouse.Move(6,6));
+    }
+
+    @Test
+    public void test_MouseEat2() throws InvalidMovementException {
+        Board board = Board.getInstance();
+        board.init_board();
+        Animal red_mouse = board.getTarget(6,2);
+        Animal blue_Elephant = board.getTarget(6,6);
+        red_mouse.setPosition(4,5);
+        blue_Elephant.setPosition(3,3);
+        red_mouse.Move(4,4);
+        blue_Elephant.Move(3,4);
+        Exception exception = assertThrows(Exception.class,()->red_mouse.Move(3,4));
+        assertEquals("you cannot not kill animal from different terrain.",exception.getMessage());
+    }
+
+    @Test
+    public void test_MouseEat3() throws InvalidMovementException {
+        Board board = Board.getInstance();
+        board.init_board();
+        Animal blue_mouse = board.getTarget(0,6);
+        Animal red_Elephant = board.getTarget(0,2);
+        blue_mouse.setPosition(0,4);
+        red_Elephant.Move(0,3);
+        assertDoesNotThrow(()->blue_mouse.Move(0,3));
+    }
+
+    @Test
+    public void test_MouseEat4() throws InvalidMovementException {
+        Board board = Board.getInstance();
+        board.init_board();
+        Animal blue_mouse = board.getTarget(0,6);
+//        Animal red_Cat = board.getTarget(1,1);
+        blue_mouse.setPosition(2,1);
+        Exception exception = assertThrows(Exception.class,()->blue_mouse.Move(1,1));
+        assertEquals("you cannot eat animal with more strength than yours.",exception.getMessage());
+    }
+
+
+
     //Tiger
     @Test
     public void test_TigerValidMove1() {
@@ -263,33 +346,59 @@ public class AnimalTest {
         Exception exception = assertThrows(Exception.class,()->tiger.Move(3,6));
         assertEquals("you cannot jump over normal tiles.",exception.getMessage());
     }
+
     @Test
     public void test_TigerValidMove3() {
 
         Board board = Board.getInstance();
         board.init_board();
         Animal tiger = board.getTarget(0,0);
+        tiger.setPosition(3,2);
+        Exception exception = assertThrows(Exception.class,()->tiger.Move(5,2));
+        assertEquals("you cannot jump over normal tiles.",exception.getMessage());
+    }
+    @Test
+    public void test_TigerValidMove4() throws InvalidMovementException {
+
+        Board board = Board.getInstance();
+        board.init_board();
+        Animal tiger = board.getTarget(0,0);
         tiger.setPosition(1,2);
+        Animal blue_mouse = board.getTarget(0,6);
         Animal mouse = board.getTarget(6,2);
-        mouse.setPosition(1,4);
+        mouse.setPosition(1,3);
+        mouse.Move(1,4);
+        blue_mouse.Move(0,5);
         Exception exception = assertThrows(Exception.class,()->tiger.Move(1,6));
-        assertEquals("Cannot jump when there is animal in between",exception.getMessage());
+        assertEquals("you cannot jump when there is animal in between.",exception.getMessage());
     }
 
     @Test
-    public void test_TigerValidMove4() {
+    public void test_TigerValidMove5() throws InvalidMovementException {
 
         Board board = Board.getInstance();
         board.init_board();
         Animal tiger = board.getTarget(0,0);
         tiger.setPosition(0,3);
+        Animal blue_mouse = board.getTarget(0,6);
         Animal mouse = board.getTarget(6,2);
-        mouse.setPosition(1,3);
+        mouse.setPosition(1,2);
+        mouse.Move(1,3);
+        blue_mouse.Move(0,5);
         Exception exception = assertThrows(Exception.class,()->tiger.Move(3,3));
-        assertEquals("Cannot jump when there is animal in between",exception.getMessage());
+        assertEquals("you cannot jump when there is animal in between.",exception.getMessage());
     }
     @Test
-    public void test_TigerValidMove5() {
+    public void test_TigerValidMove6() {
+
+        Board board = Board.getInstance();
+        board.init_board();
+        Animal tiger = board.getTarget(0,0);
+        tiger.setPosition(1,2);
+        assertDoesNotThrow(()->tiger.Move(1,6));
+    }
+    @Test
+    public void test_TigerValidMove7() {
 
         Board board = Board.getInstance();
         board.init_board();
@@ -298,7 +407,7 @@ public class AnimalTest {
         assertEquals("you cannot move into origin location.",exception.getMessage());
     }
     @Test
-    public void test_TigerValidMove6() {
+    public void test_TigerValidMove8() {
 
         Board board = Board.getInstance();
         board.init_board();
@@ -309,7 +418,7 @@ public class AnimalTest {
     }
 
     @Test
-    public void test_TigerValidMove7() {
+    public void test_TigerValidMove9() {
 
         Board board = Board.getInstance();
         board.init_board();
@@ -318,7 +427,7 @@ public class AnimalTest {
         assertEquals("you cannot move outside of board.",exception.getMessage());
     }
     @Test
-    public void test_TigerValidMove8() {
+    public void test_TigerValidMove10() {
 
         Board board = Board.getInstance();
         board.init_board();
@@ -329,7 +438,7 @@ public class AnimalTest {
     }
 
     @Test
-    public void test_TigerValidMove9() {
+    public void test_TigerValidMove11() {
 
         Board board = Board.getInstance();
         board.init_board();
@@ -340,19 +449,17 @@ public class AnimalTest {
     }
 
     @Test
-    public void test_TigerValidMove10() {
+    public void test_TigerValidMove12() {
 
         Board board = Board.getInstance();
         board.init_board();
         Animal tiger = board.getTarget(0,0);
         tiger.setPosition(1,2);
-//        Animal check = board.getTarget(1,3);
-//        System.out.println(check.toString());
         Exception exception = assertThrows(Exception.class,()->tiger.Move(1,3),"this animal cannot go into water.");
         assertEquals("this animal cannot go into water.",exception.getMessage());
     }
     @Test
-    public void test_TigerValidMove11() throws InvalidMovementException {
+    public void test_TigerValidMove13() throws InvalidMovementException {
         Board board = Board.getInstance();
         board.init_board();
         Animal tiger = board.getTarget(0,0);
@@ -364,7 +471,7 @@ public class AnimalTest {
     }
 
     @Test
-    public void test_TigerValidMove12(){
+    public void test_TigerValidMove14(){
         Board board = Board.getInstance();
         board.init_board();
         Animal tiger = board.getTarget(0,0);
@@ -374,7 +481,7 @@ public class AnimalTest {
     }
 
     @Test
-    public void test_TigerValidMove13(){
+    public void test_TigerValidMove15(){
         Board board = Board.getInstance();
         board.init_board();
         Animal tiger = board.getTarget(0,0);
@@ -408,27 +515,53 @@ public class AnimalTest {
         Board board = Board.getInstance();
         board.init_board();
         Animal Lion = board.getTarget(6,0);
-        Lion.setPosition(1,2);
-        Animal mouse = board.getTarget(6,2);
-        mouse.setPosition(1,4);
-        Exception exception = assertThrows(Exception.class,()->Lion.Move(1,6));
-        assertEquals("Cannot jump when there is animal in between",exception.getMessage());
+        Lion.setPosition(3,2);
+        Exception exception = assertThrows(Exception.class,()->Lion.Move(6,2));
+        assertEquals("you cannot jump over normal tiles.",exception.getMessage());
     }
-
     @Test
     public void test_LionValidMove4() {
 
         Board board = Board.getInstance();
         board.init_board();
         Animal Lion = board.getTarget(6,0);
-        Lion.setPosition(0,3);
-        Animal mouse = board.getTarget(6,2);
-        mouse.setPosition(1,3);
-        Exception exception = assertThrows(Exception.class,()->Lion.Move(3,3));
-        assertEquals("Cannot jump when there is animal in between",exception.getMessage());
+        Lion.setPosition(1,6);
+//        Exception exception = assertThrows(Exception.class,()->Lion.Move(2,2));
+        assertDoesNotThrow(()->Lion.Move(1,2));
     }
     @Test
-    public void test_LionValidMove5() {
+    public void test_LionValidMove5() throws InvalidMovementException {
+
+        Board board = Board.getInstance();
+        board.init_board();
+        Animal Lion = board.getTarget(6,0);
+        Lion.setPosition(1,2);
+        Animal blue_mouse = board.getTarget(0,6);
+        Animal mouse = board.getTarget(6,2);
+        mouse.setPosition(2,4);
+        mouse.Move(1,4);
+        blue_mouse.Move(0,5);
+        Exception exception = assertThrows(Exception.class,()->Lion.Move(1,6));
+        assertEquals("you cannot jump when there is animal in between.",exception.getMessage());
+    }
+
+    @Test
+    public void test_LionValidMove6() throws InvalidMovementException {
+
+        Board board = Board.getInstance();
+        board.init_board();
+        Animal Lion = board.getTarget(6,0);
+        Lion.setPosition(0,3);
+        Animal blue_mouse = board.getTarget(0,6);
+        Animal mouse = board.getTarget(6,2);
+        mouse.setPosition(1,2);
+        mouse.Move(1,3);
+        blue_mouse.Move(0,5);
+        Exception exception = assertThrows(Exception.class,()->Lion.Move(3,3));
+        assertEquals("you cannot jump when there is animal in between.",exception.getMessage());
+    }
+    @Test
+    public void test_LionValidMove7() {
 
         Board board = Board.getInstance();
         board.init_board();
@@ -437,7 +570,7 @@ public class AnimalTest {
         assertEquals("you cannot move into origin location.",exception.getMessage());
     }
     @Test
-    public void test_LionValidMove6() {
+    public void test_LionValidMove8() {
 
         Board board = Board.getInstance();
         board.init_board();
@@ -448,7 +581,7 @@ public class AnimalTest {
     }
 
     @Test
-    public void test_LionValidMove7() {
+    public void test_LionValidMove9() {
 
         Board board = Board.getInstance();
         board.init_board();
@@ -457,7 +590,7 @@ public class AnimalTest {
         assertEquals("you cannot move outside of board.",exception.getMessage());
     }
     @Test
-    public void test_LionValidMove8() {
+    public void test_LionValidMove10() {
 
         Board board = Board.getInstance();
         board.init_board();
@@ -467,7 +600,7 @@ public class AnimalTest {
     }
 
     @Test
-    public void test_LionValidMove9() {
+    public void test_LionValidMove11() {
 
         Board board = Board.getInstance();
         board.init_board();
@@ -478,7 +611,7 @@ public class AnimalTest {
     }
 
     @Test
-    public void test_LionValidMove10() {
+    public void test_LionValidMove12() {
 
         Board board = Board.getInstance();
         board.init_board();
@@ -488,7 +621,7 @@ public class AnimalTest {
         assertEquals("this animal cannot go into water.",exception.getMessage());
     }
     @Test
-    public void test_LionValidMove11() throws InvalidMovementException {
+    public void test_LionValidMove13() throws InvalidMovementException {
         Board board = Board.getInstance();
         board.init_board();
         Animal Lion = board.getTarget(6,0);
@@ -500,7 +633,7 @@ public class AnimalTest {
     }
 
     @Test
-    public void test_LionValidMove12(){
+    public void test_LionValidMove14(){
         Board board = Board.getInstance();
         board.init_board();
         Animal Lion = board.getTarget(6,0);
@@ -510,10 +643,35 @@ public class AnimalTest {
     }
 
     @Test
-    public void test_LionValidMove13(){
+    public void test_LionValidMove15(){
         Board board = Board.getInstance();
         board.init_board();
         Animal Lion = board.getTarget(6,0);
         assertDoesNotThrow(()->Lion.Move(6,1));
+    }
+
+    @Test
+    public void test_ElephantEat1() throws InvalidMovementException {
+        Board board = Board.getInstance();
+        board.init_board();
+        Animal blue_mouse = board.getTarget(0,6);
+        Animal red_Elephant = board.getTarget(0,2);
+        blue_mouse.setPosition(0,5);
+        red_Elephant.Move(0,3);
+        blue_mouse.Move(0,4);
+        Exception exception = assertThrows(Exception.class,()->red_Elephant.Move(0,4));
+        assertEquals("you cannot eat mouse as an Elephant.",exception.getMessage());
+    }
+
+    @Test
+    public void test_ElephantEat2() throws InvalidMovementException {
+        Board board = Board.getInstance();
+        board.init_board();
+        Animal blue_cat = board.getTarget(5,7);
+        Animal red_Elephant = board.getTarget(0,2);
+        blue_cat.setPosition(0,5);
+        red_Elephant.Move(0,3);
+        blue_cat.Move(0,4);
+        assertDoesNotThrow(()->red_Elephant.Move(0,4));
     }
 }
