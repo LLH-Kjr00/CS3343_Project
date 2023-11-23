@@ -31,12 +31,15 @@ public class Tiger extends Animal implements JumpingAnimal_Actions {
         	throw new InvalidMovementException("you cannot move outside of board.");
         }
         if (board.isInWater(destX, destY)) {
-            throw new InvalidMovementException("you cannot move into friendly units.");
+            throw new InvalidMovementException("this animal cannot go into water.");
         }
         if (board.isOccupiedByFriendlyAnimal(destX, destY, isRed)) {
+            throw new InvalidMovementException("you cannot move into friendly units.");
+        }
+        if (board.isOccupiedByFriendlyDen(destX, destY, isRed)) {
             throw new InvalidMovementException("you cannot enter friendly den.");
         }
-		return true;
+        return true;
 
     }
     

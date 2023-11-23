@@ -28,7 +28,7 @@ public class Lion extends Animal implements JumpingAnimal_Actions {
         	throw new InvalidMovementException("you cannot move outside of board.");
         }
         if (board.isInWater(destX, destY)) {
-            throw new InvalidMovementException("this animal cannot goes into water.");
+            throw new InvalidMovementException("this animal cannot go into water.");
         }
         if (board.isOccupiedByFriendlyAnimal(destX, destY, isRed)) {
             throw new InvalidMovementException("you cannot move into friendly units.");
