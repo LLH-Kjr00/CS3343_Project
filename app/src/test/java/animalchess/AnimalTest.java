@@ -317,9 +317,11 @@ public class AnimalTest {
         Board board = Board.getInstance();
         board.init_board();
         Animal blue_mouse = board.getTarget(0,6);
-//        Animal red_Cat = board.getTarget(1,1);
-        blue_mouse.setPosition(2,1);
-        Exception exception = assertThrows(Exception.class,()->blue_mouse.Move(1,1));
+        Animal red_Cat = board.getTarget(1,1);
+        red_Cat.setPosition(3,3);
+        blue_mouse.setPosition(3,5);
+        red_Cat.Move(3,4);
+        Exception exception = assertThrows(Exception.class,()->blue_mouse.Move(3,4));
         assertEquals("you cannot eat animal with more strength than yours.",exception.getMessage());
     }
 
