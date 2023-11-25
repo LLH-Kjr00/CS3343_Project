@@ -40,6 +40,7 @@ public class Mouse extends Animal implements SubmergingAnimal_Actions{
 
     //additional rule: cannot eat animal from different medium
     @Override
+
 	public void Move (int destX, int destY) throws InvalidMovementException{
     	Animal target = null;
         if (checkIsValidMove(destX, destY) == true) {
@@ -49,6 +50,7 @@ public class Mouse extends Animal implements SubmergingAnimal_Actions{
         	}
         }
         super.MoveTo(destX ,destY);
+
     }
     
     @Override
@@ -76,7 +78,7 @@ public class Mouse extends Animal implements SubmergingAnimal_Actions{
         }
         board.check_killAll_Win();
     }
-    @Override 
+    @Override
     public String toString() {
     	return "Mouse";
     }
