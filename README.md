@@ -42,7 +42,7 @@ Shou Dou Qi is an ancient Chinese board game that was popular among people of al
 - JUnit (for testing)
 - JSwing (for making the GUI)
 
-# Versions and corresponding Bug Fixes
+# Versions and Achieved task(s)
 - V0.1: Setup GitHub and made the basic file structure
 - V0.2: Finished GameUI's implementation
 - V0.3: Finished Animal and its Children classes' basic implementation, including exception handling related to basic and special rules
