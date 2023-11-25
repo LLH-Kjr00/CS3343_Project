@@ -16,6 +16,10 @@ import animalchess.exceptions.InvalidMovementException;
  
 
 public class BoardPanel extends JPanel implements TileUtil {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6443534525155053149L;
 	private JLabel[][] UI_tiles =  new JLabel[7][9];
 	private final String[] verticalAxis = { "A", "B", "C", "D", "E", "F", "G", "H", "I" };
 	private final String[] horizontalAxis = { "1", "2", "3", "4", "5", "6", "7" };

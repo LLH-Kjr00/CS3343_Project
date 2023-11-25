@@ -19,7 +19,7 @@ public class Lion extends Animal implements JumpingAnimal_Actions {
     // New rule: A Tiger or Lion can jump over water
     @Override
     public boolean checkIsValidMove(int destX, int destY) throws InvalidMovementException{
-    	if (Math.abs(x-destX) + Math.abs(y-destY) > 1) {
+        if (Math.abs(x-destX) + Math.abs(y-destY) > 1) {
             checkIsValidJump(destX, destY);        }
         if ((Math.abs(x-destX) + Math.abs(y-destY)) == 0) {
             throw new InvalidMovementException("you cannot move into origin location.");
@@ -89,7 +89,7 @@ public class Lion extends Animal implements JumpingAnimal_Actions {
 		}
         return true;
     }
-    @Override 
+    @Override
     public String toString() {
     	return "Lion";
     }

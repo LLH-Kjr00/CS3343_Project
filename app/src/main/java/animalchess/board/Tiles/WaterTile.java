@@ -1,7 +1,5 @@
 package animalchess.board.Tiles;
 
-import animalchess.animals.Animal;
-
 public class WaterTile extends Tile{
 	
 	// Constructor

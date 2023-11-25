@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -13,6 +12,10 @@ import animalchess.board.Board;
 public class ButtonPanel extends JPanel {
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 525240945275831717L;
 	private JButton Resume_button;
 	private PauseButtonBox pauseButtons;
 	

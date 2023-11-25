@@ -5,10 +5,6 @@ package animalchess;
 
 import animalchess.animals.*;
 import animalchess.board.Board;
-import animalchess.board.Tiles.Den;
-import animalchess.board.Tiles.Tile;
-import animalchess.board.Tiles.TrapTile;
-import animalchess.board.Tiles.WaterTile;
 import animalchess.exceptions.InvalidMovementException;
 import org.junit.jupiter.api.Test;
 

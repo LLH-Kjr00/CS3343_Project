@@ -11,6 +11,10 @@ import javax.swing.Timer;
 import animalchess.board.Board;
 
 public class TimePanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6600268741435304573L;
 	private Timer P1_Timer;
 	private Timer P2_Timer;
 	private int P1_Timer_val = 600 * 3; // count down for User 1

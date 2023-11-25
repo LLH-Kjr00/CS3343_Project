@@ -3,20 +3,16 @@ package animalchess.game;
 
 import javax.swing.*;
 import java.awt.*;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-
-
-import animalchess.animals.Animal;
 import animalchess.board.Board;
-import animalchess.board.Tiles.Tile;
-import animalchess.exceptions.InvalidMovementException;
+
 
 public class GameUI extends JFrame implements TileUtil {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6927800654387867583L;
+
 
 	private Board board;
 	
