@@ -3,6 +3,8 @@ package animalchess.animals;
 import animalchess.board.Board;
 
 public class Leopard extends Animal {
+	
+	// Constructor 
 	public Leopard (boolean isRed, Board board){
         super(isRed, board);
         this.strength = 5;

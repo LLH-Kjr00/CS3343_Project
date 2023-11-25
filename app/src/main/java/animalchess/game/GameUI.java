@@ -3,68 +3,39 @@ package animalchess.game;
 
 import javax.swing.*;
 import java.awt.*;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-
-
-import animalchess.animals.Animal;
 import animalchess.board.Board;
-import animalchess.board.Tiles.Tile;
-import animalchess.exceptions.InvalidMovementException;
 
-import animalchess.game.UIListener;
 
 public class GameUI extends JFrame implements TileUtil {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6927800654387867583L;
+
 
 	private Board board;
 	
 
 	private JPanel containerPanel;
 	private BoardPanel boardPanel;
-	private JPanel consolePanel;
-	private JPanel rulesPanel;
-	private JPanel buttonPanel;
-	private JPanel timePanel;
-	private JPanel titlePanel;
+	private ConsolePanel consolePanel;
+	
+	public static JTextArea logArea;
 
-	private JButton gameStart;
-	static JTextArea logArea;
-
-	private JLabel P1_Timer_label;
-	private JLabel P2_Timer_label;
-	private Timer P1_Timer;
-	private Timer P2_Timer;
-	private int P1_Timer_val = 600 * 3; // count down for User 1
-	private int P2_Timer_val = 600 * 3; // count down for User 2
-
-
-	static boolean is_P1_Turn = true; // Flag to track player 1's turn
-	private boolean is_Game_Pause = false; // Flag to track game's state of pausing
+	static boolean is_Game_Pause = false; // Flag to track game's state of pausing
 	static boolean is_Game_Start = false; // Flag to track game's state of pausing
-	private boolean is_P1_Win = false; // Flag to track player 1's win
-	private boolean is_P2_Win = false; // Flag to track player 2's win
-	private boolean P1_Pause = false;
-	private boolean P2_Pause = false;
-	private JButton P1_Pause_button;
-	private JButton P2_Pause_button;
-	private JButton Resume_button;
-	private Box pauseButtons;
-
-	private JButton P1_Surrender_button;
-	private JButton P2_Surrender_button;
-	private Box yieldButtons;
-
-	private static final GameUI instance = new GameUI(new Board());
+	
+	
+	
+	// Singleton pattern for GameUI
+	private static final GameUI instance = new GameUI(Board.getInstance());
 
 	public static GameUI getInstance() {
 		return instance;
 	}
-
-	// Board JungleChessBoard
+	
+	// Constructor for GameUI
 	private GameUI(Board board) {
 		this.board = board;
 		JFrame frame = new JFrame();
@@ -78,6 +49,7 @@ public class GameUI extends JFrame implements TileUtil {
 		frame.setVisible(true);
 	}
 
+	// Sending important messages to logArea
 	public void gameMajorMsg(String content) {
 		String result = new String();
 		for (int i = 0; i < 62; i++) {
@@ -88,308 +60,64 @@ public class GameUI extends JFrame implements TileUtil {
 		logArea.append("\n");
 
 	}
-
+	
+	// Building the UI
+	// The UI consists of 2 parts: consolePanel for UI's functions 
+	// and boardPanel for user's interaction with the game logic
+	// containerPanel is just a container for storing consolePanel and boardPanel
+	
 	private void setupPanels(JFrame frame) {
 
 		containerPanel = new JPanel();
 		containerPanel.setLayout(new GridLayout(1, 2));
-
-		//setup_boardPanel();
-		boardPanel = new BoardPanel(board,this);
+		
+		consolePanel = new ConsolePanel(this);
+		boardPanel = new BoardPanel (consolePanel, board);
 		containerPanel.add(boardPanel);
-
-		setup_consolePanel();
 		containerPanel.add(consolePanel);
-
-		rulesPanel = new JPanel();
-		rulesPanel.setVisible(false);
-		frame.add(rulesPanel);
+		
+		//rulesPanel = new JPanel();
+		//rulesPanel.setVisible(false);
+		//frame.add(rulesPanel);
 
 		frame.add(containerPanel);
 	}
 
-	private void setup_consolePanel() {
-
-		consolePanel = new JPanel();
-		consolePanel.setBackground(Color.decode("#F9CB9C"));
-		consolePanel.setLayout(new FlowLayout());
-
-		setup_titlePanel();
-		consolePanel.add(titlePanel);
-
-		logArea = new JTextArea(25, 40);
-		logArea.setLineWrap(true);
-		logArea.setEditable(false);
-		JScrollPane scrollPane = new JScrollPane(logArea);
-
-		setup_timePanel();
-		setup_buttonPanel();
-		create_Surrenderbutton_Box();
-		consolePanel.add(yieldButtons);
-		consolePanel.add(timePanel);
-		consolePanel.add(scrollPane);
-		consolePanel.add(buttonPanel);
-
-	}
-
-	private void setup_timePanel() {
-		timePanel = new JPanel(new GridLayout(1, 2));
-
-		int P1_minutes = (P1_Timer_val % 3600) / 60;
-		int P1_seconds = P1_Timer_val % 60;
-		int P2_minutes = (P2_Timer_val % 3600) / 60;
-		int P2_seconds = P2_Timer_val % 60;
-		timePanel.add(new JLabel("Player 1 Timer:")); // Label for user 1 timer
-
-		P1_Timer_label = new JLabel(String.format("%02d:%02d", P1_minutes, P1_seconds));
-		P1_Timer_label.setHorizontalAlignment(JLabel.CENTER);
-		P1_Timer_label.setFont(new Font("Arial", Font.BOLD, 16));
-		start_P1_Timer();
-		timePanel.add(P1_Timer_label);
-
-		timePanel.add(new JLabel("Player 2 Timer:")); // Label for user 2 timer
-		P2_Timer_label = new JLabel(String.format("%02d:%02d", P2_minutes, P2_seconds));
-		P2_Timer_label.setHorizontalAlignment(JLabel.CENTER);
-		P2_Timer_label.setFont(new Font("Arial", Font.BOLD, 16));
-		start_P2_Timer();
-		timePanel.add(P2_Timer_label);
-
-	}
-
-	private void setup_buttonPanel() {
-		buttonPanel = new JPanel(new GridLayout(2, 1));
-		create_Pausebutton_Box();
-		// pauseButtons.setVisible(false);
-		Resume_button = new JButton("Resume");
-		Resume_button.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (is_P1_Turn == true && P1_Timer.isRunning() == false) {
-					P1_Timer.restart();
-					P1_Pause = false;
-					P2_Pause = false;
-					is_Game_Pause = false;
-					logArea.append("Game Resumed!\n");
-				} else if (is_P1_Turn == false && P2_Timer.isRunning() == false) {
-					P2_Timer.restart();
-					P1_Pause = false;
-					P2_Pause = false;
-					is_Game_Pause = false;
-					logArea.append("Game Resumed!\n");
-				} else {
-					logArea.append("Action ignored: The game has not paused!\n");
-				}
-			}
-		});
-		Resume_button.setVisible(false);
-		buttonPanel.setBackground(Color.decode("#F9CB9C"));
-		buttonPanel.add(pauseButtons);
-		buttonPanel.add(Resume_button);
-
-	}
-
-	private void setup_titlePanel() {
-		titlePanel = new JPanel();
-		titlePanel.setLayout(new GridLayout(4, 0));
-		JLabel title = new JLabel("Shou Dou Qi (The Jungle Chess)");
-		title.setFont(new Font("Verdana", 1, 20));
-		titlePanel.add(title);
-		titlePanel.add(new JLabel(" "));
-		gameStart = new JButton("Game Start!");
-		gameStart.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				logArea.setText("");
-				is_P1_Turn = true; 
-				is_Game_Start = true;
-				gameStart.setVisible(false);
-				Resume_button.setVisible(true);
-				yieldButtons.setVisible(true);
-				buttonPanel.setVisible(true);
-				P1_Pause_button.setVisible(true);
-				P2_Pause_button.setVisible(true);
-				gameMajorMsg("Game Start");
-				boardPanel.reset_boardPanel();
-				board.init();
-				if (is_P1_Turn) {
-					P1_Timer.start(); // Start player 1's timer
-				} else {
-					P2_Timer.start(); // Start player 2's timer
-				}
-				is_P1_Win = false;
-				is_P2_Win = false;
-				P1_Timer_val = 600 * 3;
-				P2_Timer_val = 600 * 3;
-			}
-		});
-		titlePanel.add(gameStart);
-		titlePanel.setBackground(Color.decode("#F9CB9C"));
-
-	}
-	
-	private void create_Pausebutton_Box() {
-		pauseButtons = Box.createHorizontalBox();
-		P1_Pause_button = new JButton("P1 Pause");
-		P1_Pause_button.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				P1_Pause = true;
-				if (is_Game_Pause == false) {
-					if (P2_Pause == false) {
-						logArea.append("Player 1 wants to pause the game!\n");
-						logArea.append("Need Player 2's agreement to pause the game!\n");
-					} else if (P1_Pause == true && P2_Pause == true) {
-						if (is_P1_Turn == true) {
-							P1_Timer.stop();
-						} else {
-							P2_Timer.stop();
-						}
-						is_Game_Pause = true;
-						logArea.append("Game Paused!\n");
-					}
-				} else {
-					logArea.append("Action ignored: The game has paused already!\n");
-				}
-			}
-		});
-
-		P2_Pause_button = new JButton("P2 Pause");
-		P2_Pause_button.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				P2_Pause = true;
-				if (is_Game_Pause == false) {
-					if (P1_Pause == false) {
-						logArea.append("Player 2 wants to pause the game!\n");
-						logArea.append("Need Player 1's agreement to pause the game!\n");
-					} else if (P1_Pause == true && P2_Pause == true) {
-						if (is_P1_Turn == true) {
-							P1_Timer.stop();
-						} else {
-							P2_Timer.stop();
-						}
-						is_Game_Pause = true;
-						logArea.append("Game Paused!\n");
-					}
-				} else {
-					logArea.append("Action ignored: The game has paused already!\n");
-				}
-			}
-		});
-		P1_Pause_button.setVisible(false);
-		P2_Pause_button.setVisible(false);
-		pauseButtons.add(P1_Pause_button);
-		pauseButtons.add(P2_Pause_button);
-	}
-
-	private void create_Surrenderbutton_Box() {
-		yieldButtons = Box.createHorizontalBox();
-		P1_Surrender_button = new JButton("P1 Surrender");
-		P1_Surrender_button.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (is_P1_Win == false && is_P1_Win == false) {
-					P1_Timer.stop();
-					P2_Timer.stop();
-					is_P2_Win = true;
-					logArea.append("Player 1 yields...\n");
-					announce_Win();
-				}
-			}
-
-		});
-		P2_Surrender_button = new JButton("P2 Surrender");
-		P2_Surrender_button.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (is_P1_Win == false && is_P1_Win == false) {
-					P1_Timer.stop();
-					P2_Timer.stop();
-					is_P1_Win = true;
-					logArea.append("Player 2 yields...\n");
-					announce_Win();
-				}
-			}
-
-		});
-		yieldButtons.add(P1_Surrender_button);
-		yieldButtons.add(P2_Surrender_button);
-		yieldButtons.setVisible(false);
-
-	}
-
-	private void announce_Win() {
-		if (is_P1_Win) {
+	// Announcing who wins the game in logArea and set the game to be ended 
+	public void announce_Win() {
+		if (Board.is_P1_Win) {
 			logArea.append("Player 1 wins!\n");
-		} else if (is_P2_Win) {
+		} else if (Board.is_P2_Win) {
 			logArea.append("Player 2 wins!\n");
 		} else {
 			logArea.append("No ones wins!\n");
 		}
-
-		yieldButtons.setVisible(false);
-		buttonPanel.setVisible(false);
-		gameStart.setVisible(true);
+		is_Game_Start = false;
 	}
+	
+	// Refreshing UI when the game has started/ restarted
+	public void restart_game () {
+		boardPanel.reset_boardPanel();
+		board.init_board();
+		board.init_animalsCount();
+    	gameMajorMsg("Game Start");
+		is_Game_Start = true;
 
-	private void start_P1_Timer() {
-		P1_Timer = new Timer(1000, new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				P1_Timer_val--;
-				int minutes = (P1_Timer_val % 3600) / 60;
-				int seconds = P1_Timer_val % 60;
-
-				P1_Timer_label.setText(String.format("%02d:%02d", minutes, seconds));
-
-				if (P1_Timer_val <= 0) {
-					P1_Timer.stop();
-					is_P2_Win = true;
-					logArea.append("Player 1's time is up...\n");
-					announce_Win();
-
-				}
-
-			}
-		});
 	}
-
-	private void start_P2_Timer() {
-		P2_Timer = new Timer(1000, new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				P2_Timer_val--;
-				int minutes = (P2_Timer_val % 3600) / 60;
-				int seconds = P2_Timer_val % 60;
-
-				P2_Timer_label.setText(String.format("%02d:%02d", minutes, seconds));
-
-				if (P2_Timer_val <= 0) {
-					P2_Timer.stop();
-					is_P1_Win = true;
-					logArea.append("Player 2's time is up...\n");
-					announce_Win();
-				}
-
-			}
-		});
+	
+	// Announcing whose turn is it now in logArea and notify Board to shift turn
+	public void shift_turn() {
+		logArea.append("Turn Ended!\n");
+		if (Board.is_P1_Turn == true) {
+			gameMajorMsg("Player 2's turn");
+    	}
+    	else {
+    		gameMajorMsg("Player 1's turn");
+    	}
+		Board.is_P1_Turn = !Board.is_P1_Turn;
+		
 	}
-	public void change_turn () {
-		if (is_P1_Turn == true) {
-			logArea.append("Player 2's turn now!\n");
-			is_P1_Turn = false;
-			P1_Timer.stop();
-			P2_Timer.start();
-			P1_Timer_val = 600 * 3;
-		} else {
-			logArea.append("Player 1's turn now!\n");
-			is_P1_Turn = true;
-			P2_Timer.stop();
-			P1_Timer.start();
-			P2_Timer_val = 600 * 3;
-		}
-	}
+	
+	
 
 }

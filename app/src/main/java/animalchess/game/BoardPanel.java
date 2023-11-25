@@ -16,6 +16,10 @@ import animalchess.exceptions.InvalidMovementException;
  
 
 public class BoardPanel extends JPanel implements TileUtil {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6443534525155053149L;
 	private JLabel[][] UI_tiles =  new JLabel[7][9];
 	private final String[] verticalAxis = { "A", "B", "C", "D", "E", "F", "G", "H", "I" };
 	private final String[] horizontalAxis = { "1", "2", "3", "4", "5", "6", "7" };
@@ -33,9 +37,10 @@ public class BoardPanel extends JPanel implements TileUtil {
 	
 	
 	private Board board;
-	private GameUI gameUI;
+
+	private ConsolePanel consolePanel;
 	
-	BoardPanel(Board board, GameUI gameUI) {
+	BoardPanel(ConsolePanel consolePanel, Board board) {
 		
 		this.setPreferredSize(new Dimension(cols * tileSize, rows * tileSize));
 		this.setBackground(Color.black);
@@ -52,7 +57,7 @@ public class BoardPanel extends JPanel implements TileUtil {
 		}
 		
 		this.board = board;
-		this.gameUI = gameUI;
+		this.consolePanel = consolePanel;
 	}
 	
 	private JLabel setup_Tile(int row, int col) {
@@ -95,24 +100,6 @@ public class BoardPanel extends JPanel implements TileUtil {
 		return tile;
 	}
 
-	private void check_Tile_SpecialProp(int row, int col, JLabel tile) {
-		if (isRiver(row, col) == true) {
-			tile.setBackground(Color.cyan);
-			tile.setForeground(Color.black);
-		} else if (isTrap(row, col) == true) {
-			tile.setBackground(Color.orange);
-			tile.setForeground(Color.black);
-		} else if (isP1_Den(row, col) == true) {
-			tile.setBackground(Color.red);
-			tile.setForeground(Color.white);
-		} else if (isP2_Den(row, col) == true) {
-			tile.setBackground(Color.blue);
-			tile.setForeground(Color.white);
-		} else {
-			tile.setBackground(Color.white);
-			tile.setForeground(Color.black);
-		}
-	}
 
 	private void call_TileSelect(int x, int y, JLabel choosenTileUI) {
 		/*
@@ -132,7 +119,7 @@ public class BoardPanel extends JPanel implements TileUtil {
 					+ target.get_Owner() + " can choose.\n");
 		}
 		GameUI.logArea.append("\n");
-		if (target.get_isRed() == GameUI.is_P1_Turn) {
+		if (target.get_isRed() == Board.is_P1_Turn) {
 			GameUI.logArea.append("You can choose the animal in this tile to move.\n");
 			StartTile_onUI = choosenTileUI;
 			choosenX = x;
@@ -148,15 +135,18 @@ public class BoardPanel extends JPanel implements TileUtil {
 		Tile StartTile = board.getTile(choosenX, choosenY);
 		Animal choosenAnimal = StartTile.getAnimal();
 		try {
-			if (choosenAnimal.checkIsValidMove(x, y) == true) {
-				GameUI.logArea.append("Moving to the tile at (" + verticalAxis[y] + "," + horizontalAxis[x] + ")\n");
-				;
+		
 				choosenAnimal.Move(x, y);
+				GameUI.logArea.append("Moving to the tile at (" + verticalAxis[y] + "," + horizontalAxis[x] + ")\n");
 				// MoveAnimal_onUI(x,y);
 				MoveAnimal_onUI(x, y, DestTile_onUI);
-				gameUI.gameMajorMsg("Turn Ended");
-				gameUI.change_turn();
-			}
+				if (board.getWin() == true) {
+					consolePanel.End_game();
+				}
+				
+				else {
+					consolePanel.Change_turn();
+				}
 		} catch (InvalidMovementException e) {
 			e.printStackTrace();
 			GameUI.logArea.append("You cannot move to that tile because " + e.getLocalizedMessage() + "\n");
@@ -184,5 +174,6 @@ public class BoardPanel extends JPanel implements TileUtil {
 			}
 		}
 	}
+	
 	
 }

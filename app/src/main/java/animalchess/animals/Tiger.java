@@ -3,8 +3,9 @@ package animalchess.animals;
 import animalchess.board.Board;
 import animalchess.exceptions.InvalidMovementException;
 
-public class Tiger extends Animal {
+public class Tiger extends Animal implements JumpingAnimal_Actions {
 
+	// Constructor 
     public Tiger (boolean isRed, Board board){
         super(isRed,board);
         this.strength = 6;
@@ -18,32 +19,40 @@ public class Tiger extends Animal {
 
 
 
-	//New rule: A Tiger or Lion can jump over water
+	// New rule: A Tiger or Lion can jump over water
     @Override
     public boolean checkIsValidMove(int destX, int destY) throws InvalidMovementException{
         if (Math.abs(x-destX) + Math.abs(y-destY) > 1) {
             checkIsValidJump(destX, destY);        }
         if ((Math.abs(x-destX) + Math.abs(y-destY)) == 0) {
-            throw new InvalidMovementException("Invalid movement! Cannot move into origin location!");
+            throw new InvalidMovementException("you cannot move into origin location.");
         }
-        if (board.isOutBound(destX, destY)) {
-            throw new InvalidMovementException("Cannot move outside of board");
+        if (destX < 0 || destY < 0 || destX > 6 || destY > 8) {
+        	throw new InvalidMovementException("you cannot move outside of board.");
         }
         if (board.isInWater(destX, destY)) {
-            throw new InvalidMovementException("This animal cannot goes into water");
+            throw new InvalidMovementException("this animal cannot go into water.");
         }
         if (board.isOccupiedByFriendlyAnimal(destX, destY, isRed)) {
-            throw new InvalidMovementException("Cannot move into friendly units");
+            throw new InvalidMovementException("you cannot move into friendly units.");
         }
-		return true;
+        if (board.isOccupiedByFriendlyDen(destX, destY, isRed)) {
+            throw new InvalidMovementException("you cannot enter friendly den.");
+        }
+        return true;
 
     }
-
-
-    private boolean checkIsValidJump (int xdist, int ydist) throws InvalidMovementException{
+    
+    // Check if the jump over the river is valid based on Board.getLineAsArray()
+    // If there is an animal in between the starting point and ending point 
+    // Change isBlocked to be true and return exception
+    // If there is no river tile in between the starting point and ending point 
+    // Change isLandJump to be true and return exception
+    @Override
+    public boolean checkIsValidJump (int xdist, int ydist) throws InvalidMovementException{
         //a diagonal jump
         if (Math.abs(x-xdist) != 0 && Math.abs(y-ydist) != 0) {
-            throw new InvalidMovementException("Cannot jump diagonally");
+            throw new InvalidMovementException("you cannot jump diagonally");
         }
         else {
             //a vertical jump
@@ -77,9 +86,9 @@ public class Tiger extends Animal {
                     }
                 }
                 if (isLandJump)
-                    throw new InvalidMovementException("Cannot jump non river blocks");
+                    throw new InvalidMovementException("you cannot jump over normal tiles.");
                 if (isBlocked)
-                    throw new InvalidMovementException("Cannot jump when there is animal in between");
+                    throw new InvalidMovementException("you cannot jump when there is animal in between.");
             }
             return true;
         }

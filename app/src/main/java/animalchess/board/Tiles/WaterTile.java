@@ -1,11 +1,10 @@
 package animalchess.board.Tiles;
 
-import animalchess.animals.Animal;
-
 public class WaterTile extends Tile{
-
-    public WaterTile (boolean isRed) {
-        super(isRed);
+	
+	// Constructor
+    public WaterTile () {
+        super();
     }
 
     @Override
