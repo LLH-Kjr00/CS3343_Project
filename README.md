@@ -23,15 +23,36 @@ Shou Dou Qi is an ancient Chinese board game that was popular among people of al
 7) Lion and Tiger are allowed to kill an opponent's pawn on the landing spot after they jump
 8) Mouse can only kill when it is in the same medium as the opponent's pawn (i.e.: cannot kill a mouse/elephant when it exits a river)
 
-# Installation
+# Installation and Running
+- Using the ZIP file from GitHub's source code (link: https://github.com/LLH-Kjr00/CS3343_Project)
+1) If the current branch is not "main", switch to "main" by clicking the drop-down catalog near the top-left corner
+2) Press the "Code" button which is in green
+3) Press "Download ZIP" to download the ZIP file
+4) Decompress the ZIP file to open it
+5) Open the source code folder in an IDE such as Microsoft Visual Studio or IntelliJ
+6) Go to App in the directory "app\src\main\java\animalchess\App.java"
+7) Run the Application
+
+- Using the JAR file from the project folder
+1) Go to the directory "Release"
+2) Run the JAR file "JungleChessV1.0.jar"
 
 # Libraries used 
-JRE System Library (for basic Java functionalities)
-
-JUnit (for testing)
+- JRE System Library (for basic Java functionalities)
+- JUnit (for testing)
+- JSwing (for making the GUI)
 
 # Versions and corresponding Bug Fixes
-
+- V0.1: Setup GitHub and made the basic file structure
+- V0.2: Finished GameUI's implementation
+- V0.3: Finished Animal and its Children classes' basic implementation, including exception handling related to basic and special rules
+- V0.4: Finished Board's basic implementation 
+- V0.5: Refactored Board's implementation, adding Tile and its Children classes to the Board
+- V0.6: Fixed bugs related to the Animal (moving diagonally, Mouse could eat other animals in a different medium)
+- V0.7: Refactored GUI's implementation, adding JPanel classes and JBox classes to the GameUI
+- V0.8: Tested Animal and Board; Fixed bugs discovered during testing (Lion jumping horizontally)
+- V0.9: Added documentation to the source code
+- V1.0: Released to the public
 # List of Contributors:
 Alex
 Ken 
