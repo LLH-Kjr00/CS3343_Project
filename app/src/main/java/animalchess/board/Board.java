@@ -1,7 +1,5 @@
 package animalchess.board;
 
-import java.util.ArrayList;
-
 import animalchess.animals.Animal;
 import animalchess.animals.Cat;
 import animalchess.animals.Dog;

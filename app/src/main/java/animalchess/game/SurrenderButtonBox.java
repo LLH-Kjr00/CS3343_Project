@@ -10,6 +10,10 @@ import animalchess.board.Board;
 
 public class SurrenderButtonBox extends Box {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3345169898415376032L;
 	private JButton P1_Surrender_button;
 	private JButton P2_Surrender_button;
 	private TimePanel timePanel;

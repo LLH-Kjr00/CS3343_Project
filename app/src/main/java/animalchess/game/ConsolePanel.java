@@ -6,11 +6,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import animalchess.board.Board;
-
 public class ConsolePanel extends JPanel {
     
-    private TimePanel timePanel;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1991948255196279333L;
+	private TimePanel timePanel;
     private ButtonPanel buttonPanel;
     private TitlePanel titlePanel;
     private SurrenderButtonBox surrenderButtons;

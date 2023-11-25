@@ -14,6 +14,10 @@ import animalchess.board.Board;
 
 public class TitlePanel extends JPanel {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2021740742418127345L;
 	private JButton gameStart;
 	
     

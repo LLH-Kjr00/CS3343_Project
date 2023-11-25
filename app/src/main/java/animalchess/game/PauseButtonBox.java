@@ -9,6 +9,10 @@ import javax.swing.JButton;
 import animalchess.board.Board;
 
 public class PauseButtonBox extends Box {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1182037472058702387L;
 	private JButton P1_Pause_button;
 	private JButton P2_Pause_button;
 	private boolean P1_Pause = false;
