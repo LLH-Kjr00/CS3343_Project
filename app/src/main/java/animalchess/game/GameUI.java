@@ -106,15 +106,9 @@ public class GameUI extends JFrame implements TileUtil {
 	}
 	
 	// Announcing whose turn is it now in logArea and notify Board to shift turn
-	public void shift_turn() {
-		logArea.append("Turn Ended!\n");
-		if (Board.is_P1_Turn == true) {
-			gameMajorMsg("Player 2's turn");
-    	}
-    	else {
-    		gameMajorMsg("Player 1's turn");
-    	}
-		Board.is_P1_Turn = !Board.is_P1_Turn;
+	public void call_shift_turn_inUI() {
+		gameMajorMsg("Turn Ended");
+		board.change_turn();
 		
 	}
 	

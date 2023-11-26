@@ -76,6 +76,7 @@ public abstract class Animal implements GeneralAnimal_Actions{
                 	//board.store_and_execute(new Eat_command(this,target));
                 	this.Eat(target);
                 MoveTo(destX ,destY);
+                board.change_turn();
         	}
         	
         	
