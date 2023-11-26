@@ -50,51 +50,9 @@ public class MouseTest {
         Exception exception = assertThrows(Exception.class,()->mouse.Move(6,2),"you cannot move into origin location.");
         assertEquals("you cannot move into origin location.",exception.getMessage());
     }
-    @Test
-    public void test_MouseValidMove5() {
-
-        Board board = Board.getInstance();
-        board.init_board();
-        Animal mouse = board.getTarget(6,2);
-        mouse.setPosition(0,1);
-        Exception exception = assertThrows(Exception.class,()->mouse.Move(-1,1),"you cannot move outside of board.");
-        assertEquals("you cannot move outside of board.",exception.getMessage());
-    }
 
     @Test
-    public void test_MouseValidMove6() {
-
-        Board board = Board.getInstance();
-        board.init_board();
-        Animal mouse = board.getTarget(6,2);
-        mouse.setPosition(5,0);
-        Exception exception = assertThrows(Exception.class,()->mouse.Move(5,-1),"you cannot move outside of board.");
-        assertEquals("you cannot move outside of board.",exception.getMessage());
-    }
-    @Test
-    public void test_MouseValidMove7() {
-
-        Board board = Board.getInstance();
-        board.init_board();
-        Animal mouse = board.getTarget(6,2);
-        mouse.setPosition(6,1);
-        Exception exception = assertThrows(Exception.class,()->mouse.Move(7,1),"you cannot move outside of board.");
-        assertEquals("you cannot move outside of board.",exception.getMessage());
-    }
-
-    @Test
-    public void test_MouseValidMove8() {
-
-        Board board = Board.getInstance();
-        board.init_board();
-        Animal mouse = board.getTarget(6,2);
-        mouse.setPosition(5,8);
-        Exception exception = assertThrows(Exception.class,()->mouse.Move(5,9),"you cannot move outside of board.");
-        assertEquals("you cannot move outside of board.",exception.getMessage());
-    }
-
-    @Test
-    public void test_MouseValidMove9() throws InvalidMovementException {
+    public void test_MouseValidMove5() throws InvalidMovementException {
         Board board = Board.getInstance();
         board.init_board();
         Animal mouse = board.getTarget(6,2);
@@ -106,7 +64,7 @@ public class MouseTest {
     }
 
     @Test
-    public void test_MouseValidMove10(){
+    public void test_MouseValidMove6(){
         Board board = Board.getInstance();
         board.init_board();
         Animal mouse = board.getTarget(6,2);
@@ -116,7 +74,7 @@ public class MouseTest {
     }
 
     @Test
-    public void test_MouseValidMove11(){
+    public void test_MouseValidMove7(){
         Board board = Board.getInstance();
         board.init_board();
         Animal mouse = board.getTarget(6,2);

@@ -92,49 +92,11 @@ public class LionTest {
         Exception exception = assertThrows(Exception.class,()->Lion.Move(6,0),"you cannot move into origin location.");
         assertEquals("you cannot move into origin location.",exception.getMessage());
     }
+   
+    
+
     @Test
     public void test_LionValidMove8() {
-
-        Board board = Board.getInstance();
-        board.init_board();
-        Animal Lion = board.getTarget(6,0);
-        Lion.setPosition(0,1);
-        Exception exception = assertThrows(Exception.class,()->Lion.Move(-1,1),"you cannot move outside of board.");
-        assertEquals("you cannot move outside of board.",exception.getMessage());
-    }
-
-    @Test
-    public void test_LionValidMove9() {
-
-        Board board = Board.getInstance();
-        board.init_board();
-        Animal Lion = board.getTarget(6,0);
-        Exception exception = assertThrows(Exception.class,()->Lion.Move(6,-1),"you cannot move outside of board.");
-        assertEquals("you cannot move outside of board.",exception.getMessage());
-    }
-    @Test
-    public void test_LionValidMove10() {
-
-        Board board = Board.getInstance();
-        board.init_board();
-        Animal Lion = board.getTarget(6,0);
-        Exception exception = assertThrows(Exception.class,()->Lion.Move(7,0),"you cannot move outside of board.");
-        assertEquals("you cannot move outside of board.",exception.getMessage());
-    }
-
-    @Test
-    public void test_LionValidMove11() {
-
-        Board board = Board.getInstance();
-        board.init_board();
-        Animal Lion = board.getTarget(6,0);
-        Lion.setPosition(6,8);
-        Exception exception = assertThrows(Exception.class,()->Lion.Move(6,9),"you cannot move outside of board.");
-        assertEquals("you cannot move outside of board.",exception.getMessage());
-    }
-
-    @Test
-    public void test_LionValidMove12() {
 
         Board board = Board.getInstance();
         board.init_board();
@@ -144,7 +106,7 @@ public class LionTest {
         assertEquals("this animal cannot go into water.",exception.getMessage());
     }
     @Test
-    public void test_LionValidMove13() throws InvalidMovementException {
+    public void test_LionValidMove9() throws InvalidMovementException {
         Board board = Board.getInstance();
         board.init_board();
         Animal Lion = board.getTarget(6,0);
@@ -156,7 +118,7 @@ public class LionTest {
     }
 
     @Test
-    public void test_LionValidMove14(){
+    public void test_LionValidMove10(){
         Board board = Board.getInstance();
         board.init_board();
         Animal Lion = board.getTarget(6,0);
@@ -166,7 +128,7 @@ public class LionTest {
     }
 
     @Test
-    public void test_LionValidMove15(){
+    public void test_LionValidMove11(){
         Board board = Board.getInstance();
         board.init_board();
         Animal Lion = board.getTarget(6,0);

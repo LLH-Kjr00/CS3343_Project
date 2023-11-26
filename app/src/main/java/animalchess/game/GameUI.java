@@ -89,9 +89,7 @@ public class GameUI extends JFrame implements TileUtil {
 			logArea.append("Player 1 wins!\n");
 		} else if (Board.is_P2_Win) {
 			logArea.append("Player 2 wins!\n");
-		} else {
-			logArea.append("No ones wins!\n");
-		}
+		} 
 		is_Game_Start = false;
 	}
 	

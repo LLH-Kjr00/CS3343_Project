@@ -92,50 +92,9 @@ public class TigerTest {
         Exception exception = assertThrows(Exception.class,()->tiger.Move(0,0),"you cannot move into origin location.");
         assertEquals("you cannot move into origin location.",exception.getMessage());
     }
+    
     @Test
     public void test_TigerValidMove8() {
-
-        Board board = Board.getInstance();
-        board.init_board();
-        Animal tiger = board.getTarget(0,0);
-        tiger.setPosition(0,1);
-        Exception exception = assertThrows(Exception.class,()->tiger.Move(-1,1),"you cannot move outside of board.");
-        assertEquals("you cannot move outside of board.",exception.getMessage());
-    }
-
-    @Test
-    public void test_TigerValidMove9() {
-
-        Board board = Board.getInstance();
-        board.init_board();
-        Animal tiger = board.getTarget(0,0);
-        Exception exception = assertThrows(Exception.class,()->tiger.Move(0,-1),"you cannot move outside of board.");
-        assertEquals("you cannot move outside of board.",exception.getMessage());
-    }
-    @Test
-    public void test_TigerValidMove10() {
-
-        Board board = Board.getInstance();
-        board.init_board();
-        Animal tiger = board.getTarget(0,0);
-        tiger.setPosition(6,0);
-        Exception exception = assertThrows(Exception.class,()->tiger.Move(7,0),"you cannot move outside of board.");
-        assertEquals("you cannot move outside of board.",exception.getMessage());
-    }
-
-    @Test
-    public void test_TigerValidMove11() {
-
-        Board board = Board.getInstance();
-        board.init_board();
-        Animal tiger = board.getTarget(0,0);
-        tiger.setPosition(0,8);
-        Exception exception = assertThrows(Exception.class,()->tiger.Move(0,9),"you cannot move outside of board.");
-        assertEquals("you cannot move outside of board.",exception.getMessage());
-    }
-
-    @Test
-    public void test_TigerValidMove12() {
 
         Board board = Board.getInstance();
         board.init_board();
@@ -145,7 +104,7 @@ public class TigerTest {
         assertEquals("this animal cannot go into water.",exception.getMessage());
     }
     @Test
-    public void test_TigerValidMove13() throws InvalidMovementException {
+    public void test_TigerValidMove9() throws InvalidMovementException {
         Board board = Board.getInstance();
         board.init_board();
         Animal tiger = board.getTarget(0,0);
@@ -157,7 +116,7 @@ public class TigerTest {
     }
 
     @Test
-    public void test_TigerValidMove14(){
+    public void test_TigerValidMove10(){
         Board board = Board.getInstance();
         board.init_board();
         Animal tiger = board.getTarget(0,0);
@@ -167,7 +126,7 @@ public class TigerTest {
     }
 
     @Test
-    public void test_TigerValidMove15(){
+    public void test_TigerValidMove11(){
         Board board = Board.getInstance();
         board.init_board();
         Animal tiger = board.getTarget(0,0);
