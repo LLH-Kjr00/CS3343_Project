@@ -38,7 +38,7 @@ public class ButtonPanel extends JPanel {
 				} else {
 					GameUI.logArea.append("Action ignored: The game has not paused!\n");
 				}
-				pauseButtons.reset_Pause_state();
+				pauseButtons.reset();
 				GameUI.is_Game_Pause = false;
 				
 			}
@@ -50,5 +50,7 @@ public class ButtonPanel extends JPanel {
 		this.add(Resume_button);
 
 	}
-	
+	public void reset_PauseState() {
+		pauseButtons.reset();
+	}
 }

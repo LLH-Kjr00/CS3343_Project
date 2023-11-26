@@ -78,13 +78,22 @@ public class BoardPanel extends JPanel implements TileUtil {
 				// System.out.println("Clicked tile: Row " + verticalAxis[row] + ", Column " +
 				// horizontalAxis[col]);
 				if (GameUI.is_Game_Start == true) {
+					if (GameUI.is_Game_Pause == false) {
 					if (legit_choice == false) {
 						call_TileSelect(col, row, tile);
 					} else {
 						call_AnimalMove(col, row, tile);
 					}
 				}
+					else if (GameUI.is_Game_Pause == true) {
+						GameUI.logArea.append("You cannot click on the board if the game is on pause!\n");
+					}
 			}
+				else if (GameUI.is_Game_Start == false) {
+					GameUI.logArea.append("You cannot click on the board if the game has not started!\n");
+				}
+				
+		}
 
 			@Override
 			public void mouseEntered(MouseEvent e) {

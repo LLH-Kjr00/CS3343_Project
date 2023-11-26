@@ -57,6 +57,7 @@ public class ConsolePanel extends JPanel {
     	titlePanel.disable_Gamestart();
     	timePanel.reset_timer_value();
     	gameUI.restart_game();
+    	buttonPanel.reset_PauseState();
     }
     public void Change_turn () {
     	timePanel.change_Countdown_timer();

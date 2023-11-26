@@ -95,7 +95,7 @@ public class PauseButtonBox extends Box {
 	
 	// Reseting the pause state for Player 1 and 2
 	// This function is for implementing Resume button
-	public void reset_Pause_state() {
+	public void reset() {
 		P1_Pause = false;
 		P2_Pause = false;
 	}

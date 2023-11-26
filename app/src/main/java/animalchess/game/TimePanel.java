@@ -17,8 +17,8 @@ public class TimePanel extends JPanel {
 	private static final long serialVersionUID = -6600268741435304573L;
 	private Timer P1_Timer;
 	private Timer P2_Timer;
-	private int P1_Timer_val = 600 * 3; // count down for User 1
-	private int P2_Timer_val = 600 * 3; // count down for User 2
+	private int P1_Timer_val = 10; // count down for User 1
+	private int P2_Timer_val = 10; // count down for User 2
 	private JLabel P1_Timer_label;
 	private JLabel P2_Timer_label;
 	
@@ -117,18 +117,18 @@ public class TimePanel extends JPanel {
 	}
 	
 	public void reset_timer_value() {
-		P1_Timer_val = 600 * 3;
-		P2_Timer_val = 600 * 3;
+		P1_Timer_val = 10;
+		P2_Timer_val = 10;
 	}
 	public void change_Countdown_timer() {
-		if (Board.is_P1_Turn == true) {
+		if (Board.is_P1_Turn == false) {
 			P1_Timer.stop();
 			P2_Timer.start();
-			P1_Timer_val = 600 * 3;
+			P1_Timer_val = 10;
 		} else {
 			P2_Timer.stop();
 			P1_Timer.start();
-			P2_Timer_val = 600 * 3;
+			P2_Timer_val = 10;
 		}
 	}
 }

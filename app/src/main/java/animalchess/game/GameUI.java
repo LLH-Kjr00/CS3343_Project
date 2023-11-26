@@ -99,13 +99,20 @@ public class GameUI extends JFrame implements TileUtil {
 		board.init_board();
 		board.init_animalsCount();
     	gameMajorMsg("Game Start");
+    	logArea.append("Player 1's turn now!\n\n");
 		is_Game_Start = true;
+		is_Game_Pause = false;
 
 	}
 	
 	// Announcing whose turn is it now in logArea and notify Board to shift turn
 	public void call_shift_turn_inUI() {
 		gameMajorMsg("Turn Ended");
+		if (Board.is_P1_Turn == true) {
+			logArea.append("Player 1's turn now!\n");
+		} else {
+			logArea.append("Player 2's turn now!\n");
+		}
 	}
 	
 	
