@@ -11,7 +11,7 @@ import animalchess.board.Board;
 import animalchess.exceptions.InvalidMovementException;
 
 public class LionTest {
-	//Lion
+    //Lion
     @Test
     public void test_LionValidMove1() {
 

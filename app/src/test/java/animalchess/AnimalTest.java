@@ -147,6 +147,17 @@ public class AnimalTest {
         Board board = Board.getInstance();
         board.init_board();
         Animal red_leopard = board.getTarget(4,2);
+        Animal blue_Elephant = board.getTarget(6,6);
+        blue_Elephant.setPosition(3,1);
+        red_leopard.setPosition(2,1);
+        assertDoesNotThrow(()->red_leopard.Move(3,1));
+    }
+
+    @Test
+    public void test_Eat3() throws InvalidMovementException {
+        Board board = Board.getInstance();
+        board.init_board();
+        Animal red_leopard = board.getTarget(4,2);
 //        Animal blue_Cat = board.getTarget(5,7);
 
         red_leopard.setPosition(5,6);
@@ -154,7 +165,7 @@ public class AnimalTest {
     }
 
     @Test
-    public void test_Eat3() throws InvalidMovementException {
+    public void test_Eat4() throws InvalidMovementException {
         Board board = Board.getInstance();
         board.init_board();
         Animal red_leopard = board.getTarget(4,2);

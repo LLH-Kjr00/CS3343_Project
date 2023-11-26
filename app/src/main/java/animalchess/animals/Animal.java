@@ -42,7 +42,7 @@ public abstract class Animal implements GeneralAnimal_Actions{
     // 3. Cannot move into friendly Den
     @Override
     public boolean checkIsValidMove(int destX, int destY) throws InvalidMovementException{
-    	if (Math.abs(x-destX) + Math.abs(y-destY) > 1) {
+        if (Math.abs(x-destX) + Math.abs(y-destY) > 1) {
             throw new InvalidMovementException("you cannot move more than one block.");
         }
         if ((Math.abs(x-destX) + Math.abs(y-destY)) == 0) {

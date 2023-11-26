@@ -11,7 +11,7 @@ import animalchess.board.Board;
 import animalchess.exceptions.InvalidMovementException;
 
 public class TigerTest {
-	//Tiger
+    //Tiger
     @Test
     public void test_TigerValidMove1() {
 
@@ -173,5 +173,4 @@ public class TigerTest {
         Animal tiger = board.getTarget(0,0);
         assertDoesNotThrow(()->tiger.Move(0,1));
     }
-
 }

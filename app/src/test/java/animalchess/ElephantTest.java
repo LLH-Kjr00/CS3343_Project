@@ -11,7 +11,7 @@ import animalchess.board.Board;
 import animalchess.exceptions.InvalidMovementException;
 
 public class ElephantTest {
-	@Test
+    @Test
     public void test_ElephantEat1() throws InvalidMovementException {
         Board board = Board.getInstance();
         board.init_board();
