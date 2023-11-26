@@ -205,6 +205,7 @@ public class Board {
     }
     
     public void change_turn() {
+    	System.out.println("in board changeturn " + is_P1_Turn);
 		if (is_P1_Turn == true) {
 			GameUI.logArea.append("Player 2's turn now!\n");
 			is_P1_Turn = false;
@@ -212,7 +213,6 @@ public class Board {
 		} else {
 			GameUI.logArea.append("Player 1's turn now!\n");
 			is_P1_Turn = true;
-			
 		}
 	}
 }

@@ -106,8 +106,6 @@ public class GameUI extends JFrame implements TileUtil {
 	// Announcing whose turn is it now in logArea and notify Board to shift turn
 	public void call_shift_turn_inUI() {
 		gameMajorMsg("Turn Ended");
-		board.change_turn();
-		
 	}
 	
 	

@@ -47,6 +47,7 @@ public class Mouse extends Animal implements SubmergingAnimal_Actions{
         	}
         }
         super.MoveTo(destX ,destY);
+        board.change_turn();
 
     }
     
