@@ -19,7 +19,7 @@ public class Elephant extends Animal {
     }
 	@Override
     public void Eat(Animal victim) throws InvalidMovementException{
-        if (victim.strength == 1)
+        if (victim.strength == 1 && !victim.isTrapped())
         	throw new InvalidMovementException("you cannot eat mouse as an Elephant.");
         else
             super.Eat(victim);

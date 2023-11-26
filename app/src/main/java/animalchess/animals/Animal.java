@@ -103,7 +103,7 @@ public abstract class Animal implements GeneralAnimal_Actions{
     // (Except when the animal to be eaten is trapped)
     @Override
     public void Eat(Animal victim) throws InvalidMovementException{
-        if (victim.strength>this.strength && !victim.trapped)
+        if (victim.strength>this.strength && !victim.isTrapped())
             throw new InvalidMovementException("you cannot eat animal with more strength than yours.");
         else
         	if (victim.get_isRed() == true) {
@@ -137,6 +137,10 @@ public abstract class Animal implements GeneralAnimal_Actions{
     public boolean get_isRed() {
     	return isRed;
     }
+
+	public boolean isTrapped() {
+		return trapped;
+	}
 
     
 
