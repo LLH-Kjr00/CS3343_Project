@@ -54,9 +54,9 @@ Shou Dou Qi is an ancient Chinese board game that was popular among people of al
 - V0.9: Added documentation to the source code
 - V1.0: Released to the public
 # List of Contributors:
-Alex
-Ken 
-Landon
-Michael
-Pedro
-Wing
+- Alex (Program Tester): Designs and conducts tests
+- Ken (Project Manager): Oversees the project and bears responsibility for allocating resources and making decisions
+- Landon (Assistant Project Manager): Checks the deliverables of the project and their quality
+- Michael (Program Executive):  Assigns code sections for the developers to develop and refactor
+- Pedro (Program Developer):  Develops and improves the project by programming
+- Wing (Program Developer): Develops and improves the project by programming
