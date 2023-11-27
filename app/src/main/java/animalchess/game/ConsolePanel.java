@@ -60,6 +60,6 @@ public class ConsolePanel extends JPanel {
     }
     public void Change_turn () {
     	timePanel.change_Countdown_timer();
-    	gameUI.shift_turn();
+    	gameUI.call_shift_turn_inUI();
     }
 }
