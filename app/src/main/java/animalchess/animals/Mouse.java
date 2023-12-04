@@ -5,8 +5,8 @@ import animalchess.exceptions.InvalidMovementException;
 
 public class Mouse extends Animal implements SubmergingAnimal_Actions{
 	// Constructor 
-    public Mouse (boolean isRed, Board board){
-        super(isRed, board);
+    public Mouse (boolean isRed){
+        super(isRed);
         this.strength = 1;
         if (isRed == true) {
         	setPosition(6,2);

@@ -14,12 +14,11 @@ public abstract class Animal implements GeneralAnimal_Actions{
     // Deciding whether it is strong enough to eat enemy
     protected int strength;
     private boolean trapped = false;
-    protected Board board;
+    protected Board board = Board.getInstance();
 
     //Constructor
-    public Animal (boolean isRed, Board board){
+    public Animal (boolean isRed){
         this.isRed = isRed;
-        this.board= board;
         if (isRed == true) {
         	owner = "Player 1";
         }

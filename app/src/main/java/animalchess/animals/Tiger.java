@@ -6,8 +6,8 @@ import animalchess.exceptions.InvalidMovementException;
 public class Tiger extends Animal implements JumpingAnimal_Actions {
 
 	// Constructor 
-    public Tiger (boolean isRed, Board board){
-        super(isRed,board);
+    public Tiger (boolean isRed){
+        super(isRed);
         this.strength = 6;
         if (isRed == true) {
         	setPosition(0,0);

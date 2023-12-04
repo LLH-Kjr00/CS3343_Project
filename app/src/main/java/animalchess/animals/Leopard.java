@@ -5,8 +5,8 @@ import animalchess.board.Board;
 public class Leopard extends Animal {
 	
 	// Constructor 
-	public Leopard (boolean isRed, Board board){
-        super(isRed, board);
+	public Leopard (boolean isRed){
+        super(isRed);
         this.strength = 5;
         if (isRed == true) {
         	setPosition(4,2);
