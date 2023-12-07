@@ -22,7 +22,10 @@ public class TitlePanel extends JPanel {
 	
     
     
-	
+	// constructor
+	// create the title of the game and a button for starting the  game 
+	// default starting player is hard-coded to be player 1 
+	// but can be changed whenever the needs for freely choosing who will start the game is enabled is present
 	TitlePanel(ConsolePanel consolePanel, TimePanel timePanel) {
 		
 		

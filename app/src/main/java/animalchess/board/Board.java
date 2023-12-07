@@ -29,13 +29,14 @@ public class Board {
 	public static Board getInstance() {
 		return instance;
 	}
-    
+    // constructor 
     private Board() {
         init_board();
         init_animalsCount();
         
     }
-
+    // initialize the animal count for both sides 
+    // using this way to initialize the number is to cooperate testing and future needs to include more animal 
 	public void init_animalsCount() {
 		for (int j =0;j!=9;j++) {
         	for (int i = 0 ;i!= 7;i++) {
@@ -49,7 +50,7 @@ public class Board {
         }
 	}
 
-   
+   // layered calling method to call the tile at (x,y) coordinate to check whether it is a WaterTile
     public boolean isInWater(int x, int y) {
         return tiles[x][y].isWater();
     }
@@ -63,7 +64,8 @@ public class Board {
         else
             return false;
     }
-
+    // return boolean value to tell whether the tile at (x,y) coordinates are a friendly den
+    // according to the rules, friendly animal cannot enter friendly den
     public boolean isOccupiedByFriendlyDen(int x, int y, boolean isRed) {
     	if (tiles[x][y].isDen() == true) {
     		return ((Den) tiles[x][y]).isFriendlyDen(isRed);
@@ -80,18 +82,18 @@ public class Board {
     public Tile getTile(int x, int y) {
         return tiles[x][y];
     }
-
+    // removing the animal in the tile 
     public void removeAnimal(int x, int y) {
         tiles[x][y].removeAnimal();
     }
-
+    // adding the animal in the tile 
     public void addAnimal(int x, int y, Animal animal) {
         tiles[x][y].setAnimal(animal);
     }
 
     // Utils
-    // generate an array represent of a straight path, [0] is starting point, [size]
-    // is destination
+    // generate an array represent of a straight path, [0] is starting point, [size] is destination
+    // used by Tiger and Lion's jump
     public static int[] getLineAsArray(int start, int dist) {
         int size = Math.abs(start - dist) + 1;
         int result[] = new int[size];
@@ -106,7 +108,8 @@ public class Board {
         }
         return result;
     }
-
+    // initialize the board orientation 
+    // creating the animals for both sides 
     public void init_board() {
     	//empty animals
     	redAnimal_count = 0;
@@ -172,7 +175,9 @@ public class Board {
         
 
     }
-
+    // check if either side's animal count has reached 0 
+    // if reached, changing the respective boolean 
+    
     public void check_killAll_Win() {
    
         if (redAnimal_count == 0) {
@@ -192,18 +197,20 @@ public class Board {
     	
 
     }
+    // return if there is a winner in the game for GameUI to announce who wins  
+    
     public boolean getWin() {
     	return is_P1_Win || is_P2_Win;
     }
 
-    
+    // functions for lowering the animal counts 
     public void lower_redCount() {
     	redAnimal_count--;
     }
     public void lower_blackCount() {
     	blackAnimal_count--;
     }
-    
+    // changing sides 
     public void change_turn() {
     	//System.out.println("in board changeturn " + is_P1_Turn);
     	is_P1_Turn = !is_P1_Turn;

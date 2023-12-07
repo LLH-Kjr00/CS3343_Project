@@ -23,7 +23,8 @@ public class TimePanel extends JPanel {
 	private JLabel P2_Timer_label;
 	
 	private ConsolePanel consolePanel;
-
+	// constructor 
+	// set up the integer for representing the timer's minute count and second count 
 	TimePanel(ConsolePanel consolePanel) {
 		this.consolePanel = consolePanel;
 		
@@ -47,6 +48,8 @@ public class TimePanel extends JPanel {
 		this.add(P2_Timer_label);
 
 	}
+	// starting the timer for player 1
+	// announcing player 1 to lose if the timer reaches 0 
 	private void start_P1_Timer() {
 		P1_Timer = new Timer(1000, new ActionListener() {
 			@Override
@@ -69,7 +72,8 @@ public class TimePanel extends JPanel {
 			}
 		});
 	}
-
+	// starting the timer for player 2
+		// announcing player 2 to lose if the timer reaches 0 
 	private void start_P2_Timer() {
 		P2_Timer = new Timer(1000, new ActionListener() {
 			@Override
@@ -91,6 +95,8 @@ public class TimePanel extends JPanel {
 			}
 		});
 	}
+	// a long list of functions that allows other classes to call
+	// so that the timer can change its count-down state according to the game
 	public void start_P1_timer () {
 		P1_Timer.start();
 	}

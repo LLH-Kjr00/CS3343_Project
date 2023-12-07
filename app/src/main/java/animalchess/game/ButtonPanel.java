@@ -18,7 +18,9 @@ public class ButtonPanel extends JPanel {
 	private static final long serialVersionUID = 525240945275831717L;
 	private JButton Resume_button;
 	private PauseButtonBox pauseButtons;
-	
+	// constructor
+	// also set up Resume_button's event handling regarding to resuming the game 
+	// based on Board.is_P1_Turn and timePanel.is_P1_timer_Running()( or timePanel.is_P2_timer_Running())
 	ButtonPanel (TimePanel timePanel) {
 		
 		pauseButtons = new PauseButtonBox(2, timePanel);
@@ -50,6 +52,7 @@ public class ButtonPanel extends JPanel {
 		this.add(Resume_button);
 
 	}
+	// calling pauseButtons.reset() to reset the timer of both player 1 and player 2 
 	public void reset_PauseState() {
 		pauseButtons.reset();
 	}

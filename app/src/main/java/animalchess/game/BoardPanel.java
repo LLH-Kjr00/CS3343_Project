@@ -40,6 +40,7 @@ public class BoardPanel extends JPanel implements TileUtil {
 
 	private ConsolePanel consolePanel;
 	
+	// constructor
 	BoardPanel(ConsolePanel consolePanel, Board board) {
 		
 		this.setPreferredSize(new Dimension(cols * tileSize, rows * tileSize));
@@ -59,7 +60,10 @@ public class BoardPanel extends JPanel implements TileUtil {
 		this.board = board;
 		this.consolePanel = consolePanel;
 	}
-	
+	// Set up the tile's color and text 
+	// also set up the event handler for pressing the tile 
+	// will call either call_TileSelect() or call_AnimalMove() 
+	// depending whether the previous chosen tile contains an animal belongs to the player in his/hers turn
 	private JLabel setup_Tile(int row, int col) {
 		JLabel tile = new JLabel();
 		tile.setVerticalTextPosition(JLabel.CENTER);
@@ -109,7 +113,8 @@ public class BoardPanel extends JPanel implements TileUtil {
 		return tile;
 	}
 
-
+	// called when the player click on the tile 
+	// check the property of the tile and announce it in the logging area
 	private void call_TileSelect(int x, int y, JLabel choosenTileUI) {
 		/*
 		 * WrappedLocation W_location = new WrappedLocation(y,x);
@@ -121,13 +126,20 @@ public class BoardPanel extends JPanel implements TileUtil {
 
 		Animal target = choosenTile.getAnimal();
 		GameUI.logArea.append("Clicking the tile at (" + verticalAxis[y] + "," + horizontalAxis[x] + ")\n");
+		// say the name of the tile with no animal 
 		if (target == null) {
 			GameUI.logArea.append("It is a " + choosenTile.toString() + " with no animal.\n");
-		} else {
+		}
+		// say the name of the tile with the name of the animal 
+		// while checking whether the selected animal belongs to the player
+		else {
 			GameUI.logArea.append("It is a " + choosenTile.toString() + " with a/an " + target.toString() + " that "
 					+ target.get_Owner() + " can choose.\n");
 		}
 		GameUI.logArea.append("\n");
+		// record the coordinates of the selected tile if the animal in the tile belongs to the player
+		// changing legit_choice to true so that clicking the next tile will call call_AnimalMove()
+		// otherwise, ignore the action
 		if (target.get_isRed() == Board.is_P1_Turn) {
 			GameUI.logArea.append("You can choose the animal in this tile to move.\n");
 			StartTile_onUI = choosenTileUI;
@@ -139,7 +151,10 @@ public class BoardPanel extends JPanel implements TileUtil {
 		}
 		GameUI.logArea.append("\n");
 	}
-
+	// receive the animal in the chosen tile using board.getTile(choosenX, choosenY) then StartTile.getAnimal()
+	// tell the animal to move and record the actions
+	// catch exception if the move is illegal and tell the player why the move is illegal through the logging area
+	// also check whether the move made by the player induced the winning condition 
 	private void call_AnimalMove(int x, int y, JLabel DestTile_onUI) {
 		Tile StartTile = board.getTile(choosenX, choosenY);
 		Animal choosenAnimal = StartTile.getAnimal();
@@ -167,13 +182,15 @@ public class BoardPanel extends JPanel implements TileUtil {
 		legit_choice = false;
 	}
 
+	// "moving" the animal on the UI by removing the icon in the original tile 
+	// and adding the said icon to the tile at the destination 
 	private void MoveAnimal_onUI(int x, int y, JLabel DestTile_onUI) {
 
 		DestTile_onUI.setIcon(StartTile_onUI.getIcon());
 		StartTile_onUI.setIcon(null);
 		StartTile_onUI = null;
 	}
-	
+	// reset the orientation of the board in the UI when ever the game has started or restarted
 	public void reset_boardPanel() {
 		for (int j = verticalAxis.length - 1; j != -1; j--) {
 			for (int i = 0; i != horizontalAxis.length; i++) {
