@@ -85,4 +85,69 @@ public class BoardTest {
         assertTrue(Board.is_P2_Win);
 
     }
+
+    @Test
+    public void check_Win3() throws InvalidMovementException { // P1 eat all P2 chess
+        Board board = Board.getInstance();
+//        board.init_board_test();
+        board.init_board();
+        try {
+            Animal blue_Elephant = board.getTarget(6,6);
+            Animal blue_mouse = board.getTarget(0,6);
+            blue_Elephant.Move(0,0);
+            blue_Elephant.Move(6,0);
+            blue_Elephant.Move(1,1);
+            blue_Elephant.Move(5,1);
+            blue_Elephant.Move(0,2);
+            blue_Elephant.Move(2,2);
+            blue_Elephant.Move(4,2);
+            blue_mouse.Move(6,2);
+
+        }catch(Exception ignore){}
+        assertTrue(Board.is_P1_Win);
+
+    }
+    @Test
+    public void check_Init(){
+        Board board = Board.getInstance();
+        board.init_board();
+
+        //red
+        assertEquals(board.getTarget(0,0).toString(),"Tiger");
+        assertTrue(board.getTarget(0,0).get_isRed());
+        assertEquals(board.getTarget(6,0).toString(),"Lion");
+        assertTrue(board.getTarget(6,0).get_isRed());
+        assertEquals(board.getTarget(1,1).toString(),"Cat");
+        assertTrue(board.getTarget(1,1).get_isRed());
+        assertEquals(board.getTarget(5,1).toString(),"Dog");
+        assertTrue(board.getTarget(5,1).get_isRed());
+        assertEquals(board.getTarget(0,2).toString(),"Elephant");
+        assertTrue(board.getTarget(0,2).get_isRed());
+        assertEquals(board.getTarget(2,2).toString(),"Wolf");
+        assertTrue(board.getTarget(2,2).get_isRed());
+        assertEquals(board.getTarget(4,2).toString(),"Leopard");
+        assertTrue(board.getTarget(4,2).get_isRed());
+        assertEquals(board.getTarget(6,2).toString(),"Mouse");
+        assertTrue(board.getTarget(6,2).get_isRed());
+
+        //blue
+        assertEquals(board.getTarget(6,8).toString(),"Tiger");
+        assertFalse(board.getTarget(6,8).get_isRed());
+        assertEquals(board.getTarget(0,8).toString(),"Lion");
+        assertFalse(board.getTarget(0,8).get_isRed());
+        assertEquals(board.getTarget(5,7).toString(),"Cat");
+        assertFalse(board.getTarget(5,7).get_isRed());
+        assertEquals(board.getTarget(1,7).toString(),"Dog");
+        assertFalse(board.getTarget(1,7).get_isRed());
+        assertEquals(board.getTarget(6,6).toString(),"Elephant");
+        assertFalse(board.getTarget(6,6).get_isRed());
+        assertEquals(board.getTarget(4,6).toString(),"Wolf");
+        assertFalse(board.getTarget(4,6).get_isRed());
+        assertEquals(board.getTarget(2,6).toString(),"Leopard");
+        assertFalse(board.getTarget(2,6).get_isRed());
+        assertEquals(board.getTarget(0,6).toString(),"Mouse");
+        assertFalse(board.getTarget(0,6).get_isRed());
+    }
+
+
 }
