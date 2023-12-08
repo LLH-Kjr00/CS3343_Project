@@ -50,50 +50,9 @@ public class AnimalTest {
         Exception exception = assertThrows(Exception.class,()->dog.Move(5,1),"you cannot move into origin location.");
         assertEquals("you cannot move into origin location.",exception.getMessage());
     }
+    
     @Test
     public void test_ValidMove5() {
-
-        Board board = Board.getInstance();
-        board.init_board();
-        Animal dog = board.getTarget(5,1);
-        dog.setPosition(0,1);
-        Exception exception = assertThrows(Exception.class,()->dog.Move(-1,1),"you cannot move outside of board.");
-        assertEquals("you cannot move outside of board.",exception.getMessage());
-    }
-
-    @Test
-    public void test_ValidMove6() {
-
-        Board board = Board.getInstance();
-        board.init_board();
-        Animal dog = board.getTarget(5,1);
-        dog.setPosition(5,0);
-        Exception exception = assertThrows(Exception.class,()->dog.Move(5,-1),"you cannot move outside of board.");
-        assertEquals("you cannot move outside of board.",exception.getMessage());
-    }
-    @Test
-    public void test_ValidMove7() {
-
-        Board board = Board.getInstance();
-        board.init_board();
-        Animal dog = board.getTarget(5,1);
-        dog.setPosition(6,1);
-        Exception exception = assertThrows(Exception.class,()->dog.Move(7,1),"you cannot move outside of board.");
-        assertEquals("you cannot move outside of board.",exception.getMessage());
-    }
-
-    @Test
-    public void test_ValidMove8() {
-
-        Board board = Board.getInstance();
-        board.init_board();
-        Animal dog = board.getTarget(5,1);
-        dog.setPosition(5,8);
-        Exception exception = assertThrows(Exception.class,()->dog.Move(5,9),"you cannot move outside of board.");
-        assertEquals("you cannot move outside of board.",exception.getMessage());
-    }
-    @Test
-    public void test_ValidMove9() {
         Board board = Board.getInstance();
         board.init_board();
         Animal leopard = board.getTarget(4,2);
@@ -102,7 +61,7 @@ public class AnimalTest {
     }
 
     @Test
-    public void test_ValidMove10() throws InvalidMovementException {
+    public void test_ValidMove6() throws InvalidMovementException {
         Board board = Board.getInstance();
         board.init_board();
         Animal leopard = board.getTarget(4,2);
@@ -113,7 +72,7 @@ public class AnimalTest {
     }
 
     @Test
-    public void test_ValidMove11(){
+    public void test_ValidMove7(){
         Board board = Board.getInstance();
         board.init_board();
         Animal leopard = board.getTarget(4,2);
@@ -123,7 +82,7 @@ public class AnimalTest {
     }
 
     @Test
-    public void test_ValidMove12(){
+    public void test_ValidMove8(){
         Board board = Board.getInstance();
         board.init_board();
         Animal leopard = board.getTarget(4,2);

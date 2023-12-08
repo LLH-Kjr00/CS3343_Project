@@ -11,6 +11,8 @@ import java.util.Objects;
 
 public class GameAssets {
 
+	// a list of AssetIcon that represent the icon used by the animal 
+	// ASSET_PATH_PREFIX is part of the directory to get the image 
     private static final String ASSET_PATH_PREFIX = "assets";
     private static final ScaleInstance DEFAULT_ICON_SCALE = new ScaleInstance(68, 68, Image.SCALE_SMOOTH);
 
@@ -32,7 +34,7 @@ public class GameAssets {
     public static final AssetIcon ICON_BLUE_WOLF = new AssetIcon("blue_wolf.png", DEFAULT_ICON_SCALE);
     public static final AssetIcon ICON_BLUE_LEOPARD = new AssetIcon("blue_leopard.png", DEFAULT_ICON_SCALE);
 
-
+    // constructor for assetIcon 
     public static class AssetIcon {
         @Getter(lazy = true)
         private final ImageIcon imageIcon = getAssetIcon();
@@ -44,13 +46,14 @@ public class GameAssets {
             this.path = path;
             this.scaleInstance = scaleInstance;
         }
-
+        // getting the image for making the icon using the path String 
         private ImageIcon getAssetIcon() {
             Objects.requireNonNull(path, "Asset path cannot be null");
             Objects.requireNonNull(scaleInstance, "Scale instance cannot be null");
 
 
             URL pathURL = App.class.getClassLoader().getResource(path);
+            // if the first attempt to get the image is failed, change path to use another directory 
             if(pathURL == null)
             	
                 path = ASSET_PATH_PREFIX + File.separator + path;

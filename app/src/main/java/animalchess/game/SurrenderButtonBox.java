@@ -43,14 +43,14 @@ public class SurrenderButtonBox extends Box {
 		P1_Surrender.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (Board.is_P1_Win == false && Board.is_P1_Win == false) {
+			
 					timePanel.stop_P1_timer();
 					timePanel.stop_P2_timer();
 					Board.is_P2_Win = true;
 					GameUI.logArea.append("Player 1 yields...\n");
 					
 					consolePanel.End_game();
-				}
+				
 			}
 		});
 		return P1_Surrender;
@@ -65,13 +65,13 @@ public class SurrenderButtonBox extends Box {
 		P2_Surrender.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (Board.is_P1_Win == false && Board.is_P1_Win == false) {
+				
 					timePanel.stop_P1_timer();
 					timePanel.stop_P2_timer();
 					Board.is_P1_Win = true;
 					GameUI.logArea.append("Player 2 yields...\n");
 					consolePanel.End_game();
-				}
+				
 			}
 
 		});

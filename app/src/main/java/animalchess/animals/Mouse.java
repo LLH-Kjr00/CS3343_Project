@@ -5,8 +5,8 @@ import animalchess.exceptions.InvalidMovementException;
 
 public class Mouse extends Animal implements SubmergingAnimal_Actions{
 	// Constructor 
-    public Mouse (boolean isRed, Board board){
-        super(isRed, board);
+    public Mouse (boolean isRed){
+        super(isRed);
         this.strength = 1;
         if (isRed == true) {
         	setPosition(6,2);
@@ -25,9 +25,6 @@ public class Mouse extends Animal implements SubmergingAnimal_Actions{
         }
         if ((Math.abs(x-destX) + Math.abs(y-destY)) == 0) {
             throw new InvalidMovementException("you cannot move into origin location.");
-        }
-        if (destX < 0 || destY < 0 || destX > 6 || destY > 8) {
-        	throw new InvalidMovementException("you cannot move outside of board.");
         }
         if (board.isOccupiedByFriendlyAnimal(destX, destY, isRed)) {
             throw new InvalidMovementException("you cannot move into friendly units.");
@@ -50,6 +47,7 @@ public class Mouse extends Animal implements SubmergingAnimal_Actions{
         	}
         }
         super.MoveTo(destX ,destY);
+        board.change_turn();
 
     }
     

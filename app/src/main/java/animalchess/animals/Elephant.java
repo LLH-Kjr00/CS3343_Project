@@ -6,8 +6,8 @@ import animalchess.exceptions.InvalidMovementException;
 public class Elephant extends Animal {
 	
 	// Constructor 
-	public Elephant (boolean isRed, Board board){
-        super(isRed, board);
+	public Elephant (boolean isRed){
+        super(isRed);
         this.strength = 8;
         
         if (isRed == true) {
@@ -19,7 +19,7 @@ public class Elephant extends Animal {
     }
 	@Override
     public void Eat(Animal victim) throws InvalidMovementException{
-        if (victim.strength == 1)
+        if (victim.strength == 1 && !victim.isTrapped())
         	throw new InvalidMovementException("you cannot eat mouse as an Elephant.");
         else
             super.Eat(victim);

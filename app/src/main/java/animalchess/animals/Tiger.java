@@ -6,8 +6,8 @@ import animalchess.exceptions.InvalidMovementException;
 public class Tiger extends Animal implements JumpingAnimal_Actions {
 
 	// Constructor 
-    public Tiger (boolean isRed, Board board){
-        super(isRed,board);
+    public Tiger (boolean isRed){
+        super(isRed);
         this.strength = 6;
         if (isRed == true) {
         	setPosition(0,0);
@@ -26,9 +26,6 @@ public class Tiger extends Animal implements JumpingAnimal_Actions {
             checkIsValidJump(destX, destY);        }
         if ((Math.abs(x-destX) + Math.abs(y-destY)) == 0) {
             throw new InvalidMovementException("you cannot move into origin location.");
-        }
-        if (destX < 0 || destY < 0 || destX > 6 || destY > 8) {
-        	throw new InvalidMovementException("you cannot move outside of board.");
         }
         if (board.isInWater(destX, destY)) {
             throw new InvalidMovementException("this animal cannot go into water.");

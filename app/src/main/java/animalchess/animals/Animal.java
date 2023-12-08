@@ -14,12 +14,11 @@ public abstract class Animal implements GeneralAnimal_Actions{
     // Deciding whether it is strong enough to eat enemy
     protected int strength;
     private boolean trapped = false;
-    protected Board board;
+    protected Board board = Board.getInstance();
 
     //Constructor
-    public Animal (boolean isRed, Board board){
+    public Animal (boolean isRed){
         this.isRed = isRed;
-        this.board= board;
         if (isRed == true) {
         	owner = "Player 1";
         }
@@ -48,9 +47,6 @@ public abstract class Animal implements GeneralAnimal_Actions{
         if ((Math.abs(x-destX) + Math.abs(y-destY)) == 0) {
             throw new InvalidMovementException("you cannot move into origin location.");
         }
-        if (destX < 0 || destY < 0 || destX > 6 || destY > 8) {
-        	throw new InvalidMovementException("you cannot move outside of board.");
-        }
         if (board.isInWater(destX, destY)) {
             throw new InvalidMovementException("this animal cannot go into water.");
         }
@@ -76,6 +72,7 @@ public abstract class Animal implements GeneralAnimal_Actions{
                 	//board.store_and_execute(new Eat_command(this,target));
                 	this.Eat(target);
                 MoveTo(destX ,destY);
+                board.change_turn();
         	}
         	
         	
@@ -103,7 +100,7 @@ public abstract class Animal implements GeneralAnimal_Actions{
     // (Except when the animal to be eaten is trapped)
     @Override
     public void Eat(Animal victim) throws InvalidMovementException{
-        if (victim.strength>this.strength && !victim.trapped)
+        if (victim.strength>this.strength && !victim.isTrapped())
             throw new InvalidMovementException("you cannot eat animal with more strength than yours.");
         else
         	if (victim.get_isRed() == true) {
@@ -137,6 +134,10 @@ public abstract class Animal implements GeneralAnimal_Actions{
     public boolean get_isRed() {
     	return isRed;
     }
+
+	public boolean isTrapped() {
+		return trapped;
+	}
 
     
 
