@@ -20,7 +20,7 @@ public class LionTest {
         Animal Lion = board.getTarget(6,0);
         Lion.setPosition(1,2);
         Exception exception = assertThrows(Exception.class,()->Lion.Move(2,6));
-        assertEquals("you cannot jump diagonally",exception.getMessage());
+        assertEquals("you cannot jump diagonally.",exception.getMessage());
     }
     @Test
     public void test_LionValidMove2() {

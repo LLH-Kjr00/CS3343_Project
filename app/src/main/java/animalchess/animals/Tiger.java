@@ -49,7 +49,7 @@ public class Tiger extends Animal implements JumpingAnimal_Actions {
     public boolean checkIsValidJump (int xdist, int ydist) throws InvalidMovementException{
         //a diagonal jump
         if (Math.abs(x-xdist) != 0 && Math.abs(y-ydist) != 0) {
-            throw new InvalidMovementException("you cannot jump diagonally");
+            throw new InvalidMovementException("you cannot jump diagonally.");
         }
         else {
             //a vertical jump
