@@ -80,7 +80,14 @@ public class MouseTest {
         Animal mouse = board.getTarget(6,2);
         assertDoesNotThrow(()->mouse.Move(6,1));
     }
-
+    @Test
+    public void test_MouseValidMove8(){
+        Board board = Board.getInstance();
+        board.init_board();
+        Animal mouse = board.getTarget(6,2);
+        mouse.setPosition(3,5);
+        assertDoesNotThrow(()->mouse.Move(3,4));
+    }
     @Test
     public void test_MouseEat1() throws InvalidMovementException {
         Board board = Board.getInstance();
